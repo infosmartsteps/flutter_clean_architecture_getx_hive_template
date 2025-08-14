@@ -1,29 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/constants/app_routes.dart';
-import '../../../../core/data/local/data/datasources/hive_box_manager.dart';
-import '../../../../core/data/local/domain/repositories/local_storage_repository.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
+import 'package:ksa_real_estates/app.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import '../../../../core/constants/app_constants.dart';
+import '../../../../core/data/local/storage_helper.dart';
+import '../../../../core/localization/translations/translation_service.dart';
 import '../../domain/use_cases/login_use_case.dart';
 
-
-
-class LoginController extends GetxController {
+//lib/features/auth/presentation/controller/auth_controller.dart
+class AuthController extends GetxController {
   final LoginUseCase loginUseCase;
 
-  LoginController({required this.loginUseCase});
+  AuthController({required this.loginUseCase});
 
   // Form Key
   final formKey = GlobalKey<FormState>();
+
+  RxString appName = "".obs;
+  RxString version = "".obs;
 
   // Controllers
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
   // States
-  final isLoading = false.obs;
+  var isLoading = false.obs;
+  var isEnglish = true.obs;
+
+  @override
+  void onInit() async {
+    super.onInit();
+    final locale = await StorageHelper().getAppLang();
+    isEnglish.value = locale == LanguageLocals.english;
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    appName.value = packageInfo.appName;
+    version.value = packageInfo.version;
+  }
 
   // Handlers
   Future<void> onLogin() async {
@@ -37,7 +50,7 @@ class LoginController extends GetxController {
       );
 
       result.fold(
-            (failure) {
+        (failure) {
           Get.snackbar(
             'Login Failed',
             failure.message,
@@ -46,7 +59,7 @@ class LoginController extends GetxController {
             colorText: Colors.white,
           );
         },
-            (success) {
+        (success) {
           // Navigate to home on success
           Get.offNamed('/home');
         },
@@ -54,14 +67,6 @@ class LoginController extends GetxController {
     } finally {
       isLoading.value = false;
     }
-  }
-
-  void onForgotPassword() {
-    Get.toNamed('/forgot-password');
-  }
-
-  void onSignUp() {
-    Get.toNamed('/signup');
   }
 
   @override

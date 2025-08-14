@@ -1,16 +1,16 @@
 import 'package:get/get.dart';
 
 import '../../domain/use_cases/login_use_case.dart';
-import '../controller/login_controller.dart';
+import '../controller/auth_controller.dart';
 
-class LoginBinding extends Bindings {
+class AuthBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<LoginUseCase>(
       () => LoginUseCase(),
     );
-    Get.lazyPut<LoginController>(
-      () => LoginController(loginUseCase: Get.find<LoginUseCase>()),
+    Get.lazyPut<AuthController>(
+      () => AuthController(loginUseCase: Get.find<LoginUseCase>()),
     );
   }
 }

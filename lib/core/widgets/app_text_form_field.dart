@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
 import '../utils/responsive_size_helper.dart';
-
 
 class AppTextFormField extends StatelessWidget {
   final String label;
@@ -33,7 +31,7 @@ class AppTextFormField extends StatelessWidget {
   final Function()? onTap;
 
   const AppTextFormField({
-    Key? key,
+    super.key,
     required this.label,
     this.hint,
     this.controller,
@@ -59,7 +57,7 @@ class AppTextFormField extends StatelessWidget {
     this.borderWidth = 1.0,
     this.enabled = true,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +71,7 @@ class AppTextFormField extends StatelessWidget {
               color: Get.theme.colorScheme.onSurface.withOpacity(0.8),
             ),
           ),
-          SizedBox(height: SizeConfig.getProportionateScreenHeight(8)),
+          SizedBox(height: responsiveHeight(8)),
         ],
         TextFormField(
           controller: controller,
@@ -92,27 +90,28 @@ class AppTextFormField extends StatelessWidget {
           onTap: onTap,
           decoration: InputDecoration(
             hintText: hint,
+            hintStyle: Theme.of(context).textTheme.bodySmall,
             prefixIcon: prefixIcon,
             suffixIcon: isPassword
                 ? IconButton(
-              icon: Icon(
-                obscureText ? Icons.visibility_off : Icons.visibility,
-                color: Get.theme.colorScheme.onSurface.withOpacity(0.6),
-              ),
-              onPressed: () {
-                // Toggle password visibility
-                if (controller != null) {
-                  final currentValue = controller!.text;
-                  controller!.text = '';
-                  controller!.text = currentValue;
-                }
-              },
-            )
+                    icon: Icon(
+                      obscureText ? Icons.visibility_off : Icons.visibility,
+                      color: Get.theme.colorScheme.onSurface.withOpacity(0.6),
+                    ),
+                    onPressed: () {
+                      // Toggle password visibility
+                      if (controller != null) {
+                        final currentValue = controller!.text;
+                        controller!.text = '';
+                        controller!.text = currentValue;
+                      }
+                    },
+                  )
                 : suffixIcon,
             contentPadding: contentPadding ??
                 EdgeInsets.symmetric(
-                  horizontal: SizeConfig.getProportionateScreenWidth(16),
-                  vertical: SizeConfig.getProportionateScreenHeight(14),
+                  horizontal: responsiveWidth(16),
+                  vertical: responsiveHeight(14),
                 ),
             filled: true,
             fillColor: fillColor ?? Get.theme.colorScheme.surface,
@@ -133,7 +132,7 @@ class AppTextFormField extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(borderRadius),
               borderSide: BorderSide(
-                color: borderColor ?? Get.theme.primaryColor,
+                color: borderColor ?? Get.theme.colorScheme.primary,
                 width: borderWidth,
               ),
             ),

@@ -1,42 +1,27 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/core/constants/app_colors.dart';
+import 'package:ksa_real_estates/core/data/local/storage_helper.dart';
 import 'app.dart';
 import 'config/base_url_config.dart';
 import 'config/flavor_config.dart';
-import 'core/di/app_bindings.dart';
+import 'config/theme/app_theme.dart';
+import 'core/di/dependency_injection.dart';
 
 Future<void> main() async {
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-    await SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    await Get.putAsync(() async {
-      final bindings = AppBindings();
-      await bindings.dependencies();
-      return bindings;
-    });
-    final flavorConfig = FlavorConfig(
-      flavor: Flavor.development,
-      values: FlavorValues(baseUrlEndpoint: BaseUrlConfig().baseUrlDevelopment),
-      colorPrimary: AppColors.whiteColor,
-    );
+  WidgetsFlutterBinding.ensureInitialized();
+  await _initializeApp();
+}
 
-    runApp(App(flavorConfig: flavorConfig));
-  } catch (error, stackTrace) {
-    debugPrint('Initialization failed: $error');
-    debugPrint(stackTrace.toString());
-    runApp(
-      const MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: Text('Failed to initialize app'),
-          ),
-        ),
-      ),
-    );
-  }
+Future<void> _initializeApp() async {
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await DependencyInjection.init();
+  final flavorConfig = FlavorConfig(
+    flavor: Flavor.development,
+    values: FlavorValues(baseUrlEndpoint: BaseUrlConfig().baseUrlDevelopment),
+    colorPrimary: AppColors.whiteColor,
+  );
+  runApp(App(flavorConfig: flavorConfig));
 }

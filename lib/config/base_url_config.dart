@@ -1,10 +1,8 @@
+//lib/config/base_url_config.dart
 class BaseUrlConfig {
-  final String baseUrlDevelopment = 'https://baseUrlDevelopment.net:8003';
-
-  final String baseUrlProduction = 'https://baseUrlProduction.org';
+  static  final String baseUrlDevelopment = 'https://dummyjson.com';
+  static final String baseUrlProduction = 'https://baseUrlProduction.org';
 
   // Add your API endpoints here
-  final String loginEndpoint = '/api/auth/login';
-  final String registerEndpoint = '/api/auth/register';
-// ... other endpoints
+ static final String loginEndpoint = '/auth/login';
 }

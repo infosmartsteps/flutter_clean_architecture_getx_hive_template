@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:ksa_real_estates/features/auth/presentation/controller/auth_controller.dart';
 import '../utils/responsive_size_helper.dart';
 
 class AppTextFormField extends StatelessWidget {
@@ -100,6 +101,7 @@ class AppTextFormField extends StatelessWidget {
                     ),
                     onPressed: () {
                       // Toggle password visibility
+                      Get.find<AuthController>().toggleIsObscureText();
                       if (controller != null) {
                         final currentValue = controller!.text;
                         controller!.text = '';

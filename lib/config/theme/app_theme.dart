@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../core/constants/app_constants.dart';
 
+//lib/config/theme/app_theme.dart
 class AppTheme {
   static final ThemeData light = ThemeData(
     primarySwatch: Colors.blue,

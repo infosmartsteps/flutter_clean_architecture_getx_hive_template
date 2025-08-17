@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-
+//lib/config/flavor_config.dart
 enum Flavor {
   development,
   production,
@@ -15,28 +14,17 @@ class FlavorConfig {
   final Flavor flavor;
   final String name;
   final FlavorValues values;
-  final Color colorPrimary;
-  final Color colorPrimaryDark;
-  final Color colorPrimaryLight;
-  final Color colorAccent;
+
 
   static late FlavorConfig _instance;
 
   factory FlavorConfig({
     required Flavor flavor,
     required FlavorValues values,
-    Color? colorPrimary,
-    Color colorPrimaryDark = Colors.blue,
-    Color colorPrimaryLight = Colors.blue,
-    Color colorAccent = Colors.blueAccent,
   }) {
     _instance = FlavorConfig._internal(
       flavor,
       enumName(flavor.toString()),
-      colorPrimary ?? Colors.blue,
-      colorPrimaryDark,
-      colorPrimaryLight,
-      colorAccent,
       values,
     );
     return _instance;
@@ -45,10 +33,6 @@ class FlavorConfig {
   FlavorConfig._internal(
     this.flavor,
     this.name,
-    this.colorPrimary,
-    this.colorPrimaryDark,
-    this.colorPrimaryLight,
-    this.colorAccent,
     this.values,
   );
 

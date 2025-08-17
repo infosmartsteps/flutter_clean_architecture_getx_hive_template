@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../app.dart';
 import '../constants/app_colors.dart';
+import '../controllers/theme_mode_controller.dart';
 import 'app_button.dart';
 
 Widget themeToggleButton() {

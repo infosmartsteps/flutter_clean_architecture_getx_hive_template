@@ -18,10 +18,5 @@ Future<void> main() async {
 Future<void> _initializeApp() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await DependencyInjection.init();
-  final flavorConfig = FlavorConfig(
-    flavor: Flavor.development,
-    values: FlavorValues(baseUrlEndpoint: BaseUrlConfig().baseUrlDevelopment),
-    colorPrimary: AppColors.whiteColor,
-  );
-  runApp(App(flavorConfig: flavorConfig));
+  runApp(App());
 }

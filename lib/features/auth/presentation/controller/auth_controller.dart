@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/app.dart';
+import 'package:ksa_real_estates/features/auth/domain/params/log_in_params.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/data/local/storage_helper.dart';
@@ -18,6 +19,7 @@ class AuthController extends GetxController {
 
   RxString appName = "".obs;
   RxString version = "".obs;
+  RxBool isObscureText = true.obs;
 
   // Controllers
   final usernameController = TextEditingController();
@@ -43,17 +45,19 @@ class AuthController extends GetxController {
     if (!formKey.currentState!.validate()) return;
 
     isLoading.value = true;
+    update();
     try {
-      final result = await loginUseCase.execute(
-        usernameController.text.trim(),
-        passwordController.text.trim(),
+      final params = LogInParameters(
+        username: usernameController.text.trim(),
+        password: passwordController.text.trim(),
       );
+      final result = await loginUseCase.login(params);
 
       result.fold(
         (failure) {
           Get.snackbar(
             'Login Failed',
-            failure.message,
+            failure,
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Get.theme.colorScheme.error,
             colorText: Colors.white,
@@ -66,7 +70,13 @@ class AuthController extends GetxController {
       );
     } finally {
       isLoading.value = false;
+      update();
     }
+  }
+
+  toggleIsObscureText() {
+    isObscureText.value = !isObscureText.value;
+    // update();
   }
 
   @override

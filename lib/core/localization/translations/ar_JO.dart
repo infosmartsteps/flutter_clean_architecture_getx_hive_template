@@ -9,5 +9,17 @@ const Map<String, String> ar_JO = {
   'Enter your password':"أدخل كلمة المرور",
   'Please enter your password':"الرجاء إدخال كلمة المرور",
   'Password must be at least 6 characters':"يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل",
+  'new_client': 'عميل جديد',
+  'interested_clients': 'عملاء مهتمون',
+  'available_opportunities': 'الفرص المتاحة',
+  'my_opportunities': 'فرصي',
+  'my_previous_operations': 'عملياتي السابقة',
+  'change_language': 'تغيير اللغة',
+  'change_theme': 'تغيير وضع السمة',
+  'select_language': 'اختر اللغة',
+  'are_you_sure_logout': 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+  'home': 'الرئيسية',
+  "dark": "مظلم",
+  "light": "فاتح"
   // Add more Arabic translations here
 };

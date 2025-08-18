@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ksa_real_estates/app.dart';
-import 'package:ksa_real_estates/features/auth/domain/params/log_in_params.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../core/constants/app_constants.dart';
+import '../../../../core/constants/routes/app_routes.dart';
 import '../../../../core/data/local/storage_helper.dart';
-import '../../../../core/localization/translations/translation_service.dart';
+import '../../domain/params/log_in_params.dart';
 import '../../domain/use_cases/login_use_case.dart';
 
 //lib/features/auth/presentation/controller/auth_controller.dart
@@ -17,8 +16,10 @@ class AuthController extends GetxController {
   // Form Key
   final formKey = GlobalKey<FormState>();
 
-  RxString appName = "".obs;
-  RxString version = "".obs;
+  Rx<PackageInfo> packageInfo =
+      PackageInfo(appName: '', packageName: '', version: '', buildNumber: '')
+          .obs;
+
   RxBool isObscureText = true.obs;
 
   // Controllers
@@ -34,10 +35,7 @@ class AuthController extends GetxController {
     super.onInit();
     final locale = await StorageHelper().getAppLang();
     isEnglish.value = locale == LanguageLocals.english;
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-    appName.value = packageInfo.appName;
-    version.value = packageInfo.version;
+    await getAppInfo();
   }
 
   // Handlers
@@ -65,7 +63,7 @@ class AuthController extends GetxController {
         },
         (success) {
           // Navigate to home on success
-          Get.offNamed('/home');
+          Get.offNamed(AppRoutes.homeScreen);
         },
       );
     } finally {
@@ -84,5 +82,10 @@ class AuthController extends GetxController {
     usernameController.dispose();
     passwordController.dispose();
     super.onClose();
+  }
+
+  Future<void> getAppInfo() async {
+    final PackageInfo packageInfo = await StorageHelper().getAppInfo();
+    this.packageInfo.value = packageInfo;
   }
 }

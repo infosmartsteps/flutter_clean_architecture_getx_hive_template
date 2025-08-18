@@ -1,11 +1,14 @@
 // features/auth/data/repositories/log_in_repository_impl.dart
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:ksa_real_estates/features/auth/data/models/log_in_model.dart';
-import 'package:ksa_real_estates/features/auth/domain/params/log_in_params.dart';
+import '../../../../core/data/local/storage_helper.dart';
+import '../../../../core/network/models/response_model.dart';
+import '../../../../core/network/rest_impl.dart';
 import '../../domain/entities/login_entity.dart';
+import '../../domain/params/log_in_params.dart';
 import '../../domain/repositories/i_log_in_repository.dart';
 import '../datasources/i_log_in_remote_data_source.dart';
+import '../models/log_in_model.dart';
 
 //lib/features/auth/data/repositories/log_in_repository_impl.dart
 class LogInRepositoryImpl implements ILogInRepository {
@@ -21,12 +24,16 @@ class LogInRepositoryImpl implements ILogInRepository {
       if (!response.success) {
         return Left(response.message ?? "Login failed");
       }
-      final loginResponse = LogInModel.fromJson(response.data);
+      final LogInModel loginResponse = LogInModel.fromJson(response.data);
+      await StorageHelper().setUser(loginResponse);
       return Right(LogInEntity.fromResponse(loginResponse));
     } on DioException catch (e) {
-      return Left(e.message ?? "Network error");
+      final apiResponse = handleDioError(e);
+      return Left(apiResponse.message ?? "Network error");
+    } on ApiResponse catch (e) {
+      return Left(e.message ?? "API error");
     } catch (e) {
-      return Left("An unexpected error occurred");
+      return Left("Unexpected error: ${e.toString()}");
     }
   }
 }

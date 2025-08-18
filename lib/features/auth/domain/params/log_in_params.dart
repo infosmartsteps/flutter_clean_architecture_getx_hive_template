@@ -11,5 +11,5 @@ class LogInParameters {
         'username': username,
         'password': password,
         'expiresInMins': expiresInMins,
-      }..removeWhere((key, value) => value == null || value.isBlank);
+      }..removeWhere((key, value) => value == null || value == '');
 }

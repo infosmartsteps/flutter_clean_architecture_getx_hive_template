@@ -50,7 +50,7 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
     try {
       final isLoggedIn = await StorageHelper().getIsLoggedIn();
 
-      Get.offNamed(isLoggedIn ? AppRoutes.logInScreen : AppRoutes.logInScreen);
+      Get.offNamed(isLoggedIn ? AppRoutes.homeScreen : AppRoutes.logInScreen);
     } catch (e) {
       Get.log('Navigation error: $e');
       Get.offNamed(AppRoutes.logInScreen);

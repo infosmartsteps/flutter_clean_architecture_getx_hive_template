@@ -1,9 +1,10 @@
-import 'package:ksa_real_estates/core/network/i_rest.dart';
-import 'package:ksa_real_estates/core/network/models/response_model.dart';
-import 'package:ksa_real_estates/features/auth/data/datasources/i_log_in_remote_data_source.dart';
-import 'package:ksa_real_estates/features/auth/domain/params/log_in_params.dart';
+
 
 import '../../../../config/base_url_config.dart';
+import '../../../../core/network/i_rest.dart';
+import '../../../../core/network/models/response_model.dart';
+import '../../domain/params/log_in_params.dart';
+import 'i_log_in_remote_data_source.dart';
 
 //lib/features/auth/data/datasources/logIn_remote_data_source_impl.dart
 class LoginRemoteDataSourceImpl implements ILogInRemoteDataSource {
@@ -13,6 +14,6 @@ class LoginRemoteDataSourceImpl implements ILogInRemoteDataSource {
 
   @override
   Future<ApiResponse> login(LogInParameters params) async {
-    return await rest.post(BaseUrlConfig.loginEndpoint, data: params);
+    return await rest.post(BaseUrlConfig.loginEndpoint, data: params.toJson());
   }
 }

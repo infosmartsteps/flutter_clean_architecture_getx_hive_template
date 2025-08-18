@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ksa_real_estates/core/constants/images_assets.dart';
-import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
-import 'package:ksa_real_estates/core/widgets/image.dart';
 import '../../../../core/widgets/app_logo.dart';
 import '../controller/splash_controller.dart';
 

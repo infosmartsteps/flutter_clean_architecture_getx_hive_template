@@ -18,24 +18,8 @@ class TranslationService extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {'en_US': en_US, 'ar_JO': ar_JO};
 
-  static Locale? getLocaleFromLanguage(Locale languageCode) {
-    switch (languageCode) {
-      case LanguageLocals.english:
-        return Locale(
-            LanguageLocals.english.languageCode, LanguagesCountries.us);
-      case LanguageLocals.arabic:
-        return Locale(
-            LanguageLocals.arabic.languageCode, LanguagesCountries.jo);
-      default:
-        return Get.deviceLocale;
-    }
-  }
-
-  static void changeLocale(Locale lang) async{
-    await StorageHelper().setAppLang(lang);
-    final locale = getLocaleFromLanguage(lang);
-    if (locale != null) {
-      Get.updateLocale(locale);
-    }
+  static Future<void> changeLocale(Locale locale) async {
+    await StorageHelper().setAppLang(locale);
+    Get.updateLocale(locale);
   }
 }

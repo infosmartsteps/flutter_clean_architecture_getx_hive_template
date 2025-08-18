@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_constants.dart';
 
 //lib/config/theme/app_theme.dart
 class AppTheme {
   static final ThemeData light = ThemeData(
+    useMaterial3: true,
+    cardTheme: CardTheme(
+      shadowColor: Colors.grey[900]!,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
     primarySwatch: Colors.blue,
     brightness: Brightness.light,
     scaffoldBackgroundColor: Colors.white,
+    drawerTheme: DrawerThemeData(backgroundColor: AppColors.whiteColor),
     appBarTheme: const AppBarTheme(
       elevation: 0,
       centerTitle: true,
@@ -28,6 +36,13 @@ class AppTheme {
   );
 
   static final ThemeData dark = ThemeData(
+    useMaterial3: true,
+    cardTheme: CardTheme(
+      shadowColor: Colors.grey[300]!,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
     primarySwatch: Colors.blueGrey,
     brightness: Brightness.dark,
     scaffoldBackgroundColor: Colors.grey[900],
@@ -58,6 +73,7 @@ class AppTheme {
         Theme.of(context).brightness == Brightness.dark ? dark : light;
 
     return theme.copyWith(
+      useMaterial3: true,
       textTheme: isArabic
           ? theme.textTheme.copyWith(
               titleLarge: theme.textTheme.titleLarge?.copyWith(

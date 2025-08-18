@@ -1,19 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:get/get.dart';
 import 'dart:developer' as developer;
-
 import '../../config/flavor_config.dart';
-class DioHandlerBinding extends Bindings {
-  @override
-  void dependencies() {
-    // Controller
-    Get.lazyPut<DioHandler>(
-          () => DioHandler(enableLog: kDebugMode),
-    );
-  }
-}
+
 //lib/core/network/dio_handler.dart
 class DioHandler extends GetxService {
   late Dio dio = Dio();

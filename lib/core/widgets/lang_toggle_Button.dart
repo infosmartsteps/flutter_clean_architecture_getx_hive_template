@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ksa_real_estates/core/localization/translations/translation_service.dart';
-import 'package:ksa_real_estates/core/widgets/app_button.dart';
-import '../../features/auth/presentation/controller/auth_controller.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_constants.dart';
+import '../localization/translations/translation_service.dart';
+import 'app_button.dart';
 
 Widget languageToggleButton() {
   return AppButton(
@@ -13,7 +12,7 @@ Widget languageToggleButton() {
     text: Get.locale != null && Get.locale == LanguageLocals.english
         ? Languages.arabic
         : Languages.english,
-    onPressed: () => TranslationService.changeLocale(
+    onPressed: ()async => await TranslationService.changeLocale(
         Get.locale != null && Get.locale == LanguageLocals.english
             ? LanguageLocals.arabic
             : LanguageLocals.english),

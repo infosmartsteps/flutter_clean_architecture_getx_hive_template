@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:ksa_real_estates/features/auth/presentation/controller/auth_controller.dart';
+import '../../features/auth/presentation/controller/auth_controller.dart';
 import '../utils/responsive_size_helper.dart';
 
 class AppTextFormField extends StatelessWidget {

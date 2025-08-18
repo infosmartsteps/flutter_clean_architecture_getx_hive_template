@@ -1,7 +1,9 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import '../../../features/auth/data/models/log_in_model.dart';
+import '../../../features/auth/domain/entities/login_entity.dart';
 import '../../constants/app_constants.dart';
 import '../../constants/hive_constants.dart';
 import 'i_storage.dart';
@@ -12,8 +14,7 @@ class StorageHelper {
 //======================== settingsBox =========================================
   //================ lang ============
   Future<Locale> getAppLang() async {
-    final Locale locale = await _storage.get(HiveConstants.appLang,
-            boxName: HiveConstants.settingsBox) ??
+    final Locale locale = await _storage.get(HiveConstants.appLang, boxName: HiveConstants.settingsBox)??
         LanguageLocals.english;
     return locale;
   }
@@ -36,15 +37,22 @@ class StorageHelper {
   }
 
   //============================ userBox =======================================
-  Future<void> setUser(UserModel user) async {
+  Future<void> setUser(LogInModel user) async {
     await _storage.save(HiveConstants.userProfileKey, user,
         boxName: HiveConstants.userDataBox);
   }
 
-  Future<String?> getAuthTokenKey() async {
-    final UserModel? user = await _storage.get(HiveConstants.userProfileKey,
+  Future<LogInEntity> getUser() async {
+    final LogInModel user = await _storage.get(HiveConstants.userProfileKey,
         boxName: HiveConstants.userDataBox);
-    final String? token = user?.token;
+    final LogInEntity userEntity = LogInEntity.fromResponse(user);
+    return userEntity;
+  }
+
+  Future<String?> getAuthTokenKey() async {
+    final LogInModel? user = await _storage.get(HiveConstants.userProfileKey,
+        boxName: HiveConstants.userDataBox);
+    final String? token = user?.accessToken;
     return token;
   }
 
@@ -52,12 +60,19 @@ class StorageHelper {
     final String? token = await getAuthTokenKey();
     return token != null && token.isNotEmpty;
   }
-}
 
-class UserModel {
-  final String? token;
-  final String? name;
-  final String? id;
+  Future<void> setAppInfo(PackageInfo packageInfo) async {
+    await _storage.save(HiveConstants.appInfo, packageInfo,
+        boxName: HiveConstants.settingsBox);
+  }
 
-  UserModel({this.token, this.name, this.id});
+  Future<PackageInfo> getAppInfo() async {
+    final PackageInfo packageInfo = await _storage.get(HiveConstants.appInfo,
+        boxName: HiveConstants.settingsBox);
+    return packageInfo;
+  }
+
+  Future<void> logout() async{
+    await _storage.delete(HiveConstants.userProfileKey, boxName: HiveConstants.userDataBox);
+  }
 }

@@ -1,15 +1,16 @@
 class AppRoutes {
   static const splashScreen = "/splashScreen";
   static const logInScreen = "/logInScreen";
+  static const homeScreen = "/homeScreen";
 
   static String initialRoute() {
     return splashScreen;
   }
 
-  // static Map<String, Widget Function(BuildContext)> appRoutes() {
-  //   return {
-  //     splashScreen: (context) => const SplashScreen(),
-  //     // logInScreen: (context) => const LogInScreen(),
-  //   };
-  // }
+// static Map<String, Widget Function(BuildContext)> appRoutes() {
+//   return {
+//     splashScreen: (context) => const SplashScreen(),
+//     // logInScreen: (context) => const LogInScreen(),
+//   };
+// }
 }

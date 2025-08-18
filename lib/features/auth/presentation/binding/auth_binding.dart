@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../../../../core/network/i_rest.dart';
+import '../../../../core/network/rest_impl.dart';
 import '../../data/datasources/i_log_in_remote_data_source.dart';
 import '../../data/datasources/logIn_remote_data_source_impl.dart';
 import '../../data/repositories/log_in_repository_impl.dart';
@@ -12,23 +12,15 @@ class AuthBinding extends Bindings {
   @override
   void dependencies() {
     // Data source
-    Get.lazyPut<ILogInRemoteDataSource>(
-      () => LoginRemoteDataSourceImpl(rest: Get.find<IRestClient>()),
-    );
+    Get.put<ILogInRemoteDataSource>(LoginRemoteDataSourceImpl(rest: Get.find<RestImpl>()));
 
     // Repository
-    Get.lazyPut<ILogInRepository>(
-      () => LogInRepositoryImpl(Get.find<ILogInRemoteDataSource>()),
-    );
+    Get.put<ILogInRepository>(LogInRepositoryImpl(Get.find<ILogInRemoteDataSource>()));
 
     // Use case
-    Get.lazyPut<LoginUseCase>(
-      () => LoginUseCase(repository: Get.find<ILogInRepository>()),
-    );
+    Get.put<LoginUseCase>(LoginUseCase(repository: Get.find<ILogInRepository>()));
 
     // Controller
-    Get.lazyPut<AuthController>(
-      () => AuthController(loginUseCase: Get.find<LoginUseCase>()),
-    );
+    Get.put<AuthController>(AuthController(loginUseCase: Get.find<LoginUseCase>()));
   }
 }

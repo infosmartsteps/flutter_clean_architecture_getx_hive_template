@@ -8,4 +8,5 @@ class HiveConstants {
   static const String themeModeKey = 'theme_mode';
   static const String userProfileKey = 'user_profile';
   static const String appLang = 'app_lang';
+  static const String appInfo = 'app_info';
 }

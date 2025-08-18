@@ -3,6 +3,8 @@ import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
 import '../../../features/auth/presentation/binding/auth_binding.dart';
 import '../../../features/auth/presentation/screens/log_in_screen.dart';
+import '../../../features/home/presentation/bindings/home_binding.dart';
+import '../../../features/home/presentation/screens/home_screen.dart';
 import '../../../features/splash/presentation/binding/splash_binding.dart';
 import '../../../features/splash/presentation/screens/splash_screen.dart';
 import 'app_routes.dart';
@@ -20,13 +22,10 @@ class AppPages {
       binding: AuthBinding(),
       transition: Transition.rightToLeft,
     ),
-    // GetPage(
-    //   name: AppRoutes.home,
-    //   page: () => const HomeScreen(),
-    //   bindings: [
-    //     HomeBinding(),
-    //     DashboardBinding(),
-    //   ],
-    // ),
+    GetPage(
+      name: AppRoutes.homeScreen,
+      page: () => const HomeScreen(),
+      binding: HomeBinding(),
+    ),
   ];
 }

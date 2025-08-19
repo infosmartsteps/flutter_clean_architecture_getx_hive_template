@@ -1,15 +1,7 @@
+import '../core/constants/enums.dart';
+import 'flavor_values.dart';
+
 //lib/config/flavor_config.dart
-enum Flavor {
-  development,
-  production,
-}
-
-class FlavorValues {
-  final String baseUrlEndpoint;
-
-  FlavorValues({required this.baseUrlEndpoint});
-}
-
 class FlavorConfig {
   final Flavor flavor;
   final String name;

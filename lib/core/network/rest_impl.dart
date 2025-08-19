@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../data/local/storage_helper.dart';
+import 'handle_dio_error.dart';
 import 'i_rest.dart';
 import 'models/request_model.dart';
 import 'models/response_model.dart';
@@ -180,51 +181,5 @@ class RestImpl implements IRestClient {
       data: response.data,
       message: response.statusMessage ?? '',
     );
-  }
-}
-
-// Error handling function
-ApiResponse handleDioError(DioException error) {
-  switch (error.type) {
-    case DioExceptionType.connectionTimeout:
-    case DioExceptionType.sendTimeout:
-    case DioExceptionType.receiveTimeout:
-      return ApiResponse(
-        message: error.response?.data["message"] ?? 'Request timeout',
-        statusCode: error.response?.statusCode ?? 408,
-        success: false,
-      );
-    case DioExceptionType.badResponse:
-      return ApiResponse(
-        message: error.response?.data["message"] ??
-            'Server error: ${error.response?.statusCode} - ${error.response?.statusMessage}',
-        statusCode: error.response?.statusCode ?? 500,
-        success: false,
-      );
-    case DioExceptionType.cancel:
-      return ApiResponse(
-        message: error.response?.data["message"] ?? 'Request cancelled by user',
-        statusCode: error.response?.statusCode ?? 499,
-        success: false,
-      );
-    case DioExceptionType.connectionError:
-      return ApiResponse(
-        message: 'No internet connection available',
-        statusCode: error.response?.statusCode ?? 503,
-        success: false,
-      );
-    case DioExceptionType.badCertificate:
-      return ApiResponse(
-        message: error.response?.data["message"] ?? 'SSL certificate error',
-        statusCode: error.response?.statusCode ?? 495,
-        success: false,
-      );
-    case DioExceptionType.unknown:
-      return ApiResponse(
-        message: error.response?.data["message"] ??
-            'Unknown network error: ${error.message}',
-        statusCode: error.response?.statusCode ?? 520,
-        success: false,
-      );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_constants.dart';
+import '../constants/enums.dart';
 import '../localization/translations/translation_service.dart';
 import 'app_button.dart';
 

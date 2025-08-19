@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import '../../config/base_url_config.dart';
 import '../../config/flavor_config.dart';
+import '../../config/flavor_values.dart';
+import '../constants/enums.dart';
 import '../controllers/app_controller.dart';
 import '../data/adapter/locale_adapter.dart';
 import '../data/adapter/log_in_model_adapter.dart';

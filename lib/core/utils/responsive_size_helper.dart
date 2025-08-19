@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+//lib/core/utils/responsive_size_helper.dart
 Size displaySize() {
   return MediaQuery.sizeOf(Get.context!);
 }

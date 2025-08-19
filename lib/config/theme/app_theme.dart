@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_constants.dart';
 
-//lib/config/theme/app_theme.dart
+// lib/config/theme/app_theme.dart
 class AppTheme {
   static final ThemeData light = ThemeData(
     useMaterial3: true,
+    brightness: Brightness.light,
+    primarySwatch: Colors.blue,
+    scaffoldBackgroundColor: Colors.white,
     cardTheme: CardTheme(
       shadowColor: Colors.grey[900]!,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
     ),
-    primarySwatch: Colors.blue,
-    brightness: Brightness.light,
-    scaffoldBackgroundColor: Colors.white,
-    drawerTheme: DrawerThemeData(backgroundColor: AppColors.whiteColor),
+    drawerTheme: const DrawerThemeData(
+      backgroundColor: AppColors.whiteColor,
+    ),
     appBarTheme: const AppBarTheme(
       elevation: 0,
       centerTitle: true,
@@ -29,7 +32,10 @@ class AppTheme {
       ),
     ),
     textTheme: const TextTheme(
-      titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      titleLarge: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
       bodyLarge: TextStyle(fontSize: 16),
       bodyMedium: TextStyle(fontSize: 14),
     ),
@@ -37,15 +43,15 @@ class AppTheme {
 
   static final ThemeData dark = ThemeData(
     useMaterial3: true,
+    brightness: Brightness.dark,
+    primarySwatch: Colors.blueGrey,
+    scaffoldBackgroundColor: Colors.grey[900],
     cardTheme: CardTheme(
       shadowColor: Colors.grey[300]!,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
     ),
-    primarySwatch: Colors.blueGrey,
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: Colors.grey[900],
     appBarTheme: AppBarTheme(
       elevation: 0,
       centerTitle: true,
@@ -58,45 +64,33 @@ class AppTheme {
       ),
     ),
     textTheme: const TextTheme(
-      titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      titleLarge: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
       bodyLarge: TextStyle(fontSize: 16),
       bodyMedium: TextStyle(fontSize: 14),
     ),
   );
 
-  // Add RTL support for Arabic
   static ThemeData getTheme(BuildContext context) {
     final locale = Get.locale;
     final isArabic = locale?.languageCode == LanguageLocals.arabic.languageCode;
-
-    final theme =
-        Theme.of(context).brightness == Brightness.dark ? dark : light;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = isDark ? dark : light;
 
     return theme.copyWith(
-      useMaterial3: true,
-      textTheme: isArabic
-          ? theme.textTheme.copyWith(
-              titleLarge: theme.textTheme.titleLarge?.copyWith(
-                fontFamily: 'ArabicFont',
-              ),
-              bodyLarge: theme.textTheme.bodyLarge?.copyWith(
-                fontFamily: 'ArabicFont',
-              ),
-              bodyMedium: theme.textTheme.bodyMedium?.copyWith(
-                fontFamily: 'ArabicFont',
-              ),
-            )
-          : theme.textTheme.copyWith(
-              titleLarge: theme.textTheme.titleLarge?.copyWith(
-                fontFamily: 'EnglishFont',
-              ),
-              bodyLarge: theme.textTheme.bodyLarge?.copyWith(
-                fontFamily: 'EnglishFont',
-              ),
-              bodyMedium: theme.textTheme.bodyMedium?.copyWith(
-                fontFamily: 'EnglishFont',
-              ),
-            ),
+      textTheme: _getLocalizedTextTheme(theme.textTheme, isArabic),
+    );
+  }
+
+  static TextTheme _getLocalizedTextTheme(TextTheme baseTheme, bool isArabic) {
+    final fontFamily = isArabic ? 'ArabicFont' : 'EnglishFont';
+
+    return baseTheme.copyWith(
+      titleLarge: baseTheme.titleLarge?.copyWith(fontFamily: fontFamily),
+      bodyLarge: baseTheme.bodyLarge?.copyWith(fontFamily: fontFamily),
+      bodyMedium: baseTheme.bodyMedium?.copyWith(fontFamily: fontFamily),
     );
   }
 }

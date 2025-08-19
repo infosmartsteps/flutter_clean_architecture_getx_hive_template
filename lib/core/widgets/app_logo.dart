@@ -4,10 +4,9 @@ import '../constants/images_assets.dart';
 import '../utils/responsive_size_helper.dart';
 import 'image.dart';
 
-Widget appLogo() {
-  return appImage(
-      ImagesAssets.appLogo,
-      height: responsiveHeight(90),
-      width: responsiveWidth(350),
+Widget appLogo({double? height, double? width}) {
+  return appImage(ImagesAssets.appLogo,
+      height: height ?? responsiveHeight(90),
+      width: width ?? responsiveWidth(400),
       fit: BoxFit.cover);
 }

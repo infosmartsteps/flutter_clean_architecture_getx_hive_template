@@ -14,6 +14,6 @@ class LoginRemoteDataSourceImpl implements ILogInRemoteDataSource {
 
   @override
   Future<ApiResponse> login(LogInParameters params) async {
-    return await rest.post(BaseUrlConfig.loginEndpoint, data: params.toJson());
+    return await rest.post(ApiEndPoints.loginEndpoint, data: params.toJson());
   }
 }

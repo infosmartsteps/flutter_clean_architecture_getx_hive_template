@@ -30,6 +30,7 @@ class AppTextFormField extends StatelessWidget {
   final double borderWidth;
   final bool enabled;
   final Function()? onTap;
+  final FocusNode? focusNode;
 
   const AppTextFormField({
     super.key,
@@ -58,6 +59,7 @@ class AppTextFormField extends StatelessWidget {
     this.borderWidth = 1.0,
     this.enabled = true,
     this.onTap,
+    this.focusNode,
   });
 
   @override
@@ -75,6 +77,7 @@ class AppTextFormField extends StatelessWidget {
           SizedBox(height: responsiveHeight(8)),
         ],
         TextFormField(
+          focusNode: focusNode,
           controller: controller,
           obscureText: obscureText,
           keyboardType: keyboardType,

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../app.dart';
 import '../constants/app_colors.dart';
+import '../constants/enums.dart';
 import '../controllers/app_controller.dart';
 import 'app_button.dart';
 

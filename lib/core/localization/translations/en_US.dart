@@ -1,3 +1,4 @@
+//lib/core/localization/translations/en_US.dart
 const Map<String, String> en_US = {
   'login': 'Login',
   'Welcome Back!': 'Welcome Back!',
@@ -21,6 +22,28 @@ const Map<String, String> en_US = {
   'are_you_sure_logout': 'Are you sure you want to logout?',
   'home': 'Home',
   'dark': 'Dark',
-  'light': 'Light'
-  // Add more English translations here
+  'light': 'Light',
+  "cancel": "Cancel",
+  "logout": "LogOut",
+
+  'client_name': 'Client Name',
+  'responsible_person': 'Responsible Person',
+  'phone_number': 'Phone Number',
+  'business_sector': 'Business Sector',
+  'location': 'Location',
+  'city': 'City',
+  'address': 'Address',
+  'registration_number': 'Registration Number',
+  'responsible_person_phone': 'Responsible Person Phone',
+  'information_source': 'Information Source',
+  'email': 'Email',
+  'client_website': 'Client Website',
+  'save': 'Save',
+  'please_enter_client_name': 'Please enter client name',
+  'please_enter_valid_phone': 'Please enter valid phone number',
+  'please_enter_valid_email': 'Please enter valid email',
+  'please_select_business_sector': 'Please select business sector',
+  'please_enter_city': 'Please enter city',
+  'Required field': 'Required field',
+  'Please select information source': 'Please select information source'
 };

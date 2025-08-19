@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import '../constants/enums.dart';
 import '../utils/responsive_size_helper.dart';
-
-enum AppButtonType { primary, secondary, outline, text }
 
 class AppButton extends StatelessWidget {
   final String? text;
@@ -69,9 +68,7 @@ class AppButton extends StatelessWidget {
 
     return SizedBox(
       width: buttonWidth,
-      // Will be null if not provided, making it fit content
       height: buttonHeight,
-      // Will be null if not provided, making it fit content
       child: ElevatedButton(
         onPressed: disabled || isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(

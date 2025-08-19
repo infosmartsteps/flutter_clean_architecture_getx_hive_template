@@ -2,6 +2,7 @@ class AppRoutes {
   static const splashScreen = "/splashScreen";
   static const logInScreen = "/logInScreen";
   static const homeScreen = "/homeScreen";
+  static const addClientForm = "/addClientForm";
 
   static String initialRoute() {
     return splashScreen;

@@ -1,115 +1,34 @@
+import 'dart:math';
+import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:ksa_real_estates/core/constants/app_colors.dart';
+import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
+import '../../../../core/constants/enums.dart';
+import '../../../../core/widgets/app_button.dart';
+import '../controllers/map_get_x_controller.dart';
 
-class MapScreen extends StatefulWidget {
+//lib/features/home/presentation/widgets/map_screen.dart
+class MapScreen extends GetView<MapGetXController> {
   const MapScreen({super.key});
 
-  @override
-  State<MapScreen> createState() => _MapScreenState();
-}
-
-class _MapScreenState extends State<MapScreen> {
-  final MapController _mapController = MapController();
-  LatLng? _currentLocation;
-  bool _locationPermissionGranted = false;
-  bool _isLoading = true;
-  String _errorMessage = '';
-  bool _isMapReady = false; // Add this flag
-
-  @override
-  void initState() {
-    super.initState();
-    _checkLocationPermission();
-  }
-
-  Future<void> _checkLocationPermission() async {
-    try {
-      final status = await Permission.location.status;
-
-      if (status.isGranted) {
-        _getCurrentLocation();
-      } else {
-        final result = await Permission.location.request();
-
-        if (result.isGranted) {
-          _getCurrentLocation();
-        } else {
-          setState(() {
-            _locationPermissionGranted = false;
-            _isLoading = false;
-            _errorMessage = 'Location permission denied';
-          });
-        }
-      }
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-        _errorMessage = 'Error checking permissions: $e';
-      });
-    }
-  }
-
-  Future<void> _getCurrentLocation() async {
-    try {
-      // Check if location services are enabled
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        setState(() {
-          _isLoading = false;
-          _errorMessage = 'Location services are disabled';
-        });
-        return;
-      }
-
-      // Get current position
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-
-      setState(() {
-        _currentLocation = LatLng(position.latitude, position.longitude);
-        _locationPermissionGranted = true;
-        _isLoading = false;
-      });
-
-      // Only move the map if it's ready
-      if (_isMapReady && mounted) {
-        _mapController.move(_currentLocation!, 15.0);
-      }
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-        _errorMessage = 'Error getting location: $e';
-      });
-    }
-  }
-
-  Future<void> _refreshLocation() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = '';
-    });
-    await _getCurrentLocation();
-  }
-
   Widget _buildMap() {
-    if (_isLoading) {
+    if (controller.isLoading.value) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (_errorMessage.isNotEmpty) {
+    if (controller.errorMessage.isNotEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(_errorMessage, textAlign: TextAlign.center),
-            const SizedBox(height: 20),
+            Text(controller.errorMessage.value, textAlign: TextAlign.center),
+            Gap(responsiveHeight(10)),
             ElevatedButton(
-              onPressed: _checkLocationPermission,
+              onPressed: controller.checkLocationPermission,
               child: const Text('Retry'),
             ),
           ],
@@ -118,24 +37,23 @@ class _MapScreenState extends State<MapScreen> {
     }
 
     return FlutterMap(
-      mapController: _mapController,
+      mapController: controller.mapController.value,
       options: MapOptions(
-        initialCenter: _currentLocation ?? const LatLng(0, 0),
-        initialZoom: _currentLocation != null ? 15.0 : 3.0,
+        initialCenter: controller.currentLocation.value,
+        initialZoom: controller.zoom.value,
         onTap: (tapPosition, point) {
-          _currentLocation = LatLng(point.latitude, point.longitude);
-          setState(() {});
+          controller.currentLocation.value =
+              LatLng(point.latitude, point.longitude);
+          controller.update();
         },
         onMapReady: () {
-          // Set flag when map is ready
-          setState(() {
-            _isMapReady = true;
-          });
+          controller.isMapReady.value = true;
+          controller.update();
+          controller.getCurrentLocation();
+          controller.update();
 
-          // Move to current location if we have it
-          if (_currentLocation != null) {
-            _mapController.move(_currentLocation!, 15.0);
-          }
+          controller.mapController.value
+              .move(controller.currentLocation.value, controller.zoom.value);
         },
       ),
       children: [
@@ -146,59 +64,185 @@ class _MapScreenState extends State<MapScreen> {
         ),
 
         // Location Marker Layer
-        if (_locationPermissionGranted && _currentLocation != null)
+        if (controller.locationPermissionGranted.value)
           CurrentLocationLayer(
-            alignPositionOnUpdate: AlignOnUpdate.always,
-            alignDirectionOnUpdate: AlignOnUpdate.never,
-          ),
+              // alignPositionOnUpdate: AlignOnUpdate.always,
+              // alignDirectionOnUpdate: AlignOnUpdate.never,
+              ),
 
         // Marker for current location (fallback)
-        if (_currentLocation != null)
-          MarkerLayer(
-            markers: [
-              Marker(
-                point: _currentLocation!,
-                width: 40,
-                height: 40,
-                child: const Icon(
-                  Icons.location_pin,
-                  color: Colors.red,
-                  size: 40,
-                ),
+        MarkerLayer(
+          alignment: Alignment.topCenter,
+          markers: [
+            Marker(
+              alignment: Alignment.topCenter,
+              point: controller.currentLocation.value,
+              width: responsiveWidth(!(controller.isShowFlag.value &&
+                      (Get.arguments != null && Get.arguments != ''))
+                  ? 40
+                  : 70),
+              height: responsiveHeight(!(controller.isShowFlag.value &&
+                      (Get.arguments != null && Get.arguments != ''))
+                  ? 40
+                  : 67),
+              child: InkWell(
+                onTap: controller.toggleFlag,
+                child: controller.isShowFlag.value &&
+                        (Get.arguments != null && Get.arguments != '')
+                    ? Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                              color: Colors.black,
+                              child: Text(Get.arguments,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(Get.context!)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(color: AppColors.whiteColor))),
+                          Icon(
+                            Icons.location_history_rounded,
+                            color: Colors.red,
+                            size: responsiveFont(30),
+                          ),
+                        ],
+                      )
+                    : Icon(
+                        Icons.location_history_rounded,
+                        color: Colors.red,
+                        size: responsiveFont(30),
+                      ),
               ),
-            ],
-          ),
+            ),
+          ],
+        ),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('FlutterMap with Location'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.my_location),
-            onPressed: _currentLocation != null && _isMapReady
-                ? () => _mapController.move(_currentLocation!, 15.0)
-                : null,
+    return Obx(() => Scaffold(
+          appBar: AppBar(
+            title: Text('choose_Location'.tr),
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            actions: [
+              AppButton(
+                  type: AppButtonType.secondary,
+                  onPressed: controller.saveLocation,
+                  icon: Icon(Icons.save, color: Colors.green),
+                  text: "${'save'.tr}   "),
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: controller.refreshLocation,
+              ),
+            ],
           ),
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _refreshLocation,
+          body: _buildMap(),
+          floatingActionButton: controller.isMapReady.value
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Spacer(),
+                    FlutterMapZoomButtons(),
+                    Spacer(),
+                    FloatingActionButton(
+                      onPressed: () => controller.mapController.value.move(
+                          controller.currentLocation.value,
+                          controller.zoom.value),
+                      child: const Icon(
+                        Icons.location_pin,
+                        color: Colors.red,
+                      ),
+                    ),
+                    Gap(responsiveHeight(15)),
+                    FloatingActionButton(
+                      onPressed: () => controller.getCurrentLocation(),
+                      child: const Icon(Icons.my_location),
+                    )
+                  ],
+                )
+              : null,
+        ));
+  }
+}
+
+class FlutterMapZoomButtons extends GetView<MapGetXController> {
+  final double minZoom;
+  final double maxZoom;
+  final bool mini;
+  final double padding;
+  final Alignment alignment;
+  final Color? zoomInColor;
+  final Color? zoomInColorIcon;
+  final Color? zoomOutColor;
+  final Color? zoomOutColorIcon;
+  final IconData zoomInIcon;
+  final IconData zoomOutIcon;
+
+  const FlutterMapZoomButtons({
+    super.key,
+    this.minZoom = 6,
+    this.maxZoom = 18,
+    this.mini = true,
+    this.padding = 2.0,
+    this.alignment = Alignment.topRight,
+    this.zoomInColor,
+    this.zoomInColorIcon,
+    this.zoomInIcon = Icons.zoom_in,
+    this.zoomOutColor,
+    this.zoomOutColorIcon,
+    this.zoomOutIcon = Icons.zoom_out,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Align(
+      alignment: alignment,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(
+            padding:
+                EdgeInsets.only(left: padding, top: padding, right: padding),
+            child: FloatingActionButton(
+              heroTag: 'zoomInButton',
+              mini: mini,
+              backgroundColor: zoomInColor ?? theme.primaryColor,
+              onPressed: () {
+                final zoom = min(
+                    controller.mapController.value.camera.zoom + 1, maxZoom);
+                controller.mapController.value
+                    .move(controller.mapController.value.camera.center, zoom);
+              },
+              child: Icon(zoomInIcon,
+                  color: zoomInColorIcon ?? theme.iconTheme.color),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(padding),
+            child: FloatingActionButton(
+              heroTag: 'zoomOutButton',
+              mini: mini,
+              backgroundColor: zoomOutColor ?? theme.primaryColor,
+              onPressed: () {
+                final zoom = max(
+                    controller.mapController.value.camera.zoom - 1, minZoom);
+                controller.mapController.value
+                    .move(controller.mapController.value.camera.center, zoom);
+              },
+              child: Icon(zoomOutIcon,
+                  color: zoomOutColorIcon ?? theme.iconTheme.color),
+            ),
           ),
         ],
       ),
-      body: _buildMap(),
-      floatingActionButton: _currentLocation != null && _isMapReady
-          ? FloatingActionButton(
-              onPressed: () => _mapController.move(_currentLocation!, 15.0),
-              child: const Icon(Icons.my_location),
-            )
-          : null,
     );
   }
 }

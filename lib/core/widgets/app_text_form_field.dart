@@ -31,6 +31,7 @@ class AppTextFormField extends StatelessWidget {
   final bool enabled;
   final Function()? onTap;
   final FocusNode? focusNode;
+  final TextStyle? textStyle;
 
   const AppTextFormField({
     super.key,
@@ -60,104 +61,92 @@ class AppTextFormField extends StatelessWidget {
     this.enabled = true,
     this.onTap,
     this.focusNode,
+    this.textStyle,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (showLabel) ...[
-          Text(
-            label,
-            style: Get.textTheme.labelMedium?.copyWith(
-              color: Get.theme.colorScheme.onSurface.withOpacity(0.8),
-            ),
-          ),
-          SizedBox(height: responsiveHeight(8)),
-        ],
-        TextFormField(
-          focusNode: focusNode,
-          controller: controller,
-          obscureText: obscureText,
-          keyboardType: keyboardType,
-          validator: validator,
-          inputFormatters: inputFormatters,
-          autofocus: autoFocus,
-          textInputAction: textInputAction,
-          onChanged: onChanged,
-          onFieldSubmitted: onSubmitted,
-          maxLines: maxLines,
-          minLines: minLines,
-          readOnly: readOnly,
-          enabled: enabled,
-          onTap: onTap,
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: Theme.of(context).textTheme.bodySmall,
-            prefixIcon: prefixIcon,
-            suffixIcon: isPassword
-                ? IconButton(
-                    icon: Icon(
-                      obscureText ? Icons.visibility_off : Icons.visibility,
-                      color: Get.theme.colorScheme.onSurface.withOpacity(0.6),
-                    ),
-                    onPressed: () {
-                      // Toggle password visibility
-                      Get.find<AuthController>().toggleIsObscureText();
-                      if (controller != null) {
-                        final currentValue = controller!.text;
-                        controller!.text = '';
-                        controller!.text = currentValue;
-                      }
-                    },
-                  )
-                : suffixIcon,
-            contentPadding: contentPadding ??
-                EdgeInsets.symmetric(
-                  horizontal: responsiveWidth(16),
-                  vertical: responsiveHeight(14),
+    return TextFormField(
+      focusNode: focusNode,
+      controller: controller,
+      obscureText: obscureText,
+      keyboardType: keyboardType,
+      validator: validator,
+      inputFormatters: inputFormatters,
+      autofocus: autoFocus,
+      textInputAction: textInputAction,
+      onChanged: onChanged,
+      onFieldSubmitted: onSubmitted,
+      maxLines: maxLines,
+      minLines: minLines,
+      readOnly: readOnly,
+      enabled: enabled,
+      onTap: onTap,
+      style: textStyle,
+      decoration: InputDecoration(
+        hintText: hint ?? label,
+        hintStyle: Theme.of(context).textTheme.bodySmall,
+        prefixIcon: prefixIcon,
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  obscureText ? Icons.visibility_off : Icons.visibility,
+                  color: Get.theme.colorScheme.onSurface.withOpacity(0.6),
                 ),
-            filled: true,
-            fillColor: fillColor ?? Get.theme.colorScheme.surface,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(
-                color: borderColor ?? Get.theme.colorScheme.outline,
-                width: borderWidth,
-              ),
+                onPressed: () {
+                  // Toggle password visibility
+                  Get.find<AuthController>().toggleIsObscureText();
+                  if (controller != null) {
+                    final currentValue = controller!.text;
+                    controller!.text = '';
+                    controller!.text = currentValue;
+                  }
+                },
+              )
+            : suffixIcon,
+        contentPadding: contentPadding ??
+            EdgeInsets.symmetric(
+              horizontal: responsiveWidth(16),
+              vertical: responsiveHeight(14),
             ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(
-                color: borderColor ?? Get.theme.colorScheme.outline,
-                width: borderWidth,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(
-                color: borderColor ?? Get.theme.colorScheme.primary,
-                width: borderWidth,
-              ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(
-                color: Get.theme.colorScheme.error,
-                width: borderWidth,
-              ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
-              borderSide: BorderSide(
-                color: Get.theme.colorScheme.error,
-                width: borderWidth,
-              ),
-            ),
+        filled: true,
+        fillColor: fillColor ?? Get.theme.colorScheme.surface,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(
+            color: borderColor ?? Get.theme.colorScheme.outline,
+            width: borderWidth,
           ),
         ),
-      ],
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(
+            color: borderColor ?? Get.theme.colorScheme.outline,
+            width: borderWidth,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(
+            color: borderColor ?? Get.theme.colorScheme.primary,
+            width: borderWidth,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(
+            color: Get.theme.colorScheme.error,
+            width: borderWidth,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          borderSide: BorderSide(
+            color: Get.theme.colorScheme.error,
+            width: borderWidth,
+          ),
+        ),
+      ),
     );
   }
 }

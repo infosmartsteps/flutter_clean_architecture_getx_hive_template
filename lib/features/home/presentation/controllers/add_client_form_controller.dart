@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:ksa_real_estates/core/constants/routes/app_routes.dart';
 
-import '../widgets/map_screen.dart';
+import '../../../../core/utils/functions/validation.dart';
 
 class AddClientFormController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -12,7 +13,6 @@ class AddClientFormController extends GetxController {
   final responsiblePersonFocus = FocusNode();
   final phoneNumberFocus = FocusNode();
   final businessSectorFocus = FocusNode();
-  final locationFocus = FocusNode();
   final addressFocus = FocusNode();
   final registrationNumberFocus = FocusNode();
   final responsiblePersonPhoneFocus = FocusNode();
@@ -24,45 +24,16 @@ class AddClientFormController extends GetxController {
   final clientNameController = TextEditingController();
   final responsiblePersonController = TextEditingController();
   final phoneNumberController = TextEditingController();
-  final locationController = TextEditingController();
   final addressController = TextEditingController();
   final registrationNumberController = TextEditingController();
   final responsiblePersonPhoneController = TextEditingController();
   final emailController = TextEditingController();
-  final clientWebsiteController = TextEditingController();
+  final clientLocationLatController = TextEditingController();
+  final clientLocationLngController = TextEditingController();
 
   String? selectedBusinessSector;
   String? selectedCity;
   String? selectedInformationSource;
-
-  String? phoneNumberValidation(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'please_enter_valid_phone'.tr;
-    }
-    if (!RegExp(r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$')
-        .hasMatch(value)) {
-      return 'please_enter_valid_phone'.tr;
-    }
-    return null;
-  }
-
-  String? emailValidation(String? value) {
-    if (value != null && value.isNotEmpty) {
-      if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-        return 'please_enter_valid_email'.tr;
-      }
-    } else {
-      return requiredFieldValidation(value);
-    }
-    return null;
-  }
-
-  String? requiredFieldValidation(String? value, [String? text]) {
-    if (value == null || value.isEmpty) {
-      return text ?? 'Required field'.tr;
-    }
-    return null;
-  }
 
   // Dropdown options
   final RxList<String> businessSectors = <String>[].obs;
@@ -71,7 +42,8 @@ class AddClientFormController extends GetxController {
 
   final RxList<String> informationSources = <String>[].obs;
 
-  void getBusinessSectors() {
+  void getBusinessSectors() async {
+    await Future.delayed(Duration(seconds: 2));
     businessSectors.value = [
       'تجزئة',
       'تصنيع',
@@ -86,7 +58,8 @@ class AddClientFormController extends GetxController {
     ];
   }
 
-  void getCities() {
+  Future<void> getCities() async {
+    await Future.delayed(Duration(seconds: 2));
     cities.value = [
       'الرياض',
       'جدة',
@@ -99,9 +72,11 @@ class AddClientFormController extends GetxController {
       'تبوك',
       'أبها'
     ];
+    update();
   }
 
-  void getInformationSources() {
+  void getInformationSources() async {
+    await Future.delayed(Duration(seconds: 2));
     informationSources.value = [
       'الإنترنت',
       'إعلان',
@@ -138,13 +113,18 @@ class AddClientFormController extends GetxController {
     focusNode.requestFocus();
   }
 
-  openLocation() {
-    Get.to(MapScreen());
+  openClientLocation() {
+    Get.toNamed(AppRoutes.mapScreen, arguments: clientNameController.text)
+        ?.then((value) {
+      clientLocationLatController.text =
+          value != null ? value.latitude.toString() : "";
+      clientLocationLngController.text =
+          value != null ? value.longitude.toString() : "";
+    });
   }
 
   void saveForm() {
-    final form = formKey.currentState!;
-    if (!form.validate()) {
+    if (!formKey.currentState!.validate()) {
       // Find the first field with an error and scroll to it
       if (clientNameController.text.isEmpty) {
         scrollToField(clientNameFocus);
@@ -155,8 +135,6 @@ class AddClientFormController extends GetxController {
         scrollToField(phoneNumberFocus);
       } else if (selectedBusinessSector == null) {
         scrollToField(businessSectorFocus, 200);
-      } else if (requiredFieldValidation(locationController.text) != null) {
-        scrollToField(locationFocus);
       } else if (selectedCity == null) {
         scrollToField(cityFocus, 300);
       } else if (requiredFieldValidation(addressController.text) != null) {
@@ -185,9 +163,9 @@ class AddClientFormController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async{
     getBusinessSectors();
-    getCities();
+    await getCities();
     getInformationSources();
     super.onInit();
   }
@@ -204,12 +182,12 @@ class AddClientFormController extends GetxController {
     clientNameController.dispose();
     responsiblePersonController.dispose();
     phoneNumberController.dispose();
-    locationController.dispose();
     addressController.dispose();
     registrationNumberController.dispose();
     responsiblePersonPhoneController.dispose();
     emailController.dispose();
-    clientWebsiteController.dispose();
+    clientLocationLatController.dispose();
+    clientLocationLngController.dispose();
     super.dispose();
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../core/constants/enums.dart';
 import '../../../../core/widgets/app_button.dart';
+import 'dialogs/exit_dialog.dart';
 
 Widget formButtons(void Function() onPressed) {
   return Row(
@@ -9,7 +10,7 @@ Widget formButtons(void Function() onPressed) {
     children: [
       AppButton(
           type: AppButtonType.secondary,
-          onPressed: Get.back,
+          onPressed: showExitDialog,
           icon: Icon(Icons.delete, color: Colors.red),
           text: 'cancel'.tr),
       AppButton(

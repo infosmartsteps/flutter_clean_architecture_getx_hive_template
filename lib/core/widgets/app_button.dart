@@ -49,8 +49,8 @@ class AppButton extends StatelessWidget {
       buttonWidth = width ?? double.infinity;
       buttonHeight = height ?? responsiveWidth(48);
     } else if (type == AppButtonType.secondary) {
-      bgColor = Get.theme.colorScheme.secondary;
-      fgColor = Get.theme.colorScheme.onSecondary;
+      bgColor = backgroundColor ?? Get.theme.colorScheme.secondary;
+      fgColor = textColor ?? Get.theme.colorScheme.onSecondary;
     } else if (type == AppButtonType.outline) {
       bgColor = Colors.transparent;
       fgColor = Get.theme.primaryColor;

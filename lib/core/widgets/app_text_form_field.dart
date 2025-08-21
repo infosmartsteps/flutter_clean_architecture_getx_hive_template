@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../features/auth/presentation/controller/auth_controller.dart';
+import '../utils/form_utils.dart';
 import '../utils/responsive_size_helper.dart';
 
+//lib/core/widgets/app_text_form_field.dart
 class AppTextFormField extends StatelessWidget {
+  final FormFieldModel? fieldModel;
   final String label;
   final String? hint;
   final TextEditingController? controller;
@@ -32,10 +35,13 @@ class AppTextFormField extends StatelessWidget {
   final Function()? onTap;
   final FocusNode? focusNode;
   final TextStyle? textStyle;
+  final double? height;
+  final double? width;
 
   const AppTextFormField({
     super.key,
     required this.label,
+    this.fieldModel,
     this.hint,
     this.controller,
     this.obscureText = false,
@@ -62,91 +68,98 @@ class AppTextFormField extends StatelessWidget {
     this.onTap,
     this.focusNode,
     this.textStyle,
-  });
+    this.height,
+    this.width,
+  }) : assert(fieldModel != null || controller != null,
+  'Either fieldModel or controller must be provided');
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      focusNode: focusNode,
-      controller: controller,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      validator: validator,
-      inputFormatters: inputFormatters,
-      autofocus: autoFocus,
-      textInputAction: textInputAction,
-      onChanged: onChanged,
-      onFieldSubmitted: onSubmitted,
-      maxLines: maxLines,
-      minLines: minLines,
-      readOnly: readOnly,
-      enabled: enabled,
-      onTap: onTap,
-      style: textStyle,
-      decoration: InputDecoration(
-        hintText: hint ?? label,
-        hintStyle: Theme.of(context).textTheme.bodySmall,
-        prefixIcon: prefixIcon,
-        suffixIcon: isPassword
-            ? IconButton(
-                icon: Icon(
-                  obscureText ? Icons.visibility_off : Icons.visibility,
-                  color: Get.theme.colorScheme.onSurface.withOpacity(0.6),
-                ),
-                onPressed: () {
-                  // Toggle password visibility
-                  Get.find<AuthController>().toggleIsObscureText();
-                  if (controller != null) {
-                    final currentValue = controller!.text;
-                    controller!.text = '';
-                    controller!.text = currentValue;
-                  }
-                },
-              )
-            : suffixIcon,
-        contentPadding: contentPadding ??
-            EdgeInsets.symmetric(
-              horizontal: responsiveWidth(16),
-              vertical: responsiveHeight(14),
-            ),
-        filled: true,
-        fillColor: fillColor ?? Get.theme.colorScheme.surface,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(
-            color: borderColor ?? Get.theme.colorScheme.outline,
-            width: borderWidth,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(
-            color: borderColor ?? Get.theme.colorScheme.outline,
-            width: borderWidth,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(
-            color: borderColor ?? Get.theme.colorScheme.primary,
-            width: borderWidth,
-          ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(
-            color: Get.theme.colorScheme.error,
-            width: borderWidth,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(
-            color: Get.theme.colorScheme.error,
-            width: borderWidth,
-          ),
-        ),
+    return SizedBox(
+      key: fieldModel?.key,
+      width: width,
+      height: height,
+      child: TextFormField(
+        focusNode: fieldModel?.focusNode ?? focusNode,
+        controller: fieldModel?.controller ?? controller,
+        validator: fieldModel?.validator ?? validator,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        inputFormatters: inputFormatters,
+        autofocus: autoFocus,
+        textInputAction: textInputAction,
+        onChanged: onChanged,
+        onFieldSubmitted: onSubmitted,
+        maxLines: maxLines,
+        minLines: minLines,
+        readOnly: readOnly,
+        enabled: enabled,
+        onTap: onTap,
+        style: textStyle,
+        decoration: _buildDecoration(context),
       ),
+    );
+  }
+
+  InputDecoration _buildDecoration(BuildContext context) {
+    return InputDecoration(
+      hintText: hint ?? label,
+      hintStyle: Theme.of(context).textTheme.bodySmall,
+      prefixIcon: prefixIcon,
+      suffixIcon: _buildSuffixIcon(),
+      contentPadding: contentPadding ??
+          EdgeInsets.symmetric(
+            horizontal: responsiveWidth(16),
+            vertical: responsiveHeight(14),
+          ),
+      filled: true,
+      fillColor: fillColor ?? Get.theme.colorScheme.surface,
+      border: _buildBorder(),
+      enabledBorder: _buildBorder(),
+      focusedBorder: _buildBorder(isFocused: true),
+      errorBorder: _buildBorder(isError: true),
+      focusedErrorBorder: _buildBorder(isError: true, isFocused: true),
+    );
+  }
+
+  Widget? _buildSuffixIcon() {
+    if (isPassword) {
+      return IconButton(
+        icon: Icon(
+          obscureText ? Icons.visibility_off : Icons.visibility,
+          color: Get.theme.colorScheme.onSurface.withOpacity(0.6),
+        ),
+        onPressed: _togglePasswordVisibility,
+      );
+    }
+    return suffixIcon;
+  }
+
+  void _togglePasswordVisibility() {
+    Get.find<AuthController>().toggleIsObscureText();
+    final currentController = fieldModel?.controller ?? controller;
+    if (currentController != null) {
+      final currentValue = currentController.text;
+      currentController.text = '';
+      currentController.text = currentValue;
+    }
+  }
+
+  OutlineInputBorder _buildBorder({bool isFocused = false, bool isError = false}) {
+    Color borderColor;
+
+    if (isError) {
+      borderColor = Get.theme.colorScheme.error;
+    } else if (isFocused) {
+      borderColor = this.borderColor ?? Get.theme.colorScheme.primary;
+    } else {
+      borderColor = this.borderColor ?? Get.theme.colorScheme.outline;
+    }
+
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(borderRadius),
+      borderSide: BorderSide(color: borderColor, width: borderWidth),
     );
   }
 }

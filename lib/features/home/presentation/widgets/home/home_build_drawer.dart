@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import '../../../../core/controllers/app_controller.dart';
-import '../../../../core/utils/responsive_size_helper.dart';
-import '../../../auth/presentation/widgets/app_info_widget.dart';
-import '../controllers/home_controller.dart';
-import '../screens/home_screen.dart';
-import 'dialogs/show_language_dialog.dart';
-import 'dialogs/show_logout_confirmation.dart';
+import '../../../../../core/controllers/app_controller.dart';
+import '../../../../../core/utils/responsive_size_helper.dart';
+import '../../../../auth/presentation/widgets/app_info_widget.dart';
+import '../../controllers/home_controller.dart';
+import '../../screens/home_screen.dart';
+import '../dialogs/show_language_dialog.dart';
+import '../dialogs/show_logout_confirmation.dart';
 
 Widget homeBuildDrawer(BuildContext context, HomeController controller) {
   return Drawer(

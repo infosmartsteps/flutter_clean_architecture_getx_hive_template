@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
-import '../widgets/home_build_body.dart';
-import '../widgets/home_build_drawer.dart';
+import '../widgets/home/home_build_body.dart';
+import '../widgets/home/home_build_drawer.dart';
 
 //lib/features/home/presentation/screens/home_screen.dart
 class HomeScreen extends GetView<HomeController> {

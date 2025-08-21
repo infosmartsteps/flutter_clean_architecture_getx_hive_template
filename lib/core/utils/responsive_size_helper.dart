@@ -14,17 +14,14 @@ double displayWidth() {
   return displaySize().width;
 }
 
-double responsiveHeight(double value, {double baseHeight = 915}) {
-  double screenHeight = MediaQuery.sizeOf(Get.context!).height;
-  return (value / baseHeight) * screenHeight;
+double responsiveHeight(double value, {double baseHeight = 900}) {
+  return (value / baseHeight) * displayHeight();
 }
 
-double responsiveWidth(double value, {double baseWidth = 412}) {
-  double screenWidth = MediaQuery.sizeOf(Get.context!).width;
-  return (value / baseWidth) * screenWidth;
+double responsiveWidth(double value, {double baseWidth = 400}) {
+  return (value / baseWidth) * displayWidth();
 }
 
 double responsiveFont(double value) {
-  double screenWidth = MediaQuery.sizeOf(Get.context!).width;
-  return value * (screenWidth / 3) / 100;
+  return value * (displayWidth() / 3) / 100;
 }

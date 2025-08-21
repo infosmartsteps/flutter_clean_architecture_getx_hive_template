@@ -1,160 +1,116 @@
-import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 import 'package:ksa_real_estates/core/constants/routes/app_routes.dart';
+import '../../../../core/utils/form_utils.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import '../../../../core/utils/functions/validation.dart';
+part 'add_client_form_state.dart';
 
+//lib/features/home/presentation/controllers/add_client_form_controller.dart
 class AddClientFormController extends GetxController {
-  final formKey = GlobalKey<FormState>();
-  final scrollController = ScrollController();
+  final AddClientFormState state = AddClientFormState();
+  final FormFocusManager focusManager = FormFocusManager();
 
-  // Field focus nodes
-  final clientNameFocus = FocusNode();
-  final responsiblePersonFocus = FocusNode();
-  final phoneNumberFocus = FocusNode();
-  final businessSectorFocus = FocusNode();
-  final addressFocus = FocusNode();
-  final registrationNumberFocus = FocusNode();
-  final responsiblePersonPhoneFocus = FocusNode();
-  final cityFocus = FocusNode();
-  final informationSourceFocus = FocusNode();
-  final emailFocus = FocusNode();
-
-  // controllers
-  final clientNameController = TextEditingController();
-  final responsiblePersonController = TextEditingController();
-  final phoneNumberController = TextEditingController();
-  final addressController = TextEditingController();
-  final registrationNumberController = TextEditingController();
-  final responsiblePersonPhoneController = TextEditingController();
-  final emailController = TextEditingController();
-  final clientLocationLatController = TextEditingController();
-  final clientLocationLngController = TextEditingController();
-
-  String? selectedBusinessSector;
-  String? selectedCity;
-  String? selectedInformationSource;
-
-  // Dropdown options
-  final RxList<String> businessSectors = <String>[].obs;
-
-  final RxList<String> cities = <String>[].obs;
-
-  final RxList<String> informationSources = <String>[].obs;
-
-  void getBusinessSectors() async {
-    await Future.delayed(Duration(seconds: 2));
-    businessSectors.value = [
-      'تجزئة',
-      'تصنيع',
-      'رعاية صحية',
-      'تعليم',
-      'تكنولوجيا',
-      'تمويل',
-      'ضيافة',
-      'بناء',
-      'نقل',
-      'أخرى'
-    ];
+  @override
+  void onInit() {
+    super.onInit();
+    _initializeFields();
+    _loadDropdownData();
   }
 
-  Future<void> getCities() async {
-    await Future.delayed(Duration(seconds: 2));
-    cities.value = [
-      'الرياض',
-      'جدة',
-      'مكة',
-      'المدينة المنورة',
-      'الدمام',
-      'الخبر',
-      'الطائف',
-      'بريدة',
-      'تبوك',
-      'أبها'
-    ];
-    update();
+  void _initializeFields() {
+    state.clientNameField =
+        _createFieldModel('clientName', requiredFieldValidation);
+    state.responsiblePersonField =
+        _createFieldModel('responsiblePerson', requiredFieldValidation);
+    state.phoneNumberField =
+        _createFieldModel('phoneNumber', phoneNumberValidation);
+    state.addressField = _createFieldModel('address', requiredFieldValidation);
+    state.registrationNumberField =
+        _createFieldModel('registrationNumber', requiredFieldValidation);
+    state.responsiblePersonPhoneField =
+        _createFieldModel('responsiblePersonPhone', phoneNumberValidation);
+    state.emailField = _createFieldModel('email', emailValidation);
+    state.clientLocationLatField = _createFieldModel('clientLocationLat');
+    state.clientLocationLngField = _createFieldModel('clientLocationLng');
   }
 
-  void getInformationSources() async {
-    await Future.delayed(Duration(seconds: 2));
-    informationSources.value = [
-      'الإنترنت',
-      'إعلان',
-      'معرض',
-      'توصية',
-      'وسائل التواصل الاجتماعي',
-      'أخرى'
-    ];
-  }
-
-  void selectCity(String? value) {
-    selectedCity = value;
-  }
-
-  void selectInformationSource(String? value) {
-    selectedInformationSource = value;
-  }
-
-  void selectBusinessSector(String? value) {
-    selectedBusinessSector = value;
-  }
-
-  // Helper function to scroll to and focus on a field
-  void scrollToField(FocusNode focusNode, [double offset = 0]) async {
-    scrollController.animateTo(
-      offset,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
+  FormFieldModel _createFieldModel(String key,
+      [String? Function(String?)? validation]) {
+    return FormFieldModel(
+      name: key,
+      focusNode: focusManager.getFocusNode(key),
+      key: focusManager.getFieldKey(key),
+      controller: TextEditingController(),
+      validator: validation,
     );
-    if (focusNode.hasFocus) {
-      Get.focusScope?.unfocus();
-      await Future.delayed(const Duration(milliseconds: 300));
-    }
-    focusNode.requestFocus();
   }
 
-  openClientLocation() {
-    Get.toNamed(AppRoutes.mapScreen, arguments: clientNameController.text)
+  void _loadDropdownData() {
+    state.getBusinessSectors();
+    state.getCities();
+    state.getInformationSources();
+  }
+
+  void openClientLocation() {
+    Get.toNamed(AppRoutes.mapScreen,
+            arguments: state.clientNameField.controller?.text)
         ?.then((value) {
-      clientLocationLatController.text =
-          value != null ? value.latitude.toString() : "";
-      clientLocationLngController.text =
-          value != null ? value.longitude.toString() : "";
+      state.clientLocationLatField.controller?.text =
+          value?.latitude.toString() ?? "";
+      state.clientLocationLngField.controller?.text =
+          value?.longitude.toString() ?? "";
     });
   }
 
-  void saveForm() {
-    if (!formKey.currentState!.validate()) {
-      // Find the first field with an error and scroll to it
-      if (clientNameController.text.isEmpty) {
-        scrollToField(clientNameFocus);
-      } else if (requiredFieldValidation(responsiblePersonController.text) !=
-          null) {
-        scrollToField(responsiblePersonFocus);
-      } else if (phoneNumberValidation(phoneNumberController.text) != null) {
-        scrollToField(phoneNumberFocus);
-      } else if (selectedBusinessSector == null) {
-        scrollToField(businessSectorFocus, 200);
-      } else if (selectedCity == null) {
-        scrollToField(cityFocus, 300);
-      } else if (requiredFieldValidation(addressController.text) != null) {
-        scrollToField(addressFocus);
-      } else if (requiredFieldValidation(registrationNumberController.text) !=
-          null) {
-        scrollToField(registrationNumberFocus);
-      } else if (requiredFieldValidation(
-              responsiblePersonPhoneController.text) !=
-          null) {
-        scrollToField(responsiblePersonPhoneFocus);
-      } else if (selectedInformationSource == null) {
-        scrollToField(informationSourceFocus, 400);
-      } else if (emailValidation(emailController.text) != null) {
-        scrollToField(emailFocus);
-      }
-      return;
+  void scrollToField(String fieldName) {
+    final context = state.formKey.currentContext;
+    if (context != null) {
+      final key = focusManager.getFieldKey(fieldName);
+      Scrollable.ensureVisible(
+        key.currentContext!,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+      focusManager.requestFocus(fieldName);
     }
-    // If form is valid, proceed with saving
-    Get.back();
+  }
+
+  void validateAndScrollToFirstError() {
+    final fieldsToValidate = [
+      state.clientNameField,
+      state.responsiblePersonField,
+      state.phoneNumberField,
+      state.addressField,
+      state.registrationNumberField,
+      state.responsiblePersonPhoneField,
+      state.emailField,
+      state.clientLocationLatField,
+      state.clientLocationLngField
+    ];
+
+    for (final field in fieldsToValidate) {
+      final error = field.validator?.call(field.controller?.text);
+      if (error != null) {
+        scrollToField(field.name!);
+        return;
+      }
+    }
+
+    _validateDropdowns();
+  }
+
+  void _validateDropdowns() {
+    if (state.selectedBusinessSector.value == null) {
+      scrollToField('businessSector');
+    } else if (state.selectedCity.value == null) {
+      scrollToField('city');
+    } else if (state.selectedInformationSource.value == null) {
+      scrollToField('informationSource');
+    }
+  }
+
+  Future<void> saveForm() async {
+
     Get.snackbar(
       'Success'.tr,
       'Client added successfully'.tr,
@@ -163,31 +119,9 @@ class AddClientFormController extends GetxController {
   }
 
   @override
-  void onInit() async{
-    getBusinessSectors();
-    await getCities();
-    getInformationSources();
-    super.onInit();
-  }
-
-  @override
   void dispose() {
-    scrollController.dispose();
-    clientNameFocus.dispose();
-    phoneNumberFocus.dispose();
-    businessSectorFocus.dispose();
-    cityFocus.dispose();
-    informationSourceFocus.dispose();
-    emailFocus.dispose();
-    clientNameController.dispose();
-    responsiblePersonController.dispose();
-    phoneNumberController.dispose();
-    addressController.dispose();
-    registrationNumberController.dispose();
-    responsiblePersonPhoneController.dispose();
-    emailController.dispose();
-    clientLocationLatController.dispose();
-    clientLocationLngController.dispose();
+    state.dispose();
+    focusManager.dispose();
     super.dispose();
   }
 }

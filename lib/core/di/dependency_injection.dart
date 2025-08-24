@@ -20,7 +20,7 @@ class DependencyInjection {
   static init() async {
     FlavorConfig(
       flavor: Flavor.development,
-      values: FlavorValues(baseUrlEndpoint: BaseUrlConfig.baseUrlDevelopment),
+      values: FlavorValues(baseUrlEndpoint: BaseUrlConfig.baseUrlProduction),
     );
 // Register storage as a singleton
     final storage = StorageImpl();

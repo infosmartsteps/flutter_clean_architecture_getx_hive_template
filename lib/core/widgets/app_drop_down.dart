@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
+import 'package:ksa_real_estates/features/home/domain/entities/lookups_entity.dart';
 
 //lib/core/widgets/app_drop_down.dart
 class AppDropDown extends StatelessWidget {
@@ -10,7 +11,7 @@ class AppDropDown extends StatelessWidget {
   final IconData? icon;
   final bool isLoading;
   final GlobalKey? fieldKey;
-  final List<String> items;
+  final List<LookupsEntity> items;
   final Function(String?)? onChanged;
   final String? Function(String?)? validator;
 
@@ -39,10 +40,12 @@ class AppDropDown extends StatelessWidget {
         key: fieldKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         value: value,
-        items: items.map((item) => DropdownMenuItem(
-          value: item,
-          child: Text(item),
-        )).toList(),
+        items: items
+            .map((item) => DropdownMenuItem(
+                  value: item.id.toString(),
+                  child: Text(item.value),
+                ))
+            .toList(),
         onChanged: onChanged,
         validator: validator,
         decoration: _buildDecoration(),

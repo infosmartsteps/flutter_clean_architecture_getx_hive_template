@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/core/constants/routes/app_routes.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
-import '../../../../../core/widgets/app_text_form_field.dart';
-import '../../screens/home_screens/add_client_screen.dart';
 import 'home_build_option_card.dart';
 
 Widget homeBuildBody(BuildContext context) {
@@ -30,7 +27,7 @@ Widget homeBuildBody(BuildContext context) {
           title: 'interested_clients'.tr,
           color: Colors.green,
           onTap: () {
-            // Handle interested clients option
+            Get.toNamed(AppRoutes.interestedClientsScreen);
           },
         ),
         homeBuildOptionCard(

@@ -45,29 +45,33 @@ class AddClientScreen extends GetView<AddClientFormController> {
                       if (!controller.state.formKey.currentState!.validate()) {
                         controller.validateAndScrollToFirstError();
                         return;
+                      } else {
+                        // save dialog
+                        Get.defaultDialog(
+                            title: 'confirm'.tr,
+                            content: Text('are_you_sure_confirm'.tr),
+                            contentPadding: EdgeInsets.all(responsiveFont(24)),
+                            backgroundColor: Get.theme.colorScheme.onSecondary,
+                            actions: [
+                              AppButton(
+                                type: AppButtonType.secondary,
+                                onPressed: () => Get.back(),
+                                text: 'cancel'.tr,
+                              ),
+                              AppButton(
+                                type: AppButtonType.secondary,
+                                backgroundColor: Colors.green,
+                                textColor: AppColors.whiteColor,
+                                onPressed: () async {
+                                  Get.back(
+                                      closeOverlays:
+                                          true); // This will close dialog AND screen
+                                  await controller.saveForm();
+                                },
+                                text: 'confirm'.tr,
+                              ),
+                            ]);
                       }
-                      Get.defaultDialog(
-                          title: 'confirm'.tr,
-                          content: Text('are_you_sure_confirm'.tr),
-                          contentPadding: EdgeInsets.all(responsiveFont(24)),
-                          backgroundColor: Get.theme.colorScheme.onSecondary,
-                          actions: [
-                            AppButton(
-                              type: AppButtonType.secondary,
-                              onPressed: () => Get.back(),
-                              text: 'cancel'.tr,
-                            ),
-                            AppButton(
-                              type: AppButtonType.secondary,
-                              backgroundColor: Colors.green,
-                              textColor: AppColors.whiteColor,
-                              onPressed: () async {
-                                await controller.saveForm();
-                                Get.back(closeOverlays: true); // This will close dialog AND screen
-                              },
-                              text: 'confirm'.tr,
-                            ),
-                          ]);
                     }),
                     Gap(responsiveHeight(10)),
                   ],

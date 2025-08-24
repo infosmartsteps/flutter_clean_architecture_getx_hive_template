@@ -100,23 +100,11 @@ class RestImpl implements IRestClient {
         queryParameters: requestData.params,
       );
 
-//delete
-      final Response res =
-          Response(requestOptions: response.requestOptions, data: {
-        "success": true,
-        "message": "success",
-        "data": response.data,
-        "statusCode": 201,
-      });
-      //to here stop
-
-      // ApiResponse res = _handleResponse(response);
-      // return res;
-      return _handleResponse(res);
+      ApiResponse res = _handleResponse(response);
+      return res;
     } on DioException catch (e) {
       return handleDioError(e);
     } catch (e) {
-      print(e);
       return ApiResponse(success: false);
     }
   }

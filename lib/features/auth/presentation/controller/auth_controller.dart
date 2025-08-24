@@ -5,7 +5,7 @@ import '../../../../core/constants/app_constants.dart';
 import '../../../../core/constants/routes/app_routes.dart';
 import '../../../../core/data/local/storage_helper.dart';
 import '../../domain/params/log_in_params.dart';
-import '../../domain/use_cases/login_use_case.dart';
+import '../../domain/usecases/login_usecase.dart';
 
 //lib/features/auth/presentation/controller/auth_controller.dart
 class AuthController extends GetxController {

@@ -1,4 +1,7 @@
 import 'package:ksa_real_estates/core/constants/routes/app_routes.dart';
+import 'package:ksa_real_estates/features/home/domain/entities/lookups_entity.dart';
+import 'package:ksa_real_estates/features/home/domain/parameters/cities_parameters.dart';
+import 'package:ksa_real_estates/features/home/domain/usecases/lookups_usecases.dart';
 import '../../../../core/utils/form_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,12 +10,18 @@ part 'add_client_form_state.dart';
 
 //lib/features/home/presentation/controllers/add_client_form_controller.dart
 class AddClientFormController extends GetxController {
-  final AddClientFormState state = AddClientFormState();
+  final LookUpsUseCases lookUpsUseCases;
+
+  AddClientFormController({required this.lookUpsUseCases});
+
   final FormFocusManager focusManager = FormFocusManager();
+  final AddClientFormState state =
+      AddClientFormState(lookUpsUseCases: Get.find<LookUpsUseCases>());
 
   @override
   void onInit() {
     super.onInit();
+    // state = AddClientFormState(lookUpsUseCases: lookUpsUseCases);
     _initializeFields();
     _loadDropdownData();
   }
@@ -110,7 +119,6 @@ class AddClientFormController extends GetxController {
   }
 
   Future<void> saveForm() async {
-
     Get.snackbar(
       'Success'.tr,
       'Client added successfully'.tr,

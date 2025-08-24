@@ -5,9 +5,11 @@ import '../../../features/auth/presentation/binding/auth_binding.dart';
 import '../../../features/auth/presentation/screens/log_in_screen.dart';
 import '../../../features/home/presentation/bindings/add_client_form_binding.dart';
 import '../../../features/home/presentation/bindings/home_binding.dart';
+import '../../../features/home/presentation/bindings/interested_clients_binding.dart';
 import '../../../features/home/presentation/bindings/map_binding.dart';
 import '../../../features/home/presentation/screens/home_screen.dart';
 import '../../../features/home/presentation/screens/home_screens/add_client_screen.dart';
+import '../../../features/home/presentation/screens/home_screens/interested_clients_screen.dart';
 import '../../../features/home/presentation/widgets/map_screen.dart';
 import '../../../features/splash/presentation/binding/splash_binding.dart';
 import '../../../features/splash/presentation/screens/splash_screen.dart';
@@ -40,6 +42,11 @@ class AppPages {
       name: AppRoutes.mapScreen,
       page: () => const MapScreen(),
       binding: MapBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.interestedClientsScreen,
+      page: () => const InterestedClientsScreen(),
+      binding: InterestedClientsBinding(),
     ),
   ];
 }

@@ -4,7 +4,7 @@ import '../../data/datasources/i_log_in_remote_data_source.dart';
 import '../../data/datasources/logIn_remote_data_source_impl.dart';
 import '../../data/repositories/log_in_repository_impl.dart';
 import '../../domain/repositories/i_log_in_repository.dart';
-import '../../domain/use_cases/login_use_case.dart';
+import '../../domain/usecases/login_usecase.dart';
 import '../controller/auth_controller.dart';
 
 //lib/features/auth/presentation/binding/auth_binding.dart

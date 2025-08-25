@@ -48,6 +48,10 @@ dependencies:
   geolocator: ^13.0.4
   permission_handler: ^12.0.1
   flutter_map_location_marker: ^10.0.2
+  url_launcher: ^6.3.2
+  share_plus: ^11.1.0
+  flutter_map_cancellable_tile_provider: ^3.1.1
+  geocoding: ^4.0.0
 
 dev_dependencies:
   hive_generator: ^2.0.1

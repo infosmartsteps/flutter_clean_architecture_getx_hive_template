@@ -10,6 +10,8 @@ import '../../../features/home/presentation/bindings/map_binding.dart';
 import '../../../features/home/presentation/screens/home_screen.dart';
 import '../../../features/home/presentation/screens/home_screens/add_client_screen.dart';
 import '../../../features/home/presentation/screens/home_screens/interested_clients_screen.dart';
+import '../../../features/home/presentation/widgets/interested_clients/client_information_screen.dart';
+import '../../../features/home/presentation/widgets/interested_clients/property_information_screen.dart';
 import '../../../features/home/presentation/widgets/map_screen.dart';
 import '../../../features/splash/presentation/binding/splash_binding.dart';
 import '../../../features/splash/presentation/screens/splash_screen.dart';
@@ -47,6 +49,14 @@ class AppPages {
       name: AppRoutes.interestedClientsScreen,
       page: () => const InterestedClientsScreen(),
       binding: InterestedClientsBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.propertyInformationScreen,
+      page: () => const PropertyInformationScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.clientInformationScreen,
+      page: () => const ClientInformationScreen(),
     ),
   ];
 }

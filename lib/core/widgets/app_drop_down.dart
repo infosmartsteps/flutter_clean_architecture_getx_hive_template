@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
 import 'package:ksa_real_estates/features/home/domain/entities/lookups_entity.dart';
 
@@ -40,10 +41,12 @@ class AppDropDown extends StatelessWidget {
         key: fieldKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         value: value,
+        style: Theme.of(context).textTheme.bodyMedium,
         items: items
             .map((item) => DropdownMenuItem(
                   value: item.id.toString(),
-                  child: Text(item.value),
+                  child: Text(item.value,
+                      style: Theme.of(context).textTheme.bodyMedium),
                 ))
             .toList(),
         onChanged: onChanged,
@@ -56,6 +59,8 @@ class AppDropDown extends StatelessWidget {
   InputDecoration _buildDecoration() {
     return InputDecoration(
       labelText: labelText,
+      labelStyle: Theme.of(Get.context!).textTheme.bodyMedium,
+      hintStyle: Theme.of(Get.context!).textTheme.bodyMedium,
       prefixIcon: Icon(icon ?? Icons.list_alt_outlined),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(responsiveFont(8)),
@@ -66,8 +71,8 @@ class AppDropDown extends StatelessWidget {
   Widget _buildLoadingDropdown() {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: responsiveWidth(18),
-        vertical: responsiveHeight(15),
+        horizontal: responsiveWidth(12),
+        vertical: responsiveHeight(16),
       ),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
@@ -77,7 +82,10 @@ class AppDropDown extends StatelessWidget {
         children: [
           Icon(icon ?? Icons.list_alt_outlined),
           Gap(responsiveWidth(12)),
-          Text(labelText ?? ''),
+          Text(
+            labelText ?? '',
+            style: Theme.of(Get.context!).textTheme.bodyMedium,
+          ),
           const Spacer(),
           SizedBox(
             width: responsiveFont(20),

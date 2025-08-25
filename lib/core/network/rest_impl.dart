@@ -159,7 +159,11 @@ class RestImpl implements IRestClient {
   }
 
   ApiResponse _handleResponse(Response response) {
-    if (response.data is Map) {
+    if (response.data is Map &&
+        (response.data["data"] != null ||
+            response.data["success"] != null ||
+            response.data["message"] != null ||
+            response.data["statusCode"] != null)) {
       return ApiResponse.fromJson(response.data);
     }
 

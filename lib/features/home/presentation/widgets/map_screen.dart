@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/core/constants/app_colors.dart';
@@ -60,7 +61,9 @@ class MapScreen extends GetView<MapGetXController> {
         // OpenStreetMap Tile Layer
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          subdomains: const ['a', 'b', 'c'],
           userAgentPackageName: 'com.example.flutter_map_example',
+          tileProvider: CancellableNetworkTileProvider(),
         ),
 
         // Location Marker Layer

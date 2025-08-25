@@ -5,6 +5,8 @@ class AppRoutes {
   static const addClientForm = "/addClientForm";
   static const mapScreen = "/mapScreen";
   static const interestedClientsScreen = "/interestedClientsScreen";
+  static const propertyInformationScreen = "/propertyInformationScreen";
+  static const clientInformationScreen = "/clientInformationScreen";
 
   static String initialRoute() {
     return splashScreen;

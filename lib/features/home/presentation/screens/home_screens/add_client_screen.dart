@@ -22,12 +22,7 @@ class AddClientScreen extends GetView<AddClientFormController> {
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              'new_client'.tr,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-          ),
+          appBar: AppBar(title: Text('new_client'.tr)),
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: responsiveWidth(16)),
             child: Form(

@@ -73,7 +73,6 @@ const Map<String, String> ar_JO = {
   'share': 'مشاركة',
   'potential_client': 'عميل محتمل',
   'company': 'الشركة',
-  'interaction_history': 'سجل التفاعل',
   'call': 'اتصال',
   'hot_lead': 'فرصة ساخنة',
   'outgoing_call': 'مكالمة صادرة',

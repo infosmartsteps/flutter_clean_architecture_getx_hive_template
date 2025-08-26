@@ -1,113 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:latlong2/latlong.dart';
-
+import 'package:ksa_real_estates/features/home/presentation/controllers/interested_clients_controller.dart';
+import 'package:ksa_real_estates/features/home/presentation/controllers/map_get_x_controller.dart';
+import 'package:ksa_real_estates/features/home/presentation/widgets/dialogs/location_info_dialog.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
+import '../../../../../core/widgets/app_button.dart';
+import '../flutter_map_widget.dart';
 
-class MapWidget extends StatefulWidget {
-  const MapWidget({super.key});
+class MapWidget extends GetView<InterestedClientsController> {
+  final String label;
 
-  @override
-  State<MapWidget> createState() => _MapWidgetState();
-}
-
-class _MapWidgetState extends State<MapWidget> {
-  // Initial map position (San Francisco)
-  final LatLng _initialPosition = const LatLng(31.986040, 35.879221);
-  final double _initialZoom = 15.0;
-  Placemark? _placemark;
-
-  // Marker for the map
-  final Marker _locationMarker = Marker(
-    width: 80.0,
-    height: 80.0,
-    point: LatLng(31.986040, 35.879221),
-    child: const Icon(
-      Icons.location_pin,
-      color: Colors.red,
-      size: 40.0,
-    ),
-  );
-  List<Placemark> placeMarks = [];
-  Placemark place = Placemark();
-
-  Future<Placemark?> getAddressFromLatLng(LatLng latLng) async {
-    try {
-      placeMarks =
-      await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
-
-      if (placeMarks.isNotEmpty) {
-        place = placeMarks.first;
-        return place;
-      }
-    } catch (e) {
-      print(e);
-    }
-    return null;
-  }
-
-  @override
-  void initState() {
-    getAddressFromLatLng(_initialPosition);
-    super.initState();
-  }
+  const MapWidget({super.key, required this.label});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: responsiveHeight(12),
         children: [
-          FlutterMap(
-            options: MapOptions(
-              keepAlive: false,
-              initialCenter: _initialPosition,
-              initialZoom: _initialZoom,
-            ),
+          Text(label, style: Theme.of(context).textTheme.titleLarge),
+          SizedBox(
+              height: responsiveHeight(200),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(responsiveFont(12)),
+                  child: Scaffold(
+                    body: Stack(children: [
+                      FlutterMapWidget(),
+                      Container(color: Colors.transparent)
+                    ]),
+                    floatingActionButton: FloatingActionButton(
+                        onPressed: () => showLocationInfoDialog(),
+                        child: const Icon(Icons.info)),
+                  ))),
+          // Action Buttons
+          Row(
             children: [
-              // OpenStreetMap tile layer
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                subdomains: const ['a', 'b', 'c'],
-                userAgentPackageName: 'com.example.flutter_map_example',
-                tileProvider: CancellableNetworkTileProvider(),
+              Expanded(
+                child: AppButton(
+                  onPressed: () {
+                    controller.openNativeMap(context);
+                  },
+                  icon: Icon(Icons.map_outlined,
+                      size: responsiveFont(20),
+                      color: Theme.of(context).colorScheme.onPrimary),
+                  text: 'open_in_maps'.tr,
+                ),
               ),
-              // Marker layer
-              MarkerLayer(
-                markers: [_locationMarker],
+              SizedBox(width: responsiveWidth(12)),
+              Expanded(
+                child: AppButton(
+                  onPressed: () {
+                    controller.shareLocation(context);
+                  },
+                  icon: Icon(Icons.share,
+                      size: responsiveFont(20),
+                      color: Theme.of(context).colorScheme.onPrimary),
+                  text: 'share'.tr,
+                ),
               ),
             ],
           ),
-          Container(
-            color: Colors.transparent,
-          )
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.defaultDialog(
-              title: "Location Info",
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                spacing: responsiveHeight(10),
-                children: [
-                  Text('Country: ${place.country}'),
-                  Text('City: ${place.locality}'),
-                  Text('SubLocality: ${place.subLocality}'),
-                  Text('Street: ${place.street}'),
-                  if (place.postalCode != null && place.postalCode!.isNotEmpty)
-                    Text('Postal Code: ${place.postalCode}'),
-                  Text('latitude: ${_initialPosition.latitude}'),
-                  Text('longitude: ${_initialPosition.longitude}'),
-                ],
-              ));
-        },
-        backgroundColor: Colors.blue,
-        child: const Icon(Icons.info, color: Colors.white),
-      ),
-    );
+        ]);
   }
 }

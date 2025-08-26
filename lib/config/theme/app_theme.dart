@@ -50,9 +50,10 @@ class AppTheme {
 
   static final CardThemeData cardTheme = CardThemeData(
     shadowColor: Colors.grey[300]!,
+    elevation: 4,
     shape: RoundedRectangleBorder(
       borderRadius:
-          BorderRadius.circular(Get.context == null ? 12 : responsiveFont(8)),
+          BorderRadius.circular(Get.context == null ? 12 : responsiveFont(16)),
     ),
   );
 
@@ -62,7 +63,7 @@ class AppTheme {
       fontWeight: FontWeight.bold,
     ),
     bodyLarge:
-        TextStyle(fontSize: Get.context == null ? 16 : responsiveFont(14)),
+        TextStyle(fontSize: Get.context == null ? 16 : responsiveFont(15)),
     bodyMedium:
         TextStyle(fontSize: Get.context == null ? 14 : responsiveFont(12)),
   );

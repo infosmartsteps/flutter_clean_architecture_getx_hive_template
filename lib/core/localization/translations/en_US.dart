@@ -75,7 +75,6 @@ const Map<String, String> en_US = {
   'share': 'Share',
   'potential_client': 'Potential Client',
   'company': 'Company',
-  'interaction_history': 'Interaction History',
   'call': 'Call',
   'hot_lead': 'Hot Lead',
   'outgoing_call': 'Outgoing Call',

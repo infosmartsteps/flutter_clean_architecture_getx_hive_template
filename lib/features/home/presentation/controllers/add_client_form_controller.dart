@@ -15,13 +15,11 @@ class AddClientFormController extends GetxController {
   AddClientFormController({required this.lookUpsUseCases});
 
   final FormFocusManager focusManager = FormFocusManager();
-  final AddClientFormState state =
-      AddClientFormState(lookUpsUseCases: Get.find<LookUpsUseCases>());
+  final AddClientFormState state = AddClientFormState(lookUpsUseCases: Get.find<LookUpsUseCases>());
 
   @override
   void onInit() {
     super.onInit();
-    // state = AddClientFormState(lookUpsUseCases: lookUpsUseCases);
     _initializeFields();
     _loadDropdownData();
   }
@@ -61,8 +59,8 @@ class AddClientFormController extends GetxController {
   }
 
   void openClientLocation() {
-    Get.toNamed(AppRoutes.mapScreen,
-            arguments: state.clientNameField.controller?.text)
+    Get.toNamed(AppRoutes.chooseLocationScreen,
+            arguments: {"label": state.clientNameField.controller?.text})
         ?.then((value) {
       state.clientLocationLatField.controller?.text =
           value?.latitude.toString() ?? "";

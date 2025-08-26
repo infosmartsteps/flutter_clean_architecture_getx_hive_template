@@ -12,7 +12,65 @@ import '../../../../core/constants/enums.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../controllers/map_get_x_controller.dart';
 
-//lib/features/home/presentation/widgets/map_screen.dart
+//lib/features/home/presentation/widgets/flutter_map_widget.dart
+class FlutterMapWidget extends GetView<MapGetXController> {
+  final void Function(TapPosition, LatLng)? onTap;
+  final void Function()? onMapReady;
+
+  const FlutterMapWidget({super.key, this.onTap, this.onMapReady});
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return const Center(child: CircularProgressIndicator());
+      }
+
+      if (controller.errorMessage.isNotEmpty) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(controller.errorMessage.value, textAlign: TextAlign.center),
+              Gap(responsiveHeight(10)),
+              ElevatedButton(
+                onPressed: controller.checkLocationPermission,
+                child: const Text('Retry'),
+              ),
+            ],
+          ),
+        );
+      }
+      return FlutterMap(
+        mapController: controller.mapController.value,
+        options: MapOptions(
+          initialCenter: controller.currentLocation.value,
+          initialZoom: controller.zoom.value,
+          onTap: onTap,
+          onMapReady: onMapReady,
+        ),
+        children: [
+          TileLayer(
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            subdomains: const ['a', 'b', 'c'],
+            userAgentPackageName: 'com.example.flutter_map_example',
+            tileProvider: CancellableNetworkTileProvider(),
+          ),
+          if (controller.locationPermissionGranted.value)
+            CurrentLocationLayer(),
+          MarkerLayer(
+            alignment: Alignment.topCenter,
+            markers: [controller.locationMarker.value],
+          ),
+        ],
+      );
+    });
+  }
+}
+
+
+
+/*
 class MapScreen extends GetView<MapGetXController> {
   const MapScreen({super.key});
 
@@ -249,3 +307,5 @@ class FlutterMapZoomButtons extends GetView<MapGetXController> {
     );
   }
 }
+
+ */

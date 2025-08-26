@@ -3,7 +3,7 @@ class AppRoutes {
   static const logInScreen = "/logInScreen";
   static const homeScreen = "/homeScreen";
   static const addClientForm = "/addClientForm";
-  static const mapScreen = "/mapScreen";
+  static const chooseLocationScreen = "/ChooseLocationScreen";
   static const interestedClientsScreen = "/interestedClientsScreen";
   static const propertyInformationScreen = "/propertyInformationScreen";
   static const clientInformationScreen = "/clientInformationScreen";

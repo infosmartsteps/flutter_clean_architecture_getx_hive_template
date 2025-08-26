@@ -14,8 +14,6 @@ class InterestedClientsScreen extends GetView<InterestedClientsController> {
     return Scaffold(
       appBar: AppBar(
         title: Text('interested_clients'.tr),
-        backgroundColor: Colors.blue[800],
-        foregroundColor: Colors.white,
       ),
       body: Obx(
         () => controller.isLoading.value
@@ -25,7 +23,8 @@ class InterestedClientsScreen extends GetView<InterestedClientsController> {
                   await controller.getOpportunities();
                 },
                 child: ListView.separated(
-                  separatorBuilder: (context, index) => Gap(responsiveHeight(15)),
+                  separatorBuilder: (context, index) =>
+                      Gap(responsiveHeight(15)),
                   padding: EdgeInsets.all(responsiveFont(16)),
                   itemCount: controller.opportunities.length,
                   itemBuilder: (context, index) {

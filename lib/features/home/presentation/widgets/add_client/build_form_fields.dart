@@ -6,6 +6,7 @@ import '../../../../../core/utils/form_utils.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
 import '../../../../../core/widgets/app_text_form_field.dart';
 
+//lib/features/home/presentation/widgets/add_client/build_form_fields.dart
 Widget buildFormFields(AddClientFormController controller) {
   return Column(
     spacing: responsiveHeight(20),
@@ -43,7 +44,7 @@ Widget _buildTextField(FormFieldModel field, String label, IconData icon) {
   return AppTextFormField(
     fieldModel: field,
     label: label,
-    prefixIcon: Icon(icon),
+    prefixIcon: Icon(icon)
   );
 }
 
@@ -52,7 +53,7 @@ Widget _buildPhoneField(FormFieldModel field, String label, IconData icon) {
     fieldModel: field,
     keyboardType: TextInputType.phone,
     label: label,
-    prefixIcon: Icon(icon),
+    prefixIcon: Icon(icon)
   );
 }
 

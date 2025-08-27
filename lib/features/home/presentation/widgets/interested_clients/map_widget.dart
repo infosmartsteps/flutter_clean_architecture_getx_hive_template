@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/features/home/presentation/controllers/interested_clients_controller.dart';
-import 'package:ksa_real_estates/features/home/presentation/controllers/map_get_x_controller.dart';
 import 'package:ksa_real_estates/features/home/presentation/widgets/dialogs/location_info_dialog.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
 import '../../../../../core/widgets/app_button.dart';
@@ -26,42 +23,30 @@ class MapWidget extends GetView<InterestedClientsController> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(responsiveFont(12)),
                   child: Scaffold(
-                    body: Stack(children: [
-                      FlutterMapWidget(),
-                      Container(color: Colors.transparent)
-                    ]),
+                    body: FlutterMapWidget(),
                     floatingActionButton: FloatingActionButton(
                         onPressed: () => showLocationInfoDialog(),
                         child: const Icon(Icons.info)),
                   ))),
           // Action Buttons
-          Row(
-            children: [
-              Expanded(
-                child: AppButton(
-                  onPressed: () {
-                    controller.openNativeMap(context);
-                  },
+          Row(children: [
+            Expanded(
+              child: AppButton(
+                  onPressed: controller.openNativeMap,
                   icon: Icon(Icons.map_outlined,
                       size: responsiveFont(20),
-                      color: Theme.of(context).colorScheme.onPrimary),
-                  text: 'open_in_maps'.tr,
-                ),
-              ),
-              SizedBox(width: responsiveWidth(12)),
-              Expanded(
+                      color: Get.theme.colorScheme.onPrimary),
+                  text: 'open_in_maps'.tr),
+            ),
+            SizedBox(width: responsiveWidth(12)),
+            Expanded(
                 child: AppButton(
-                  onPressed: () {
-                    controller.shareLocation(context);
-                  },
-                  icon: Icon(Icons.share,
-                      size: responsiveFont(20),
-                      color: Theme.of(context).colorScheme.onPrimary),
-                  text: 'share'.tr,
-                ),
-              ),
-            ],
-          ),
+                    onPressed: controller.shareLocation,
+                    icon: Icon(Icons.share,
+                        size: responsiveFont(20),
+                        color: Theme.of(context).colorScheme.onPrimary),
+                    text: 'share'.tr)),
+          ]),
         ]);
   }
 }

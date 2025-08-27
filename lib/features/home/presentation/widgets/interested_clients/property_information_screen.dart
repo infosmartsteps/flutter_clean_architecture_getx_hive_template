@@ -27,7 +27,7 @@ class PropertyInformationScreen extends GetView<InterestedClientsController> {
                   children: [
                     informationScreensHeader(context,
                         title: opportunity.propertyName,
-                        subtitle: opportunity.unitName,
+                        subtitle: opportunity.realEstateName,
                         icon: Icons.business),
                     propertyDetailCard(context, opportunity),
                     MapWidget(label: 'property_location'.tr),

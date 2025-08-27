@@ -6,7 +6,7 @@ import 'package:ksa_real_estates/features/home/domain/parameters/cities_paramete
 import 'package:ksa_real_estates/features/home/domain/repositories/i_lookups_repositories.dart';
 import '../../../../core/network/handle_dio_error.dart';
 import '../../../../core/network/models/response_model.dart';
-import '../datasources/i_lookups_remote_data_source.dart';
+import '../datasources/lookups/i_lookups_remote_data_source.dart';
 
 class LookupsRepositoriesImpl extends ILookupsRepositories {
   final ILookupsRemoteDataSource lookupsRemoteDataSource;

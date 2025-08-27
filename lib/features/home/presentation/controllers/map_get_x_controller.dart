@@ -36,6 +36,8 @@ class MapGetXController extends GetxController {
   List<Placemark> placeMarks = [];
   Placemark place = Placemark();
 
+  Rx<InteractionOptions> interactionOption = InteractionOptions().obs;
+
   Future<Placemark?> getAddressFromLatLng() async {
     try {
       placeMarks = await placemarkFromCoordinates(
@@ -78,23 +80,34 @@ class MapGetXController extends GetxController {
 
   void toggleFlag() {
     isShowFlag.value = !isShowFlag.value;
+    setLocationMarker();
     update();
   }
 
   void initialization() async {
-    if(!isLive){
+    if (!isLive) {
       final index = Get.arguments['index'];
       final isClient = Get.routing.current == AppRoutes.clientInformationScreen;
       final InterestedClientsController interestedClientsController =
-      Get.find<InterestedClientsController>();
+          Get.find<InterestedClientsController>();
       final opportunities = interestedClientsController.opportunities[index];
       currentLocation.value = isClient
           ? opportunities.clientLocation
           : opportunities.propertyLocation;
       getAddressFromLatLng();
       isLoading.value = false;
+      zoom.value = 14.0;
+      interactionOption.value = InteractionOptions(
+        flags: InteractiveFlag.none, // Disable all interactive flags
+        // Or selectively disable drag:
+        // flags: InteractiveFlag.all & ~InteractiveFlag.drag,
+      );
     }
     if (isLive) await checkLocationPermission();
+    setLocationMarker();
+  }
+
+  void setLocationMarker() {
     locationMarker.value = Marker(
       alignment: Alignment.topCenter,
       point: currentLocation.value,
@@ -117,7 +130,7 @@ class MapGetXController extends GetxController {
                     children: [
                       Container(
                           color: Colors.black,
-                          child: Text(Get.arguments,
+                          child: Text(Get.arguments["label"],
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(Get.context!)
                                   .textTheme
@@ -147,48 +160,7 @@ class MapGetXController extends GetxController {
 
   void setCurrentLocation(LatLng point) {
     currentLocation.value = LatLng(point.latitude, point.longitude);
-    locationMarker.value = Marker(
-      alignment: Alignment.topCenter,
-      point: currentLocation.value,
-      width: responsiveWidth(
-          !(isShowFlag.value && (Get.arguments != null && Get.arguments != ''))
-              ? 40
-              : 70),
-      height: responsiveHeight(
-          !(isShowFlag.value && (Get.arguments != null && Get.arguments != ''))
-              ? 40
-              : 67),
-      child: InkWell(
-        onTap: toggleFlag,
-        child:
-            isShowFlag.value && (Get.arguments != null && Get.arguments != '')
-                ? Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                          color: Colors.black,
-                          child: Text(Get.arguments,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(Get.context!)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(color: AppColors.whiteColor))),
-                      Icon(
-                        Icons.location_history_rounded,
-                        color: Colors.red,
-                        size: responsiveFont(30),
-                      ),
-                    ],
-                  )
-                : Icon(
-                    Icons.location_history_rounded,
-                    color: Colors.red,
-                    size: responsiveFont(30),
-                  ),
-      ),
-    );
+    setLocationMarker();
     update();
   }
 
@@ -218,54 +190,22 @@ class MapGetXController extends GetxController {
         mapController.value
             .move(LatLng(position.latitude, position.longitude), zoom.value);
       }
-      locationMarker.value = Marker(
-        alignment: Alignment.topCenter,
-        point: currentLocation.value,
-        width: responsiveWidth(!(isShowFlag.value &&
-                (Get.arguments != null && Get.arguments != ''))
-            ? 40
-            : 70),
-        height: responsiveHeight(!(isShowFlag.value &&
-                (Get.arguments != null && Get.arguments != ''))
-            ? 40
-            : 67),
-        child: InkWell(
-          onTap: toggleFlag,
-          child:
-              isShowFlag.value && (Get.arguments != null && Get.arguments != '')
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                            color: Colors.black,
-                            child: Text(Get.arguments,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(Get.context!)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(color: AppColors.whiteColor))),
-                        Icon(
-                          Icons.location_history_rounded,
-                          color: Colors.red,
-                          size: responsiveFont(30),
-                        ),
-                      ],
-                    )
-                  : Icon(
-                      Icons.location_history_rounded,
-                      color: Colors.red,
-                      size: responsiveFont(30),
-                    ),
-        ),
-      );
+      setLocationMarker();
       update();
     } catch (e) {
       isLoading.value = false;
       errorMessage.value = 'Error getting location: $e';
       update();
     }
+    update();
+  }
+
+  void onMapReady() {
+    isMapReady.value = true;
+    update();
+    initialization();
+    update();
+    mapController.value.move(currentLocation.value, zoom.value);
     update();
   }
 

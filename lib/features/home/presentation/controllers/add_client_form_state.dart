@@ -2,7 +2,6 @@ part of 'add_client_form_controller.dart';
 
 class AddClientFormState {
   final LookUpsUseCases lookUpsUseCases;
-
   AddClientFormState({required this.lookUpsUseCases});
 
   final formKey = GlobalKey<FormState>();
@@ -37,16 +36,8 @@ class AddClientFormState {
   Future<void> getBusinessSectors() async {
     try {
       isLoadingBusinessSectors.value = true;
-      final params = CitiesParameters(country: "saudi Arabia");
       final result = await lookUpsUseCases.getBusinessSectors();
-      result.fold(
-          (l) => Get.snackbar(
-                'Filed In get Business Sectors',
-                l,
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Get.theme.colorScheme.error,
-                colorText: Colors.white,
-              ),
+      result.fold((l) => showErrorSnackBar('Filed In get Business Sectors', l),
           (r) => businessSectors.value = r);
       isLoadingBusinessSectors.value = false;
     } finally {
@@ -59,14 +50,7 @@ class AddClientFormState {
       isLoadingCities.value = true;
       final params = CitiesParameters(country: "saudi Arabia");
       final result = await lookUpsUseCases.getCountries(params);
-      result.fold(
-          (l) => Get.snackbar(
-                'Filed In Get Cities',
-                l,
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Get.theme.colorScheme.error,
-                colorText: Colors.white,
-              ),
+      result.fold((l) => showErrorSnackBar('Filed In Get Cities', l),
           (r) => cities.value = r);
       isLoadingCities.value = false;
     } finally {
@@ -77,16 +61,9 @@ class AddClientFormState {
   Future<void> getInformationSources() async {
     try {
       isLoadingInformationSources.value = true;
-      final params = CitiesParameters(country: "saudi Arabia");
       final result = await lookUpsUseCases.getInformationSources();
       result.fold(
-          (l) => Get.snackbar(
-                'Filed In get Information Sources',
-                l,
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Get.theme.colorScheme.error,
-                colorText: Colors.white,
-              ),
+          (l) => showErrorSnackBar('Filed In get Information Sources', l),
           (r) => informationSources.value = r);
       isLoadingInformationSources.value = false;
     } finally {
@@ -96,7 +73,6 @@ class AddClientFormState {
 
   void dispose() {
     scrollController.dispose();
-
     clientNameField.dispose();
     responsiblePersonField.dispose();
     phoneNumberField.dispose();

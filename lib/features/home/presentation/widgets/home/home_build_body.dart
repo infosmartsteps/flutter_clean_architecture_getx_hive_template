@@ -12,33 +12,22 @@ Widget homeBuildBody(BuildContext context) {
       crossAxisSpacing: responsiveWidth(16),
       mainAxisSpacing: responsiveHeight(16),
       children: [
-        homeBuildOptionCard(
-          context,
-          icon: Icons.person_add_alt_1_outlined,
-          title: 'new_client'.tr,
-          color: Colors.blue,
-          onTap: () {
-            Get.toNamed(AppRoutes.addClientForm);
-          },
-        ),
-        homeBuildOptionCard(
-          context,
-          icon: Icons.people_outline,
-          title: 'interested_clients'.tr,
-          color: Colors.green,
-          onTap: () {
-            Get.toNamed(AppRoutes.interestedClientsScreen);
-          },
-        ),
+        homeBuildOptionCard(context,
+            icon: Icons.person_add_alt_1_outlined,
+            title: 'new_client'.tr,
+            color: Colors.blue,
+            onTap: () => Get.toNamed(AppRoutes.addClientForm)),
+        homeBuildOptionCard(context,
+            icon: Icons.people_outline,
+            title: 'interested_clients'.tr,
+            color: Colors.green,
+            onTap: () => Get.toNamed(AppRoutes.interestedClientsScreen)),
         homeBuildOptionCard(
           context,
           icon: Icons.business_outlined,
           title: 'available_opportunities'.tr,
           color: Colors.orange,
-          onTap: () {
-            // Handle available opportunities option
-          },
-        ),
+            onTap: () => Get.toNamed(AppRoutes.availableOpportunitiesScreen)),
         homeBuildOptionCard(
           context,
           icon: Icons.work_outline,

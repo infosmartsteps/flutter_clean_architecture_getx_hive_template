@@ -4,11 +4,13 @@ import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import '../../../features/auth/presentation/binding/auth_binding.dart';
 import '../../../features/auth/presentation/screens/log_in_screen.dart';
 import '../../../features/home/presentation/bindings/add_client_form_binding.dart';
+import '../../../features/home/presentation/bindings/available_opportunities_binding.dart';
 import '../../../features/home/presentation/bindings/home_binding.dart';
 import '../../../features/home/presentation/bindings/interested_clients_binding.dart';
 import '../../../features/home/presentation/bindings/map_binding.dart';
 import '../../../features/home/presentation/screens/home_screen.dart';
 import '../../../features/home/presentation/screens/home_screens/add_client_screen.dart';
+import '../../../features/home/presentation/screens/home_screens/available_opportunities_screen.dart';
 import '../../../features/home/presentation/screens/home_screens/interested_clients_screen.dart';
 import '../../../features/home/presentation/widgets/add_client/choose_location_widget.dart';
 import '../../../features/home/presentation/widgets/interested_clients/client_information_screen.dart';
@@ -60,6 +62,11 @@ class AppPages {
       name: AppRoutes.clientInformationScreen,
       page: () => const ClientInformationScreen(),
       binding: MapBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.availableOpportunitiesScreen,
+      page: () => const AvailableOpportunitiesScreen(),
+      binding: AvailableOpportunitiesBinding(),
     ),
   ];
 }

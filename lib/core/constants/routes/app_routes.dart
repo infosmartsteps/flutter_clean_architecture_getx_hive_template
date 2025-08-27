@@ -7,6 +7,7 @@ class AppRoutes {
   static const interestedClientsScreen = "/interestedClientsScreen";
   static const propertyInformationScreen = "/propertyInformationScreen";
   static const clientInformationScreen = "/clientInformationScreen";
+  static const availableOpportunitiesScreen = "/availableOpportunitiesScreen";
 
   static String initialRoute() {
     return splashScreen;

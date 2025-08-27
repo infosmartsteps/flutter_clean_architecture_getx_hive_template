@@ -1,7 +1,8 @@
 import 'package:ksa_real_estates/core/constants/routes/app_routes.dart';
 import 'package:ksa_real_estates/features/home/domain/entities/lookups_entity.dart';
 import 'package:ksa_real_estates/features/home/domain/parameters/cities_parameters.dart';
-import 'package:ksa_real_estates/features/home/domain/usecases/lookups_usecases.dart';
+import 'package:ksa_real_estates/features/home/domain/usecases/lookups_use_cases.dart';
+import 'package:ksa_real_estates/features/home/presentation/widgets/snackbars/error_snackbar.dart';
 import '../../../../core/utils/form_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,8 @@ class AddClientFormController extends GetxController {
   AddClientFormController({required this.lookUpsUseCases});
 
   final FormFocusManager focusManager = FormFocusManager();
-  final AddClientFormState state = AddClientFormState(lookUpsUseCases: Get.find<LookUpsUseCases>());
+  final AddClientFormState state =
+      AddClientFormState(lookUpsUseCases: Get.find<LookUpsUseCases>());
 
   @override
   void onInit() {
@@ -44,12 +46,11 @@ class AddClientFormController extends GetxController {
   FormFieldModel _createFieldModel(String key,
       [String? Function(String?)? validation]) {
     return FormFieldModel(
-      name: key,
-      focusNode: focusManager.getFocusNode(key),
-      key: focusManager.getFieldKey(key),
-      controller: TextEditingController(),
-      validator: validation,
-    );
+        name: key,
+        focusNode: focusManager.getFocusNode(key),
+        key: focusManager.getFieldKey(key),
+        controller: TextEditingController(),
+        validator: validation);
   }
 
   void _loadDropdownData() {
@@ -73,11 +74,8 @@ class AddClientFormController extends GetxController {
     final context = state.formKey.currentContext;
     if (context != null) {
       final key = focusManager.getFieldKey(fieldName);
-      Scrollable.ensureVisible(
-        key.currentContext!,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+      Scrollable.ensureVisible(key.currentContext!,
+          duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
       focusManager.requestFocus(fieldName);
     }
   }
@@ -94,7 +92,6 @@ class AddClientFormController extends GetxController {
       state.clientLocationLatField,
       state.clientLocationLngField
     ];
-
     for (final field in fieldsToValidate) {
       final error = field.validator?.call(field.controller?.text);
       if (error != null) {
@@ -102,7 +99,6 @@ class AddClientFormController extends GetxController {
         return;
       }
     }
-
     _validateDropdowns();
   }
 
@@ -117,11 +113,14 @@ class AddClientFormController extends GetxController {
   }
 
   Future<void> saveForm() async {
-    Get.snackbar(
-      'Success'.tr,
-      'Client added successfully'.tr,
-      snackPosition: SnackPosition.BOTTOM,
-    );
+    if (!state.formKey.currentState!.validate()) {
+      validateAndScrollToFirstError();
+      return;
+    } else {
+      Get.back(closeOverlays: true); // This will close dialog AND screen
+      Get.snackbar('Success'.tr, 'Client added successfully'.tr,
+          snackPosition: SnackPosition.BOTTOM);
+    }
   }
 
   @override

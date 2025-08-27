@@ -39,7 +39,7 @@ class OpportunityCard extends GetView<InterestedClientsController> {
                 index: index,
                 icon: Icons.home_work,
                 title: "Property_name".tr,
-                value: opportunity.unitName,
+                value: opportunity.realEstateName,
               ),
               buildInfoRow(
                   index: index,

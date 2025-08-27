@@ -10,6 +10,7 @@ import '../../../../../core/constants/enums.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../widgets/add_client/build_drop_down.dart';
 import '../../widgets/add_client/build_form_fields.dart';
+import '../../widgets/dialogs/save_dialog.dart';
 
 class AddClientScreen extends GetView<AddClientFormController> {
   const AddClientScreen({super.key});
@@ -36,38 +37,7 @@ class AddClientScreen extends GetView<AddClientFormController> {
                     buildFormFields(controller),
                     buildDropdowns(controller),
                     Gap(responsiveHeight(10)),
-                    formButtons(() {
-                      if (!controller.state.formKey.currentState!.validate()) {
-                        controller.validateAndScrollToFirstError();
-                        return;
-                      } else {
-                        // save dialog
-                        Get.defaultDialog(
-                            title: 'confirm'.tr,
-                            content: Text('are_you_sure_confirm'.tr),
-                            contentPadding: EdgeInsets.all(responsiveFont(24)),
-                            backgroundColor: Get.theme.colorScheme.onSecondary,
-                            actions: [
-                              AppButton(
-                                type: AppButtonType.secondary,
-                                onPressed: () => Get.back(),
-                                text: 'cancel'.tr,
-                              ),
-                              AppButton(
-                                type: AppButtonType.secondary,
-                                backgroundColor: Colors.green,
-                                textColor: AppColors.whiteColor,
-                                onPressed: () async {
-                                  Get.back(
-                                      closeOverlays:
-                                          true); // This will close dialog AND screen
-                                  await controller.saveForm();
-                                },
-                                text: 'confirm'.tr,
-                              ),
-                            ]);
-                      }
-                    }),
+                    formButtons(() {showSaveDialog();}),
                     Gap(responsiveHeight(10)),
                   ],
                 ),

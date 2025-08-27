@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
-import '../../../domain/entities/opportunity.dart';
+import '../../../domain/entities/opportunity_entity.dart';
 import '../../controllers/interested_clients_controller.dart';
 
-Widget followUpWidget(Opportunity opportunity) {
+Widget followUpWidget(OpportunityEntity opportunity) {
   return Container(
     decoration: BoxDecoration(
       color: opportunity.isFollowed

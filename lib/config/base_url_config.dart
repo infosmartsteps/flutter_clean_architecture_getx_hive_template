@@ -10,4 +10,7 @@ class ApiEndPoints{
   static final String getCitiesEndpoint = '/jo/jo_spreadsheet.json';
   static final String getInformationSourcesEndpoint = '/jo/jo_spreadsheet.json';
   static final String getBusinessSectorsEndpoint = '/jo/jo_spreadsheet.json';
+  static final String getOpportunities = '/jo/jo_spreadsheet.json';
+  static final String getProperty = '/jo/jo_spreadsheet.json';
+  static final String getClients = '/jo/jo_spreadsheet.json';
 }

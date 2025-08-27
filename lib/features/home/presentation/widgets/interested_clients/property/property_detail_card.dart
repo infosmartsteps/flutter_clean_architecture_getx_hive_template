@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../../core/utils/responsive_size_helper.dart';
-import '../../../../domain/entities/opportunity.dart';
+import '../../../../domain/entities/opportunity_entity.dart';
 import '../../../controllers/interested_clients_controller.dart';
 import '../card_detail_row.dart';
 
 // Property Details Card
-Widget propertyDetailCard(BuildContext context, Opportunity opportunity) {
+Widget propertyDetailCard(BuildContext context, OpportunityEntity opportunity) {
   return Card(
     child: Padding(
       padding: EdgeInsets.all(responsiveFont(16)),
@@ -29,7 +29,7 @@ Widget propertyDetailCard(BuildContext context, Opportunity opportunity) {
             context,
             icon: Icons.meeting_room,
             title: 'Property_name'.tr,
-            value: opportunity.unitName,
+            value: opportunity.realEstateName,
           ),
           cardDetailRow(
             context,

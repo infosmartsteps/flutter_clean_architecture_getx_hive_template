@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ksa_real_estates/features/home/domain/entities/client_entity.dart';
 import 'package:ksa_real_estates/features/home/presentation/controllers/interested_clients_controller.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
 import 'client/client_details_card.dart';
@@ -12,56 +13,56 @@ class ClientInformationScreen extends GetView<InterestedClientsController> {
 
   @override
   Widget build(BuildContext context) {
-    final opportunity = controller.opportunities.isNotEmpty
-        ? controller.opportunities[Get.arguments['index']]
-        : null;
+    final ClientEntity client = Get.arguments['client'];
     return Scaffold(
       appBar: AppBar(title: Text('client_information'.tr)),
-      body: opportunity == null
-          ? Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: EdgeInsets.all(responsiveFont(16)),
-              child: Column(
-                spacing: responsiveHeight(30),
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  informationScreensHeader(context,
-                      title: opportunity.clientName,
-                      subtitle: 'potential_client'.tr,
-                      icon: Icons.person),
-                  clientDetailsCard(context, opportunity),
-                  MapWidget(label: 'client_location'.tr),
-                  // Action Buttons
-                  Row(
-                    children: [
-                      Expanded(
-                          child: ElevatedButton.icon(
-                              onPressed: () => controller.launchEmail(
-                                  mailtoUrl: "yousef.njadat98@gmail.com"),
-                              icon: Icon(Icons.email, size: responsiveFont(20)),
-                              label: Text('email'.tr),
-                              style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: responsiveHeight(16)),
-                                  backgroundColor: Colors.blue,
-                                  foregroundColor: Colors.white))),
-                      SizedBox(width: responsiveWidth(12)),
-                      Expanded(
-                          child: ElevatedButton.icon(
-                              onPressed: () =>
-                                  controller.callCustomer("0790498335"),
-                              icon: Icon(Icons.phone, size: responsiveFont(20)),
-                              label: Text('call'.tr),
-                              style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: responsiveHeight(16)),
-                                  backgroundColor: Colors.green,
-                                  foregroundColor: Colors.white))),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(responsiveFont(16)),
+        child: Column(
+            spacing: responsiveHeight(30),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              informationScreensHeader(
+                  title: client.clientName ?? '',
+                  subtitle: 'potential_client'.tr,
+                  icon: Icons.person),
+              clientDetailsCard(client),
+              MapWidget(label: 'client_location'.tr),
+              // Action Buttons
+              if ((client.phoneNumber != null &&
+                      client.phoneNumber!.isNotEmpty) &&
+                  (client.email != null && client.email!.isNotEmpty))
+                Row(children: [
+                  if (client.email != null && client.email!.isNotEmpty) ...[
+                    Expanded(
+                        child: ElevatedButton.icon(
+                            onPressed: () => controller.launchEmail(
+                                mailtoUrl: client.email ?? ''),
+                            icon: Icon(Icons.email, size: responsiveFont(20)),
+                            label: Text('email'.tr),
+                            style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: responsiveHeight(16)),
+                                backgroundColor: Colors.blue,
+                                foregroundColor: Colors.white))),
+                    SizedBox(width: responsiveWidth(12)),
+                  ],
+                  if (client.phoneNumber != null &&
+                      client.phoneNumber!.isNotEmpty)
+                    Expanded(
+                        child: ElevatedButton.icon(
+                            onPressed: () => controller
+                                .callCustomer(client.phoneNumber ?? ''),
+                            icon: Icon(Icons.phone, size: responsiveFont(20)),
+                            label: Text('call'.tr),
+                            style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: responsiveHeight(16)),
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white))),
+                ]),
+            ]),
+      ),
     );
   }
 }

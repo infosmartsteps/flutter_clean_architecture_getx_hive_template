@@ -31,9 +31,9 @@ class OpportunityModel {
   factory OpportunityModel.fromJson(Map<String, dynamic> json) {
     return OpportunityModel(
       id: json["id"],
-      property: json["property"],
-      client: json["property"],
-      isFollowed: json["property"],
+      property: PropertyModel.fromJson(json["property"]),
+      client: ClientModel.fromMap(json["client"]),
+      isFollowed: json["isFollowed"],
     );
   }
 

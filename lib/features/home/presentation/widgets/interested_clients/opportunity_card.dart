@@ -33,19 +33,19 @@ class OpportunityCard extends GetView<InterestedClientsController> {
                 index: index,
                 icon: Icons.business,
                 title: "Real_estate_name".tr,
-                value: opportunity.propertyName,
+                value: opportunity.property.propertyName ?? '',
               ),
               buildInfoRow(
                 index: index,
                 icon: Icons.home_work,
                 title: "Property_name".tr,
-                value: opportunity.realEstateName,
+                value: opportunity.property.unitName ?? '',
               ),
               buildInfoRow(
                   index: index,
                   isLink: true,
-                  onTap: () => controller.goToInformationScreen(
-                      AppRoutes.propertyInformationScreen, index),
+                  onTap: () => controller
+                      .goToPropertyInformationScreen(opportunity.property),
                   icon: Icons.link,
                   value: "Property_Information_Link".tr),
               Divider(thickness: responsiveFont(2)),
@@ -53,13 +53,13 @@ class OpportunityCard extends GetView<InterestedClientsController> {
                 index: index,
                 icon: Icons.person,
                 title: "client".tr,
-                value: opportunity.clientName,
+                value: opportunity.client.clientName ?? '',
               ),
               buildInfoRow(
                   index: index,
                   isLink: true,
-                  onTap: () => controller.goToInformationScreen(
-                      AppRoutes.clientInformationScreen, index),
+                  onTap: () => controller
+                      .goToClientInformationScreen(opportunity.client),
                   value: "Client_information_Link".tr,
                   icon: Icons.link),
               followUpWidget(opportunity)

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../../core/utils/responsive_size_helper.dart';
 
-Widget cardDetailRow(
-  BuildContext context, {
+Widget? cardDetailRow({
   required IconData icon,
   required String title,
   required String value,
   bool isLink = false,
 }) {
-  final textTheme = Theme.of(context).textTheme;
+  if (value.isEmpty) return null;
+  final textTheme = Get.theme.textTheme;
   return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
     Icon(icon, size: responsiveFont(18), color: Colors.grey[600]),
     SizedBox(width: responsiveWidth(12)),
@@ -19,8 +20,8 @@ Widget cardDetailRow(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(title,
-                style:
-                    textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
+                style: textTheme.bodyMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
             isLink
                 ? InkWell(
                     onTap: () async {

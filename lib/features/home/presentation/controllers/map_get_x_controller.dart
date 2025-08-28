@@ -3,11 +3,12 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:ksa_real_estates/features/home/presentation/controllers/interested_clients_controller.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/routes/app_routes.dart';
+import '../../../../core/utils/functions/launch_url.dart';
+import '../../../../core/utils/functions/share_plus.dart';
 import '../../../../core/utils/responsive_size_helper.dart';
 
 class MapGetXController extends GetxController {
@@ -86,14 +87,7 @@ class MapGetXController extends GetxController {
 
   void initialization() async {
     if (!isLive) {
-      final index = Get.arguments['index'];
-      final isClient = Get.routing.current == AppRoutes.clientInformationScreen;
-      final InterestedClientsController interestedClientsController =
-          Get.find<InterestedClientsController>();
-      final opportunities = interestedClientsController.opportunities[index];
-      currentLocation.value = isClient
-          ? opportunities.clientLocation
-          : opportunities.propertyLocation;
+      currentLocation.value = Get.arguments['point'];
       getAddressFromLatLng();
       isLoading.value = false;
       zoom.value = 14.0;
@@ -108,46 +102,56 @@ class MapGetXController extends GetxController {
   }
 
   void setLocationMarker() {
+    final bool shouldShowFlag = isShowFlag.value &&
+        Get.arguments != null &&
+        Get.arguments != '' &&
+        Get.arguments is Map<String, dynamic>;
+
+    final double markerWidth = responsiveWidth(shouldShowFlag ? 90 : 40);
+    final double markerHeight = responsiveHeight(shouldShowFlag ? 80 : 40);
+
+    Widget markerChild;
+
+    if (shouldShowFlag) {
+      final String label = Get.arguments["label"] ?? '';
+      markerChild = Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            color: Colors.black,
+            child: Text(
+              label,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: Theme.of(Get.context!).textTheme.bodySmall?.copyWith(
+                  color: AppColors.whiteColor, fontSize: responsiveFont(8)),
+            ),
+          ),
+          Icon(
+            Icons.location_history_rounded,
+            color: Colors.red,
+            size: responsiveFont(30),
+          ),
+        ],
+      );
+    } else {
+      markerChild = Icon(
+        Icons.location_history_rounded,
+        color: Colors.red,
+        size: responsiveFont(30),
+      );
+    }
+
     locationMarker.value = Marker(
       alignment: Alignment.topCenter,
       point: currentLocation.value,
-      width: responsiveWidth(
-          !(isShowFlag.value && (Get.arguments != null && Get.arguments != ''))
-              ? 40
-              : 70),
-      height: responsiveHeight(
-          !(isShowFlag.value && (Get.arguments != null && Get.arguments != ''))
-              ? 40
-              : 67),
+      width: markerWidth,
+      height: markerHeight,
       child: InkWell(
         onTap: toggleFlag,
-        child:
-            isShowFlag.value && (Get.arguments != null && Get.arguments != '')
-                ? Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                          color: Colors.black,
-                          child: Text(Get.arguments["label"],
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(Get.context!)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(color: AppColors.whiteColor))),
-                      Icon(
-                        Icons.location_history_rounded,
-                        color: Colors.red,
-                        size: responsiveFont(30),
-                      ),
-                    ],
-                  )
-                : Icon(
-                    Icons.location_history_rounded,
-                    color: Colors.red,
-                    size: responsiveFont(30),
-                  ),
+        child: markerChild,
       ),
     );
   }
@@ -218,6 +222,42 @@ class MapGetXController extends GetxController {
 
   void saveLocation() {
     Get.back(result: currentLocation.value);
+  }
+
+  Future<void> shareLocation() async {
+    String mapUrl;
+    if (Theme.of(Get.context!).platform == TargetPlatform.iOS) {
+      mapUrl =
+      'https://maps.apple.com/?q=${currentLocation.value .latitude},${currentLocation.value .longitude}&z=15&t=m';
+    } else {
+      mapUrl =
+      'https://www.google.com/maps/search/?api=1&query=${currentLocation.value .latitude},${currentLocation.value .longitude}&query_place_id=Googleplex';
+    }
+    await share(text: mapUrl);
+  }
+
+  Future<void> openMap() async {
+    final String mapUrl =
+        'https://www.google.com/maps/search/?api=1&query=${currentLocation.value .latitude},${currentLocation.value .longitude}&query_place_id=Googleplex';
+    launchUrlHelper(mapUrl);
+  }
+
+  Future<void> openNativeMap() async {
+    if (Theme.of(Get.context!).platform == TargetPlatform.iOS) {
+      String url =
+          'https://maps.apple.com/?q=${currentLocation.value .latitude},${currentLocation.value .longitude}&z=15&t=m';
+      if (await canLaunchUrl(Uri.parse(url))) {
+        await launchUrl(Uri.parse(url));
+      } else {
+        // Fallback to Google Maps in browser
+        final String fallbackUrl =
+            'https://www.google.com/maps/search/?api=1&query=${currentLocation.value .latitude},${currentLocation.value .longitude}';
+        launchUrlHelper(fallbackUrl);
+      }
+    } else {
+      // url = 'https://www.google.com/maps/dir/?api=1&destination=$lat,$lng&travelmode=driving&dir_action=navigate';
+      openMap();
+    }
   }
 
   @override

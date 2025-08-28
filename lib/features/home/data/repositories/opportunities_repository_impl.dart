@@ -26,7 +26,7 @@ class OpportunitiesRepositoryImpl extends IOpportunitiesRepository {
           "id": "opp_001",
           "isFollowed": true,
           "client": {
-            "id": 1,
+            "id": '1',
             "clientName": "Tech Solutions Inc.",
             "email": "contact@techsolutions.com",
             "address": "123 Tech Street",
@@ -38,7 +38,8 @@ class OpportunitiesRepositoryImpl extends IOpportunitiesRepository {
             "responsiblePersonPhone": "+1987654321",
             "businessSector": "Technology",
             "city": "New York",
-            "informationSource": "Referral"
+            "informationSource": "Referral",
+            "dataUrl": "https://example.com/properties/skyline-towers",
           },
           "property": {
             "id": "prop_001",
@@ -56,7 +57,8 @@ class OpportunitiesRepositoryImpl extends IOpportunitiesRepository {
           "id": "opp_002",
           "isFollowed": false,
           "client": {
-            "id": 2,
+            "id": '2',
+            "dataUrl": "https://example.com/properties/skyline-towers",
             "clientName": "Green Energy Ltd.",
             "email": "info@greenenergy.com",
             "address": "456 Eco Avenue",
@@ -86,7 +88,7 @@ class OpportunitiesRepositoryImpl extends IOpportunitiesRepository {
           "id": "opp_003",
           "isFollowed": true,
           "client": {
-            "id": 3,
+            "id": '3',
             "clientName": "Global Logistics",
             "email": "support@globallogistics.com",
             "address": "789 Shipping Lane",
@@ -98,9 +100,11 @@ class OpportunitiesRepositoryImpl extends IOpportunitiesRepository {
             "responsiblePersonPhone": "+1987654323",
             "businessSector": "Logistics",
             "city": "Chicago",
+            "dataUrl": "https://example.com/properties/skyline-towers",
             "informationSource": "Trade Show"
           },
           "property": {
+            "dataUrl": "https://example.com/properties/skyline-towers",
             "id": "prop_003",
             "propertyName": "Downtown Loft",
             "unitName": "Loft #5",
@@ -115,7 +119,7 @@ class OpportunitiesRepositoryImpl extends IOpportunitiesRepository {
           "id": "opp_004",
           "isFollowed": false,
           "client": {
-            "id": 4,
+            "id": '4',
             "clientName": "Healthcare Partners",
             "email": "admin@healthcarepartners.org",
             "address": "321 Medical Drive",
@@ -125,6 +129,7 @@ class OpportunitiesRepositoryImpl extends IOpportunitiesRepository {
             "responsiblePersonPhone": "+1987654324",
             "businessSector": "Healthcare",
             "city": "Boston",
+            "dataUrl": "https://example.com/properties/skyline-towers",
             "informationSource": "Email Campaign"
           },
           "property": {
@@ -143,7 +148,7 @@ class OpportunitiesRepositoryImpl extends IOpportunitiesRepository {
           "id": "opp_005",
           "isFollowed": true,
           "client": {
-            "id": 5,
+            "id": '5',
             "clientName": "Creative Designs Studio",
             "email": "hello@creativedesigns.com",
             "address": "555 Art Boulevard",
@@ -154,6 +159,7 @@ class OpportunitiesRepositoryImpl extends IOpportunitiesRepository {
             "responsiblePersonPhone": "+1987654325",
             "businessSector": "Design",
             "city": "San Francisco",
+            "dataUrl": "https://example.com/properties/skyline-towers",
             "informationSource": "Social Media"
           },
           "property": {

@@ -13,6 +13,7 @@ import '../../../features/home/presentation/screens/home_screens/add_client_scre
 import '../../../features/home/presentation/screens/home_screens/available_opportunities_screen.dart';
 import '../../../features/home/presentation/screens/home_screens/interested_clients_screen.dart';
 import '../../../features/home/presentation/widgets/add_client/choose_location_widget.dart';
+import '../../../features/home/presentation/widgets/available_opportunities/choose_client_screen.dart';
 import '../../../features/home/presentation/widgets/interested_clients/client_information_screen.dart';
 import '../../../features/home/presentation/widgets/interested_clients/property_information_screen.dart';
 import '../../../features/home/presentation/widgets/flutter_map_widget.dart';
@@ -66,6 +67,11 @@ class AppPages {
     GetPage(
       name: AppRoutes.availableOpportunitiesScreen,
       page: () => const AvailableOpportunitiesScreen(),
+      binding: AvailableOpportunitiesBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.chooseClientScreen,
+      page: () => const ChooseClientScreen(),
       binding: AvailableOpportunitiesBinding(),
     ),
   ];

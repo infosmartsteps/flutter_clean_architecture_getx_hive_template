@@ -1,6 +1,6 @@
 // Property Model
 class ClientModel {
-  final int? id;
+  final String? id;
   final String? clientName;
   final String? responsiblePerson;
   final String? phoneNumber;
@@ -10,6 +10,7 @@ class ClientModel {
   final String? email;
   final double? clientLocationLat;
   final double? clientLocationLng;
+  final String? dataUrl;
 
   // Dropdown values
   final String? businessSector;
@@ -30,6 +31,7 @@ class ClientModel {
     this.businessSector,
     this.city,
     this.informationSource,
+    this.dataUrl,
   });
 
   // Convert to Map
@@ -48,26 +50,27 @@ class ClientModel {
       "businessSector": businessSector,
       "city": city,
       "informationSource": informationSource,
+      "dataUrl": dataUrl
     }..removeWhere((key, value) => value == null || value == '');
   }
 
   // Create from Map
   factory ClientModel.fromMap(Map<String?, dynamic> map) {
     return ClientModel(
-      id: map['id'],
-      clientName: map["clientName"],
-      email: map["email"],
-      address: map["address"],
-      clientLocationLat: map["clientLocationLat"],
-      clientLocationLng: map["clientLocationLng"],
-      phoneNumber: map["phoneNumber"],
-      registrationNumber: map["registrationNumber"],
-      responsiblePerson: map["responsiblePerson"],
-      responsiblePersonPhone: map["responsiblePersonPhone"],
-      businessSector: map["businessSector"],
-      city: map["city"],
-      informationSource: map["informationSource"],
-    );
+        id: map['id'].toString(),
+        clientName: map["clientName"],
+        email: map["email"],
+        address: map["address"],
+        clientLocationLat: map["clientLocationLat"],
+        clientLocationLng: map["clientLocationLng"],
+        phoneNumber: map["phoneNumber"],
+        registrationNumber: map["registrationNumber"],
+        responsiblePerson: map["responsiblePerson"],
+        responsiblePersonPhone: map["responsiblePersonPhone"],
+        businessSector: map["businessSector"],
+        city: map["city"],
+        informationSource: map["informationSource"],
+        dataUrl: map["dataUrl"]);
   }
 
   static List<ClientModel> fromJsonList(List<dynamic> jsonList) {

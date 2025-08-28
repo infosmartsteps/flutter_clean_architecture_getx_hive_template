@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/features/home/presentation/controllers/interested_clients_controller.dart';
+import 'package:ksa_real_estates/features/home/presentation/controllers/map_get_x_controller.dart';
 import 'package:ksa_real_estates/features/home/presentation/widgets/dialogs/location_info_dialog.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../flutter_map_widget.dart';
 
-class MapWidget extends GetView<InterestedClientsController> {
+class MapWidget extends GetView<MapGetXController> {
   final String label;
 
   const MapWidget({super.key, required this.label});

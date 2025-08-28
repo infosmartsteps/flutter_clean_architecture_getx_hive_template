@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ksa_real_estates/core/constants/app_colors.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
 
-Widget informationScreensHeader(BuildContext context,
+Widget informationScreensHeader(
     {required String title, required String subtitle, required IconData icon}) {
   return Card(
     elevation: 2,
@@ -45,10 +46,10 @@ Widget informationScreensHeader(BuildContext context,
           Container(
             padding: EdgeInsets.all(responsiveFont(12)),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              color: Get.theme.colorScheme.primary,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, size: responsiveFont(24)),
+            child: Icon(icon, size: responsiveFont(24),color: AppColors.whiteColor,),
           ),
           SizedBox(width: responsiveWidth(16)),
           Expanded(
@@ -56,13 +57,11 @@ Widget informationScreensHeader(BuildContext context,
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
                 title,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
+                style: Get.theme.textTheme.bodyLarge
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: responsiveHeight(4)),
-              Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
+              Text(subtitle, style: Get.theme.textTheme.bodyMedium),
             ]),
           ),
         ]),

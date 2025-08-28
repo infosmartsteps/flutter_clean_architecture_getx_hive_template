@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:ksa_real_estates/core/constants/routes/app_routes.dart';
 import 'package:ksa_real_estates/core/utils/functions/launch_url.dart';
 import 'package:ksa_real_estates/core/utils/functions/share_plus.dart';
+import 'package:ksa_real_estates/features/home/domain/entities/client_entity.dart';
+import 'package:ksa_real_estates/features/home/domain/entities/property_entity.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../domain/entities/opportunity_entity.dart';
@@ -65,54 +67,22 @@ class InterestedClientsController extends GetxController {
     // Here you would typically make API call to update the backend
   }
 
-  void goToInformationScreen(String page, int index, String label) async {
-    Get.toNamed(page, arguments: {'index': index, "label": label});
+  void goToClientInformationScreen(ClientEntity client) async {
+    Get.toNamed(AppRoutes.clientInformationScreen, arguments: {
+      'client': client,
+      "label": client.clientName ?? '',
+      'point':
+          LatLng(client.clientLocationLat ?? 0, client.clientLocationLng ?? 0)
+    });
   }
 
-  Future<void> shareLocation() async {
-    String mapUrl;
-    if (Theme.of(Get.context!).platform == TargetPlatform.iOS) {
-      mapUrl =
-          'https://maps.apple.com/?q=${getPoint().latitude},${getPoint().longitude}&z=15&t=m';
-    } else {
-      mapUrl =
-          'https://www.google.com/maps/search/?api=1&query=${getPoint().latitude},${getPoint().longitude}&query_place_id=Googleplex';
-    }
-    await share(text: mapUrl);
-  }
-
-  LatLng getPoint() {
-    LatLng point = LatLng(0, 0);
-    if (Get.routing.current == AppRoutes.propertyInformationScreen) {
-      point = opportunities[Get.arguments['index']].propertyLocation;
-    } else if (Get.routing.current == AppRoutes.clientInformationScreen) {
-      point = opportunities[Get.arguments['index']].clientLocation;
-    }
-    return point;
-  }
-
-  Future<void> openMap() async {
-    final String mapUrl =
-        'https://www.google.com/maps/search/?api=1&query=${getPoint().latitude},${getPoint().longitude}&query_place_id=Googleplex';
-    launchUrlHelper(mapUrl);
-  }
-
-  Future<void> openNativeMap() async {
-    if (Theme.of(Get.context!).platform == TargetPlatform.iOS) {
-      String url =
-          'https://maps.apple.com/?q=${getPoint().latitude},${getPoint().longitude}&z=15&t=m';
-      if (await canLaunchUrl(Uri.parse(url))) {
-        await launchUrl(Uri.parse(url));
-      } else {
-        // Fallback to Google Maps in browser
-        final String fallbackUrl =
-            'https://www.google.com/maps/search/?api=1&query=${getPoint().latitude},${getPoint().longitude}';
-        launchUrlHelper(fallbackUrl);
-      }
-    } else {
-      // url = 'https://www.google.com/maps/dir/?api=1&destination=$lat,$lng&travelmode=driving&dir_action=navigate';
-      openMap();
-    }
+  void goToPropertyInformationScreen(PropertyEntity property) async {
+    Get.toNamed(AppRoutes.propertyInformationScreen, arguments: {
+      'property': property,
+      "label": property.propertyName,
+      'point': LatLng(
+          property.propertyLocationLat ?? 0, property.propertyLocationLng ?? 0)
+    });
   }
 
   Future<void> callCustomer(String phoneNumber) async {

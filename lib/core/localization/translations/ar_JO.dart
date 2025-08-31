@@ -42,6 +42,7 @@ const Map<String, String> ar_JO = {
   'client': 'عميل',
   'responsible_person': 'الشخص المسؤول',
   'phone_number': 'رقم الهاتف',
+  'client_phone_number': 'رقم هاتف العميل',
   'business_sector': 'قطاع الأعمال',
   'location': 'الموقع',
   'city': 'المدينة',
@@ -54,6 +55,8 @@ const Map<String, String> ar_JO = {
   'save': 'حفظ',
   'acquisition': 'استحواذ',
   'interested_client': 'عميل مهتم',
+  'add_client': 'إضافة العميل',
+  'choose_client': 'اختر العميل',
 
   // Property Information
   'Property_Information_Link': 'رابط معلومات العقار',

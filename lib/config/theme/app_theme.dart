@@ -8,6 +8,7 @@ import '../../core/constants/app_constants.dart';
 // lib/config/theme/app_theme.dart
 class AppTheme {
   static final ThemeData light = ThemeData(
+    primaryColor: Colors.blue,
       useMaterial3: true,
       brightness: Brightness.light,
       primarySwatch: Colors.blue,

@@ -1,6 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
+import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
 
+import '../../features/home/presentation/controllers/add_client_form_controller.dart';
+import '../widgets/app_text_form_field.dart';
+
+//lib/core/utils/form_utils.dart
 class FormFocusManager {
   final Map<String, FocusNode> _focusNodes = {};
   final Map<String, GlobalKey> _fieldKeys = {};
@@ -47,6 +54,17 @@ class FormFieldModel {
   }
 }
 
+FormFieldModel createFieldModel(String key,
+    [String? Function(String?)? validation]) {
+  final FormFocusManager focusManager = FormFocusManager();
+  return FormFieldModel(
+      name: key,
+      focusNode: focusManager.getFocusNode(key),
+      key: focusManager.getFieldKey(key),
+      controller: TextEditingController(),
+      validator: validation);
+}
+
 // Validation functions
 String? requiredFieldValidation(String? value, [String? message]) {
   if (value == null || value.isEmpty) {
@@ -71,4 +89,30 @@ String? emailValidation(String? value) {
     return 'Enter a valid email';
   }
   return null;
+}
+
+Widget buildTextField(FormFieldModel field, String label, IconData icon) {
+  return AppTextFormField(
+      fieldModel: field, label: label, prefixIcon: Icon(icon));
+}
+
+Widget buildPhoneField(FormFieldModel field, String label, IconData icon,
+    {Function(String)? onChanged}) {
+  return AppTextFormField(
+      onChanged: onChanged,
+      fieldModel: field,
+      keyboardType: TextInputType.phone,
+      label: label,
+      prefixIcon: Icon(icon));
+}
+
+Widget buildLocationFields(
+    AddClientFormController controller, FormFieldModel formFieldModel) {
+  return AppTextFormField(
+      readOnly: true,
+      width: responsiveWidth(180),
+      onTap: controller.openClientLocation,
+      prefixIcon: const Icon(Icons.location_history_outlined),
+      fieldModel: formFieldModel,
+      label: 'client_location'.tr);
 }

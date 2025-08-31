@@ -62,6 +62,11 @@ class AppDropDown extends StatelessWidget {
       labelStyle: Theme.of(Get.context!).textTheme.bodyMedium,
       hintStyle: Theme.of(Get.context!).textTheme.bodyMedium,
       prefixIcon: Icon(icon ?? Icons.list_alt_outlined),
+      suffixIcon: value != null && value!.isNotEmpty
+          ? InkWell(
+        onTap: () => onChanged!(null),
+          child: Icon(Icons.remove_circle))
+          : null,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(responsiveFont(8)),
       ),

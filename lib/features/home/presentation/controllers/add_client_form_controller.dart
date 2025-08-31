@@ -1,4 +1,5 @@
 import 'package:ksa_real_estates/core/constants/routes/app_routes.dart';
+import 'package:ksa_real_estates/features/home/domain/entities/client_entity.dart';
 import 'package:ksa_real_estates/features/home/domain/entities/lookups_entity.dart';
 import 'package:ksa_real_estates/features/home/domain/parameters/cities_parameters.dart';
 import 'package:ksa_real_estates/features/home/domain/usecases/lookups_use_cases.dart';
@@ -18,6 +19,7 @@ class AddClientFormController extends GetxController {
   final FormFocusManager focusManager = FormFocusManager();
   final AddClientFormState state =
       AddClientFormState(lookUpsUseCases: Get.find<LookUpsUseCases>());
+  RxBool acquisition = false.obs;
 
   @override
   void onInit() {
@@ -28,29 +30,19 @@ class AddClientFormController extends GetxController {
 
   void _initializeFields() {
     state.clientNameField =
-        _createFieldModel('clientName', requiredFieldValidation);
+        createFieldModel('clientName', requiredFieldValidation);
     state.responsiblePersonField =
-        _createFieldModel('responsiblePerson', requiredFieldValidation);
+        createFieldModel('responsiblePerson', requiredFieldValidation);
     state.phoneNumberField =
-        _createFieldModel('phoneNumber', phoneNumberValidation);
-    state.addressField = _createFieldModel('address', requiredFieldValidation);
+        createFieldModel('phoneNumber', phoneNumberValidation);
+    state.addressField = createFieldModel('address', requiredFieldValidation);
     state.registrationNumberField =
-        _createFieldModel('registrationNumber', requiredFieldValidation);
+        createFieldModel('registrationNumber', requiredFieldValidation);
     state.responsiblePersonPhoneField =
-        _createFieldModel('responsiblePersonPhone', phoneNumberValidation);
-    state.emailField = _createFieldModel('email', emailValidation);
-    state.clientLocationLatField = _createFieldModel('clientLocationLat');
-    state.clientLocationLngField = _createFieldModel('clientLocationLng');
-  }
-
-  FormFieldModel _createFieldModel(String key,
-      [String? Function(String?)? validation]) {
-    return FormFieldModel(
-        name: key,
-        focusNode: focusManager.getFocusNode(key),
-        key: focusManager.getFieldKey(key),
-        controller: TextEditingController(),
-        validator: validation);
+        createFieldModel('responsiblePersonPhone', phoneNumberValidation);
+    state.emailField = createFieldModel('email', emailValidation);
+    state.clientLocationLatField = createFieldModel('clientLocationLat');
+    state.clientLocationLngField = createFieldModel('clientLocationLng');
   }
 
   void _loadDropdownData() {
@@ -117,7 +109,28 @@ class AddClientFormController extends GetxController {
       validateAndScrollToFirstError();
       return;
     } else {
-      Get.back(closeOverlays: true); // This will close dialog AND screen
+      ClientEntity client = ClientEntity(
+        clientName: state.clientNameField.controller!.text,
+        responsiblePerson: state.responsiblePersonField.controller!.text,
+        phoneNumber: state.phoneNumberField.controller!.text,
+        address: state.addressField.controller!.text,
+        registrationNumber:
+            int.tryParse(state.registrationNumberField.controller!.text),
+        responsiblePersonPhone:
+            state.responsiblePersonPhoneField.controller!.text,
+        email: state.emailField.controller!.text,
+        clientLocationLat:
+            double.tryParse(state.clientLocationLatField.controller!.text),
+        clientLocationLng:
+            double.tryParse(state.clientLocationLngField.controller!.text),
+        businessSector: state.selectedBusinessSector.value,
+        city: state.selectedCity.value,
+        informationSource: state.selectedInformationSource.value,
+        // dataUrl:
+      );
+      Get.back(
+          closeOverlays: true,
+          result: {"client": client, "acquisition": acquisition.value});
       Get.snackbar('Success'.tr, 'Client added successfully'.tr,
           snackPosition: SnackPosition.BOTTOM);
     }

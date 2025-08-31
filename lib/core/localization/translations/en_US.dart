@@ -42,6 +42,7 @@ const Map<String, String> en_US = {
   'client': 'Client',
   'responsible_person': 'Responsible Person',
   'phone_number': 'Phone Number',
+  'client_phone_number': 'Client Phone Number',
   'business_sector': 'Business Sector',
   'location': 'Location',
   'city': 'City',
@@ -54,6 +55,8 @@ const Map<String, String> en_US = {
   'save': 'Save',
   'acquisition': 'Acquisition',
   'interested_client': 'Interested client',
+  'add_client': 'Add client',
+  'choose_client': 'Choose client',
 
   // Property Information
   'Property_Information_Link': 'Property Information Link',

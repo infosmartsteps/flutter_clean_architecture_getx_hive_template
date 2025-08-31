@@ -1,6 +1,5 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
-
 import '../../../features/auth/presentation/binding/auth_binding.dart';
 import '../../../features/auth/presentation/screens/log_in_screen.dart';
 import '../../../features/home/presentation/bindings/add_client_form_binding.dart';
@@ -13,10 +12,9 @@ import '../../../features/home/presentation/screens/home_screens/add_client_scre
 import '../../../features/home/presentation/screens/home_screens/available_opportunities_screen.dart';
 import '../../../features/home/presentation/screens/home_screens/interested_clients_screen.dart';
 import '../../../features/home/presentation/widgets/add_client/choose_location_widget.dart';
-import '../../../features/home/presentation/widgets/available_opportunities/choose_client_screen.dart';
+import '../../../features/home/presentation/widgets/available_opportunities/interested_client_screen.dart';
 import '../../../features/home/presentation/widgets/interested_clients/client_information_screen.dart';
 import '../../../features/home/presentation/widgets/interested_clients/property_information_screen.dart';
-import '../../../features/home/presentation/widgets/flutter_map_widget.dart';
 import '../../../features/splash/presentation/binding/splash_binding.dart';
 import '../../../features/splash/presentation/screens/splash_screen.dart';
 import 'app_routes.dart';
@@ -70,8 +68,8 @@ class AppPages {
       binding: AvailableOpportunitiesBinding(),
     ),
     GetPage(
-      name: AppRoutes.chooseClientScreen,
-      page: () => const ChooseClientScreen(),
+      name: AppRoutes.interestedClientScreen,
+      page: () => const InterestedClientScreen(),
       binding: AvailableOpportunitiesBinding(),
     ),
   ];

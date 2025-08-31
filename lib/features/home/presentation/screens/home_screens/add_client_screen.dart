@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:ksa_real_estates/core/constants/routes/app_routes.dart';
 import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
 import 'package:ksa_real_estates/features/home/presentation/controllers/add_client_form_controller.dart';
 import 'package:ksa_real_estates/features/home/presentation/widgets/dialogs/exit_dialog.dart';
@@ -34,10 +35,36 @@ class AddClientScreen extends GetView<AddClientFormController> {
                   spacing: responsiveHeight(20),
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    if (Get.previousRoute == AppRoutes.interestedClientScreen)
+                      Obx(
+                        () => Row(
+                          children: [
+                            Text(
+                              'acquisition'.tr,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.color,
+                              ),
+                            ),
+                            Switch(
+                              value: controller.acquisition.value,
+                              activeTrackColor: Colors.indigo.withOpacity(0.4),
+                              inactiveTrackColor: Colors.amber.withOpacity(0.4),
+                              onChanged: (bool value) => controller.acquisition
+                                  .value = !controller.acquisition.value,
+                            ),
+                          ],
+                        ),
+                      ),
                     buildFormFields(controller),
                     buildDropdowns(controller),
                     Gap(responsiveHeight(10)),
-                    formButtons(() {showSaveDialog();}),
+                    formButtons(() {
+                      showSaveDialog();
+                    }),
                     Gap(responsiveHeight(10)),
                   ],
                 ),

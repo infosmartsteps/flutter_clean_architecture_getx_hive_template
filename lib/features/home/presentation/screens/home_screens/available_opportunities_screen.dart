@@ -19,15 +19,11 @@ class AvailableOpportunitiesScreen
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('available_opportunities'.tr),
-        ),
+        appBar: AppBar(title: Text('available_opportunities'.tr)),
         body: Obx(() => controller.isLoading.value
             ? Center(child: CircularProgressIndicator())
             : RefreshIndicator(
-                onRefresh: () async {
-                  await controller.getProperties();
-                },
+                onRefresh: () async => await controller.getProperties(),
                 child: ListView.separated(
                     padding:
                         EdgeInsets.symmetric(horizontal: responsiveWidth(12)),

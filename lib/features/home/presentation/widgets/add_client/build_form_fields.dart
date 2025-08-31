@@ -12,17 +12,17 @@ Widget buildFormFields(AddClientFormController controller) {
     spacing: responsiveHeight(20),
     mainAxisSize: MainAxisSize.min,
     children: [
-      _buildTextField(controller.state.clientNameField, 'client_name'.tr,
+      buildTextField(controller.state.clientNameField, 'client_name'.tr,
           Icons.person_outline),
-      _buildTextField(controller.state.responsiblePersonField,
+      buildTextField(controller.state.responsiblePersonField,
           'responsible_person'.tr, Icons.person_pin_outlined),
-      _buildPhoneField(controller.state.phoneNumberField, 'phone_number'.tr,
+      buildPhoneField(controller.state.phoneNumberField, 'phone_number'.tr,
           Icons.phone_outlined),
-      _buildTextField(
+      buildTextField(
           controller.state.addressField, 'address'.tr, Icons.home_outlined),
-      _buildTextField(controller.state.registrationNumberField,
+      buildTextField(controller.state.registrationNumberField,
           'registration_number'.tr, Icons.numbers_outlined),
-      _buildPhoneField(controller.state.responsiblePersonPhoneField,
+      buildPhoneField(controller.state.responsiblePersonPhoneField,
           'responsible_person_phone'.tr, Icons.phone_android_outlined),
       AppTextFormField(
         fieldModel: controller.state.emailField,
@@ -31,39 +31,12 @@ Widget buildFormFields(AddClientFormController controller) {
         prefixIcon: Icon(Icons.email_outlined),
       ),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        _buildLocationFields(
+        buildLocationFields(
             controller, controller.state.clientLocationLatField),
-        _buildLocationFields(
+        buildLocationFields(
             controller, controller.state.clientLocationLngField),
       ]),
     ],
   );
 }
 
-Widget _buildTextField(FormFieldModel field, String label, IconData icon) {
-  return AppTextFormField(
-    fieldModel: field,
-    label: label,
-    prefixIcon: Icon(icon)
-  );
-}
-
-Widget _buildPhoneField(FormFieldModel field, String label, IconData icon) {
-  return AppTextFormField(
-    fieldModel: field,
-    keyboardType: TextInputType.phone,
-    label: label,
-    prefixIcon: Icon(icon)
-  );
-}
-
-Widget _buildLocationFields(
-    AddClientFormController controller, FormFieldModel formFieldModel) {
-  return AppTextFormField(
-      readOnly: true,
-      width: responsiveWidth(180),
-      onTap: controller.openClientLocation,
-      prefixIcon: const Icon(Icons.location_history_outlined),
-      fieldModel: formFieldModel,
-      label: 'client_location'.tr);
-}

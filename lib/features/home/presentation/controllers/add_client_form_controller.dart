@@ -62,13 +62,12 @@ class AddClientFormController extends GetxController {
     });
   }
 
-  void scrollToField(String fieldName) {
+  void scrollToField(focus) {
     final context = state.formKey.currentContext;
     if (context != null) {
-      final key = focusManager.getFieldKey(fieldName);
-      Scrollable.ensureVisible(key.currentContext!,
+      Scrollable.ensureVisible(Get.context!,
           duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
-      focusManager.requestFocus(fieldName);
+      focus.requestFocus();
     }
   }
 
@@ -87,7 +86,7 @@ class AddClientFormController extends GetxController {
     for (final field in fieldsToValidate) {
       final error = field.validator?.call(field.controller?.text);
       if (error != null) {
-        scrollToField(field.name!);
+        scrollToField(field.focusNode);
         return;
       }
     }
@@ -105,35 +104,30 @@ class AddClientFormController extends GetxController {
   }
 
   Future<void> saveForm() async {
-    if (!state.formKey.currentState!.validate()) {
-      validateAndScrollToFirstError();
-      return;
-    } else {
-      ClientEntity client = ClientEntity(
-        clientName: state.clientNameField.controller!.text,
-        responsiblePerson: state.responsiblePersonField.controller!.text,
-        phoneNumber: state.phoneNumberField.controller!.text,
-        address: state.addressField.controller!.text,
-        registrationNumber:
-            int.tryParse(state.registrationNumberField.controller!.text),
-        responsiblePersonPhone:
-            state.responsiblePersonPhoneField.controller!.text,
-        email: state.emailField.controller!.text,
-        clientLocationLat:
-            double.tryParse(state.clientLocationLatField.controller!.text),
-        clientLocationLng:
-            double.tryParse(state.clientLocationLngField.controller!.text),
-        businessSector: state.selectedBusinessSector.value,
-        city: state.selectedCity.value,
-        informationSource: state.selectedInformationSource.value,
-        // dataUrl:
-      );
-      Get.back(
-          closeOverlays: true,
-          result: {"client": client, "acquisition": acquisition.value});
-      Get.snackbar('Success'.tr, 'Client added successfully'.tr,
-          snackPosition: SnackPosition.BOTTOM);
-    }
+    ClientEntity client = ClientEntity(
+      clientName: state.clientNameField.controller!.text,
+      responsiblePerson: state.responsiblePersonField.controller!.text,
+      phoneNumber: state.phoneNumberField.controller!.text,
+      address: state.addressField.controller!.text,
+      registrationNumber:
+          int.tryParse(state.registrationNumberField.controller!.text),
+      responsiblePersonPhone:
+          state.responsiblePersonPhoneField.controller!.text,
+      email: state.emailField.controller!.text,
+      clientLocationLat:
+          double.tryParse(state.clientLocationLatField.controller!.text),
+      clientLocationLng:
+          double.tryParse(state.clientLocationLngField.controller!.text),
+      businessSector: state.selectedBusinessSector.value,
+      city: state.selectedCity.value,
+      informationSource: state.selectedInformationSource.value,
+      // dataUrl:
+    );
+    Get.back(
+        closeOverlays: true,
+        result: {"client": client, "acquisition": acquisition.value});
+    Get.snackbar('Success'.tr, 'Client added successfully'.tr,
+        snackPosition: SnackPosition.BOTTOM);
   }
 
   @override

@@ -52,7 +52,7 @@ class AppTextFormField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.autoFocus = false,
-    this.textInputAction,
+    this.textInputAction = TextInputAction.next,
     this.onChanged,
     this.onSubmitted,
     this.maxLines = 1,

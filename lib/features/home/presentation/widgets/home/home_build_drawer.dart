@@ -71,13 +71,7 @@ Widget homeBuildDrawer(BuildContext context, HomeController controller) {
                         ? Colors.indigoAccent
                         : Colors.amber[600],
                   ),
-                  title: Text(
-                    'change_theme'.tr,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context).textTheme.titleMedium?.color,
-                    ),
-                  ),
+                  title: Text('change_theme'.tr),
                   trailing: Transform.scale(
                     scale: 1.2,
                     child: Switch(

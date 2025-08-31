@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:ksa_real_estates/core/utils/form_utils.dart';
 
 import '../../../../core/utils/responsive_size_helper.dart';
 import '../../../../core/widgets/app_text_form_field.dart';
@@ -35,12 +36,8 @@ Widget logInFormWidget(BuildContext context, AuthController controller) {
               Icons.person_outline,
               color: Theme.of(context).colorScheme.primary,
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your username'.tr;
-              }
-              return null;
-            },
+            validator: (value) =>
+                requiredFieldValidation(value, 'Please enter your username'.tr),
           ),
           Gap(responsiveHeight(20)),
           // Password Field
@@ -55,22 +52,13 @@ Widget logInFormWidget(BuildContext context, AuthController controller) {
                 Icons.lock_outline,
                 color: Theme.of(context).colorScheme.primary,
               ),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  Icons.visibility_outlined,
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurface
-                      .withOpacity(0.4),
-                ),
-                onPressed: () {},
-                // onPressed: controller.togglePasswordVisibility,
+              suffixIcon: Icon(
+                Icons.visibility_outlined,
+                color: Get.theme.colorScheme.onSurface.withOpacity(0.4),
               ),
               validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your password'.tr;
-                }
-                if (value.length < 6) {
+                requiredFieldValidation(value, 'Please enter your password'.tr);
+                if (value!.length < 6) {
                   return 'Password must be at least 6 characters';
                 }
                 return null;

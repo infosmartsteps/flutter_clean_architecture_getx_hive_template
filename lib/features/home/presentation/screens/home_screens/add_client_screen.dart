@@ -38,31 +38,25 @@ class AddClientScreen extends GetView<AddClientFormController> {
                     if (Get.previousRoute == AppRoutes.interestedClientScreen)
                       Obx(
                         () => Row(
-                          children: [
-                            Text(
-                              'acquisition'.tr,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.color,
-                              ),
-                            ),
-                            Switch(
-                              value: controller.acquisition.value,
-                              activeTrackColor: Colors.indigo.withOpacity(0.4),
-                              inactiveTrackColor: Colors.amber.withOpacity(0.4),
-                              onChanged: (bool value) => controller.acquisition
-                                  .value = !controller.acquisition.value,
-                            ),
-                          ],
-                        ),
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text('acquisition'.tr,
+                                  style: Get.theme.textTheme.titleLarge),
+                              Switch(
+                                  value: controller.acquisition.value,
+                                  onChanged: (bool value) => controller
+                                      .acquisition
+                                      .value = !controller.acquisition.value),
+                            ]),
                       ),
                     buildFormFields(controller),
                     buildDropdowns(controller),
                     Gap(responsiveHeight(10)),
                     formButtons(() {
+                      if (!controller.state.formKey.currentState!.validate()) {
+                        controller.validateAndScrollToFirstError();
+                        return;
+                      }
                       showSaveDialog();
                     }),
                     Gap(responsiveHeight(10)),

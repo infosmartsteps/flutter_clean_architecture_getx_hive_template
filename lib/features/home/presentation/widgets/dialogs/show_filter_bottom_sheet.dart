@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../../core/widgets/app_text_form_field.dart';
+import '../build_date_picker_field.dart';
 
 void showFilterBottomSheet(
     String title,
@@ -22,10 +23,7 @@ void showFilterBottomSheet(
       child: SingleChildScrollView(
         child: Column(spacing: responsiveHeight(20), children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text(
-              title,
-              style: Get.theme.textTheme.titleLarge,
-            ),
+            Text(title, style: Get.theme.textTheme.titleLarge),
             Icon(Icons.filter_list)
           ]),
           Divider(),
@@ -33,42 +31,13 @@ void showFilterBottomSheet(
               label: 'client_name'.tr,
               controller: clientNameController,
               prefixIcon: Icon(Icons.person)),
-          Row(children: [
-            Expanded(
-              child: AppTextFormField(
+          Row(spacing: responsiveWidth(20), children: [
+            buildDatePickerFiled(
                 label: 'from_date'.tr,
                 controller: fromController,
-                prefixIcon: Icon(Icons.date_range),
-                readOnly: true,
-                onTap: () {
-                  Get.dialog(DatePickerDialog(
-                      currentDate: from,
-                      initialDate: from ??
-                          DateTime(DateTime.now().year,
-                              DateTime.now().month - 1, DateTime.now().day),
-                      firstDate: DateTime(2020),
-                      lastDate: DateTime.now()));
-                },
-              ),
-            ),
-            Gap(responsiveWidth(20)),
-            Expanded(
-              child: AppTextFormField(
-                label: 'to_date'.tr,
-                controller: toController,
-                prefixIcon: Icon(Icons.date_range),
-                readOnly: true,
-                onTap: () async {
-                  final selectedDate = await showDatePicker(
-                    initialDate: to ?? DateTime.now(),
-                    firstDate: DateTime(2020),
-                    lastDate: DateTime.now(),
-                    context: Get.context!,
-                  );
-                  toController.text = selectedDate.toString();
-                },
-              ),
-            ),
+                initialDate: from),
+            buildDatePickerFiled(
+                label: 'to_date'.tr, controller: toController, initialDate: to),
           ]),
           Gap(responsiveHeight(20)),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

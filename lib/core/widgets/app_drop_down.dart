@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
 import 'package:ksa_real_estates/features/home/domain/entities/lookups_entity.dart';
 
+import '../utils/form_utils.dart';
+
 //lib/core/widgets/app_drop_down.dart
 class AppDropDown extends StatelessWidget {
   final FocusNode? focusNode;
@@ -34,11 +36,11 @@ class AppDropDown extends StatelessWidget {
     if (isLoading) {
       return _buildLoadingDropdown();
     }
-
+    final FormFocusManager focusManager = FormFocusManager();
     return Focus(
-      focusNode: focusNode,
+      focusNode: focusNode ?? focusManager.getFocusNode(labelText!),
       child: DropdownButtonFormField<String>(
-        key: fieldKey,
+        key: fieldKey ?? focusManager.getFieldKey(labelText!),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         value: value,
         style: Theme.of(context).textTheme.bodyMedium,

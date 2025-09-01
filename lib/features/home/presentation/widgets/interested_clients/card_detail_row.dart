@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../../core/utils/responsive_size_helper.dart';
 
-Widget? cardDetailRow({
-  required IconData icon,
-  required String title,
-  required String value,
-  bool isLink = false,
-}) {
+Widget? cardDetailRow(
+    {required IconData icon,
+    required String title,
+    required String value,
+    bool isLink = false,
+    void Function()? onTap}) {
   if (value.isEmpty) return null;
   final textTheme = Get.theme.textTheme;
   return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -24,13 +24,14 @@ Widget? cardDetailRow({
                     ?.copyWith(fontWeight: FontWeight.bold)),
             isLink
                 ? InkWell(
-                    onTap: () async {
-                      if (await canLaunchUrl(Uri.parse(value))) {
-                        await launchUrl(Uri.parse(value));
-                      } else {
-                        throw 'Could not launch $value';
-                      }
-                    },
+                    onTap: onTap ??
+                        () async {
+                          if (await canLaunchUrl(Uri.parse(value))) {
+                            await launchUrl(Uri.parse(value));
+                          } else {
+                            throw 'Could not launch $value';
+                          }
+                        },
                     child: Text(value,
                         style: textTheme.bodyMedium?.copyWith(
                             color: Colors.blue,

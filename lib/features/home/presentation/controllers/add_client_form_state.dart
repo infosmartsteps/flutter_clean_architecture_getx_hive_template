@@ -1,5 +1,6 @@
 part of 'add_client_form_controller.dart';
 
+//lib/features/home/presentation/controllers/add_client_form_state.dart
 class AddClientFormState {
   final LookUpsUseCases lookUpsUseCases;
   AddClientFormState({required this.lookUpsUseCases});

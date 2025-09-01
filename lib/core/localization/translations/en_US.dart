@@ -10,7 +10,8 @@ const Map<String, String> en_US = {
   'Password': 'Password',
   'Enter your password': 'Enter your password',
   'Please enter your password': 'Please enter your password',
-  'Password must be at least 6 characters': 'Password must be at least 6 characters',
+  'Password must be at least 6 characters':
+      'Password must be at least 6 characters',
 
   // Main Menu/Dashboard
   'new_client': 'New Client',
@@ -18,6 +19,10 @@ const Map<String, String> en_US = {
   'available_opportunities': 'Available Opportunities',
   'my_opportunities': 'My Opportunities',
   'my_previous_operations': 'My Previous Operations',
+  'entered_clients': 'Entered Clients',
+  'entered_opportunities': 'Entered opportunities',
+  'filter_clients': 'Filter Clients',
+  'filter_opportunities': 'Filter Opportunities',
 
   // Settings
   'change_language': 'Change Language',
@@ -33,6 +38,7 @@ const Map<String, String> en_US = {
   'exit': 'Exit',
   'confirm': 'Confirm',
   'cancel': 'Cancel',
+  'apply': 'Apply',
   'logout': 'LogOut',
   'canceled': 'Canceled!',
   'success': 'Success!',
@@ -57,6 +63,11 @@ const Map<String, String> en_US = {
   'interested_client': 'Interested client',
   'add_client': 'Add client',
   'choose_client': 'Choose client',
+  'for_sale': 'For Sale',
+  'for_rent': 'For Rent',
+  'all': 'All',
+  'from_date': 'From date',
+  'to_date': 'To date',
 
   // Property Information
   'Property_Information_Link': 'Property Information Link',
@@ -69,6 +80,7 @@ const Map<String, String> en_US = {
   'property_id': 'Property ID',
   'unit_name': 'Unit Name',
   'property_link': 'Property Link',
+  'client_link': 'Client Link',
   'property_location': 'Property Location',
 
   // Validation Messages

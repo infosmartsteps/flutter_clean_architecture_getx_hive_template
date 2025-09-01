@@ -10,7 +10,8 @@ const Map<String, String> ar_JO = {
   'Password': 'كلمة المرور',
   'Enter your password': 'أدخل كلمة المرور',
   'Please enter your password': 'يرجى إدخال كلمة المرور',
-  'Password must be at least 6 characters': 'يجب أن تكون كلمة المرور 6 أحرف على الأقل',
+  'Password must be at least 6 characters':
+      'يجب أن تكون كلمة المرور 6 أحرف على الأقل',
 
   // Main Menu/Dashboard
   'new_client': 'عميل جديد',
@@ -18,7 +19,10 @@ const Map<String, String> ar_JO = {
   'available_opportunities': 'الفرص المتاحة',
   'my_opportunities': 'فرصي',
   'my_previous_operations': 'عملياتي السابقة',
-
+  'entered_clients': 'عملاء مدخلون',
+  'entered_opportunities': 'فرص مدخلة',
+  'filter_clients': 'فلتر العملاء',
+  'filter_opportunities': 'فلتر الفرص',
   // Settings
   'change_language': 'تغيير اللغة',
   'change_theme': 'تغيير نمط السمة',
@@ -33,6 +37,7 @@ const Map<String, String> ar_JO = {
   'exit': 'خروج',
   'confirm': 'تأكيد',
   'cancel': 'إلغاء',
+  'apply': 'طبق',
   'logout': 'تسجيل الخروج',
   'canceled': 'تم الإلغاء!',
   'success': 'تم بنجاح!',
@@ -57,6 +62,11 @@ const Map<String, String> ar_JO = {
   'interested_client': 'عميل مهتم',
   'add_client': 'إضافة العميل',
   'choose_client': 'اختر العميل',
+  'for_sale': 'للبيع',
+  'for_rent': 'للإيجار',
+  'all': 'الكل',
+  'from_date': 'من تاريخ',
+  'to_date': 'الى تاريخ',
 
   // Property Information
   'Property_Information_Link': 'رابط معلومات العقار',
@@ -69,6 +79,7 @@ const Map<String, String> ar_JO = {
   'property_id': 'معرف العقار',
   'unit_name': 'اسم الوحدة',
   'property_link': 'رابط العقار',
+  'client_link': 'رابط العميل',
   'property_location': 'موقع العقار',
 
   // Validation Messages

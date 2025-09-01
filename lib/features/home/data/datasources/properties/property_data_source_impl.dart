@@ -9,7 +9,9 @@ class PropertyDataSourceImpl extends IPropertyDataSource {
   PropertyDataSourceImpl({required this.rest});
 
   @override
-  Future<ApiResponse> getProperty() async {
-    return await rest.get(ApiEndPoints.getProperty);
+  Future<ApiResponse> getProperty({String? value}) async {
+    return await rest.get(ApiEndPoints.getProperty,
+        queryParameters: {'propertyType': value}
+          ..removeWhere((key, value) => value == null || value == ''));
   }
 }

@@ -4,20 +4,48 @@ import 'package:ksa_real_estates/core/constants/app_colors.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
 
 Widget informationScreensHeader(
-    {required String title, required String subtitle, required IconData icon}) {
+    {required String title,
+    required String subtitle,
+    required IconData icon,
+    bool? isForSale}) {
   return Card(
     elevation: 2,
     shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(responsiveFont(12))),
-    child: Stack(children: [
+    child: Column(children: [
       Padding(
-        padding: EdgeInsets.only(
-            top: responsiveFont(5),
-            left: responsiveFont(5),
-            right: responsiveFont(5)),
-        child: Align(
-          alignment: Alignment.topRight,
-          child: Container(
+        padding: EdgeInsets.all(responsiveFont(5)),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          isForSale != null
+              ? isForSale
+                  ? Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: responsiveWidth(12),
+                          vertical: responsiveHeight(10)),
+                      decoration: BoxDecoration(
+                        color: Get.theme.primaryColor,
+                        borderRadius: BorderRadius.circular(responsiveFont(16)),
+                      ),
+                      child: Text(
+                        "for_sale".tr,
+                        style: TextStyle(color: Get.theme.colorScheme.onPrimary),
+                      ))
+                  : Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: responsiveWidth(12),
+                          vertical: responsiveHeight(10)),
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(responsiveFont(16)),
+                      ),
+                      child: Text(
+                        "for_rent".tr,
+                        style:
+                            TextStyle(color: Get.theme.colorScheme.onPrimary),
+                      ))
+              : SizedBox(),
+          Container(
             padding: EdgeInsets.symmetric(
                 horizontal: responsiveWidth(12), vertical: responsiveHeight(6)),
             decoration: BoxDecoration(
@@ -33,11 +61,11 @@ Widget informationScreensHeader(
               ),
             ),
           ),
-        ),
+        ]),
       ),
       Padding(
         padding: EdgeInsets.only(
-          top: responsiveFont(33),
+          top: responsiveFont(5),
           bottom: responsiveFont(10),
           left: responsiveFont(10),
           right: responsiveFont(10),
@@ -49,7 +77,11 @@ Widget informationScreensHeader(
               color: Get.theme.colorScheme.primary,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, size: responsiveFont(24),color: AppColors.whiteColor,),
+            child: Icon(
+              icon,
+              size: responsiveFont(24),
+              color: AppColors.whiteColor,
+            ),
           ),
           SizedBox(width: responsiveWidth(16)),
           Expanded(

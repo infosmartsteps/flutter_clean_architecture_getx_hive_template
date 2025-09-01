@@ -16,7 +16,6 @@ class AddClientFormController extends GetxController {
 
   AddClientFormController({required this.lookUpsUseCases});
 
-  final FormFocusManager focusManager = FormFocusManager();
   final AddClientFormState state =
       AddClientFormState(lookUpsUseCases: Get.find<LookUpsUseCases>());
   RxBool acquisition = false.obs;
@@ -133,7 +132,6 @@ class AddClientFormController extends GetxController {
   @override
   void dispose() {
     state.dispose();
-    focusManager.dispose();
     super.dispose();
   }
 }

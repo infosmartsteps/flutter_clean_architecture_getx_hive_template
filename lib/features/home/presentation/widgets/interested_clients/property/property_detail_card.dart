@@ -5,7 +5,7 @@ import '../../../../domain/entities/property_entity.dart';
 import '../card_detail_row.dart';
 
 // lib/features/home/presentation/widgets/interested_clients/property/property_detail_card.dart
-Widget propertyDetailCard(PropertyEntity property) {
+Widget propertyDetailCard(PropertyEntity property,{String? propertyLink,void Function()? onTap}) {
   return Card(
     child: Padding(
       padding: EdgeInsets.all(responsiveFont(16)),
@@ -40,8 +40,9 @@ Widget propertyDetailCard(PropertyEntity property) {
             cardDetailRow(
               icon: Icons.link,
               title: 'property_link'.tr,
-              value: property.dataUrl ?? '',
+              value: propertyLink ?? property.dataUrl ?? '',
               isLink: true,
+              onTap: onTap
             ),
           ].whereType<Widget>().toList()),
     ),

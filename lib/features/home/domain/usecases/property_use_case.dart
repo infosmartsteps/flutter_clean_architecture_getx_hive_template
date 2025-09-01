@@ -8,7 +8,7 @@ class PropertyUseCase {
 
   PropertyUseCase({required this.iPropertyRepository});
 
-  Future<Either<String, List<PropertyEntity>>> getProperty() async {
-    return await iPropertyRepository.getProperty();
+  Future<Either<String, List<PropertyEntity>>> getProperty({String? value}) async {
+    return await iPropertyRepository.getProperty(value: value);
   }
 }

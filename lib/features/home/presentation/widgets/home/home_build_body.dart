@@ -42,10 +42,7 @@ Widget homeBuildBody(BuildContext context) {
           icon: Icons.history_outlined,
           title: 'my_previous_operations'.tr,
           color: Colors.red,
-          onTap: () {
-            // Handle previous operations option
-          },
-        ),
+            onTap: () => Get.toNamed(AppRoutes.myPreviousOperationsScreen)),
       ],
     ),
   );

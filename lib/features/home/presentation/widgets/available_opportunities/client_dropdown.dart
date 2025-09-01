@@ -16,8 +16,6 @@ Widget clientDropdown(AvailableOpportunitiesController controller) {
         () => AppDropDown(
       icon: Icons.person,
       labelText: 'choose_client'.tr,
-      fieldKey: controller.focusManager.getFieldKey('choose_client'),
-      focusNode: controller.focusManager.getFocusNode('choose_client'),
       validator: (value) =>
           requiredFieldValidation(value, 'please_select_business_sector'.tr),
       items: controller.clientsLookups,

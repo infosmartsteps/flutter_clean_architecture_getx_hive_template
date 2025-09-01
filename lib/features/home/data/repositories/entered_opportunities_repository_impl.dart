@@ -3,20 +3,24 @@ import 'package:dio/dio.dart';
 import 'package:ksa_real_estates/features/home/domain/entities/property_entity.dart';
 import '../../../../core/network/handle_dio_error.dart';
 import '../../../../core/network/models/response_model.dart';
-import '../../domain/repositories/i_property_repository.dart';
-import '../datasources/properties/i_property_data_source.dart';
+import '../../domain/parameters/filter_parameters.dart';
+import '../../domain/repositories/i_entered_opportunities_repository.dart';
+import '../datasources/entered_opportunities/i_entered_opportunities_data_source.dart';
 import '../models/property_model.dart';
 
-class PropertyRepositoryImpl extends IPropertyRepository {
-  final IPropertyDataSource iPropertyDataSource;
+class EnteredOpportunitiesRepositoryImpl
+    extends IEnteredOpportunitiesRepository {
+  final IEnteredOpportunitiesDataSource iEnteredOpportunitiesDataSource;
 
-  PropertyRepositoryImpl({required this.iPropertyDataSource});
+  EnteredOpportunitiesRepositoryImpl(
+      {required this.iEnteredOpportunitiesDataSource});
 
   @override
-  Future<Either<String, List<PropertyEntity>>> getProperty(
-      {String? value}) async {
+  Future<Either<String, List<PropertyEntity>>> getEnteredOpportunities(
+      FilterParameters filterParameters) async {
     try {
-      final response = await iPropertyDataSource.getProperty(value: value);
+      final response = await iEnteredOpportunitiesDataSource
+          .getEnteredOpportunities(filterParameters);
       if (!response.success) {
         return Left(response.message ?? "getCities failed");
       }
@@ -96,7 +100,7 @@ class PropertyRepositoryImpl extends IPropertyRepository {
           "propertyLocationLat": 25.7617,
           "propertyLocationLng": -80.1918
         }
-      ]..removeWhere((element) => value == null ? false : ( element["realEstateType"].toString() != value) );
+      ];
       final List<PropertyModel> models = PropertyModel.fromJsonList(properties);
       final List<PropertyEntity> entities =
           PropertyEntity.fromModelList(models);

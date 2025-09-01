@@ -20,7 +20,6 @@ import 'package:latlong2/latlong.dart';
 class AvailableOpportunitiesController extends GetxController {
   final PropertyUseCase propertyUseCase;
   final ClientsUseCase clientsUseCase;
-  final FormFocusManager focusManager = FormFocusManager();
 
   // CHANGED: Removed redundant .obs from GlobalKey and simplified Rx declarations
   final formKey = GlobalKey<FormState>().obs;
@@ -46,7 +45,6 @@ class AvailableOpportunitiesController extends GetxController {
   void dispose() {
     // CHANGED: Proper disposal of resources to prevent memory leaks
     fieldModel.value.dispose();
-    focusManager.dispose();
     super.dispose();
   }
 
@@ -54,10 +52,10 @@ class AvailableOpportunitiesController extends GetxController {
     await getProperties();
   }
 
-  Future<void> getProperties() async {
+  Future<void> getProperties({String? value}) async {
     try {
       isLoading.value = true;
-      final result = await propertyUseCase.getProperty();
+      final result = await propertyUseCase.getProperty(value: value);
       result.fold(
         // CHANGED: Fixed typo and improved error message clarity
             (failure) => showErrorSnackBar('Failed to get properties', failure),

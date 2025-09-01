@@ -24,7 +24,7 @@ Widget informationScreensHeader(
                           horizontal: responsiveWidth(12),
                           vertical: responsiveHeight(10)),
                       decoration: BoxDecoration(
-                        color: Get.theme.primaryColor,
+                        color: Get.theme.colorScheme.primary,
                         borderRadius: BorderRadius.circular(responsiveFont(16)),
                       ),
                       child: Text(

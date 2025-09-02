@@ -20,14 +20,12 @@ class MyPreviousOperationsScreen extends StatelessWidget {
               mainAxisSpacing: responsiveHeight(16),
               children: [
                 homeBuildOptionCard(
-                  context,
                   icon: Icons.people_outline,
                   title: 'entered_clients'.tr,
                   color: Colors.blue,
                   onTap: () => Get.toNamed(AppRoutes.enteredClientsScreen),
                 ),
                 homeBuildOptionCard(
-                  context,
                   icon: Icons.business_sharp,
                   title: 'entered_opportunities'.tr,
                   color: Colors.orange,

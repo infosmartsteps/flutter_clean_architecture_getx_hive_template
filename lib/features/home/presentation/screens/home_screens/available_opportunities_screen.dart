@@ -50,8 +50,6 @@ class AvailableOpportunitiesScreen
                 onRefresh: () async => await controller.getProperties(),
                 child: propertyListView(
                   controller.properties,
-                  onTap: (index) => controller.goToPropertyInformationScreen(
-                      controller.properties[index]),
                   onPressed: controller.interestedClient,
                 ))));
   }

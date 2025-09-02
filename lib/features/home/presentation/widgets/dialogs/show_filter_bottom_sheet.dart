@@ -12,16 +12,23 @@ void showFilterBottomSheet(
     DateTime? from,
     DateTime? to,
     void Function() cancel,
-    void Function(String clientName, String from, String to) apply) {
+    void Function(String clientName, String from, String to,
+            String? propertyName, String? propertyNumber)
+        apply,
+    {String? propertyName,
+    String? propertyNumber}) {
   final clientNameController = TextEditingController(text: clientName);
+  final propertyNameController = TextEditingController(text: propertyName);
+  final propertyNumberController = TextEditingController(text: propertyNumber);
   final fromController = TextEditingController(text: from.toString());
   final toController = TextEditingController(text: to.toString());
   Get.bottomSheet(Scaffold(
     resizeToAvoidBottomInset: false,
     body: Padding(
-      padding: EdgeInsets.all(responsiveFont(16)),
+      padding: EdgeInsets.symmetric(horizontal: responsiveWidth(16)),
       child: SingleChildScrollView(
         child: Column(spacing: responsiveHeight(20), children: [
+          SizedBox(),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(title, style: Get.theme.textTheme.titleLarge),
             Icon(Icons.filter_list)
@@ -31,6 +38,17 @@ void showFilterBottomSheet(
               label: 'client_name'.tr,
               controller: clientNameController,
               prefixIcon: Icon(Icons.person)),
+          if (propertyName != null)
+            AppTextFormField(
+                label: 'Property_name'.tr,
+                controller: propertyNameController,
+                prefixIcon: Icon(Icons.meeting_room)),
+          if (propertyNumber != null)
+            AppTextFormField(
+                keyboardType: TextInputType.number,
+                label: 'Property_number'.tr,
+                controller: propertyNumberController,
+                prefixIcon: Icon(Icons.numbers)),
           Row(spacing: responsiveWidth(20), children: [
             buildDatePickerFiled(
                 label: 'from_date'.tr,
@@ -45,8 +63,12 @@ void showFilterBottomSheet(
             Spacer(),
             Expanded(
                 child: AppButton(
-                    onPressed: () => apply(clientNameController.text,
-                        fromController.text, toController.text),
+                    onPressed: () => apply(
+                        clientNameController.text,
+                        fromController.text,
+                        toController.text,
+                        propertyNameController.text,
+                        propertyNumberController.text),
                     text: 'apply'.tr,
                     backgroundColor: Colors.green)),
           ]),

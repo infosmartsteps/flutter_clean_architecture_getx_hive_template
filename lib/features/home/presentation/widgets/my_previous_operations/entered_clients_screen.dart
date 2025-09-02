@@ -21,15 +21,13 @@ class EnteredClientsScreen extends GetView<EnteredClientsController> {
       appBar: AppBar(title: Text("entered_clients".tr), actions: [
         IconButton(
             onPressed: () => showFilterBottomSheet(
-              'filter_clients'.tr,
-              //filter_opportunities
+                  'filter_clients'.tr,
                   controller.clientName.value,
                   controller.from.value,
                   controller.to.value,
                   controller.cancel,
-                  (clientName, from, to) {
-                    controller.apply(clientName, from, to);
-                  },
+                  (clientName, from, to, propertyName, propertyNumber) =>
+                      controller.apply(clientName, from, to),
                 ),
             icon: Icon(Icons.filter_list))
       ]),

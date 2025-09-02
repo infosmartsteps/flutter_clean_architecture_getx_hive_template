@@ -6,6 +6,7 @@ import 'package:ksa_real_estates/core/utils/form_utils.dart';
 import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
 import 'package:ksa_real_estates/core/widgets/app_button.dart';
 import 'package:ksa_real_estates/features/home/presentation/controllers/available_opportunities_controller.dart';
+import '../../../../../core/widgets/custom_phone_field.dart';
 import 'client_dropdown.dart';
 import 'or_divider_widget.dart';
 
@@ -28,7 +29,7 @@ class InterestedClientScreen extends GetView<AvailableOpportunitiesController> {
                       EdgeInsets.symmetric(horizontal: responsiveWidth(16)),
                   child: Column(spacing: responsiveHeight(5), children: [
                     if (controller.selectedClient.value == null)
-                      buildPhoneField(
+                      customPhoneField(
                         controller.fieldModel.value,
                         'client_phone_number'.tr,
                         Icons.phone,

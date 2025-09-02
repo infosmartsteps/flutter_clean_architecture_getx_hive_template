@@ -6,7 +6,7 @@ import '../../../../../core/constants/enums.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
 import '../../../../../core/widgets/app_button.dart';
 
-void showSaveDialog() {
+void showSaveDialog(Function() confirm) {
   // save dialog
   Get.defaultDialog(
       title: 'confirm'.tr,
@@ -23,9 +23,8 @@ void showSaveDialog() {
           type: AppButtonType.secondary,
           backgroundColor: Colors.green,
           textColor: AppColors.whiteColor,
-          onPressed: () async =>
-              await Get.find<AddClientFormController>().saveForm(),
           text: 'confirm'.tr,
+          onPressed: confirm,
         ),
       ]);
 }

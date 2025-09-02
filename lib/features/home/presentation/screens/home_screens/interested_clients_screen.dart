@@ -23,14 +23,20 @@ class InterestedClientsScreen extends GetView<InterestedClientsController> {
                   await controller.getOpportunities();
                 },
                 child: ListView.separated(
-                  separatorBuilder: (context, index) =>
-                      Gap(responsiveHeight(15)),
-                  padding: EdgeInsets.all(responsiveFont(16)),
-                  itemCount: controller.opportunities.length,
-                  itemBuilder: (context, index) {
-                    return OpportunityCard(index: index);
-                  },
-                )),
+                    separatorBuilder: (context, index) =>
+                        Gap(responsiveHeight(15)),
+                    padding: EdgeInsets.all(responsiveFont(16)),
+                    itemCount: controller.opportunities.length,
+                    itemBuilder: (_, index) => Obx(
+                          () => OpportunityCard(
+                              opportunity: controller.opportunities[index],
+                              toggleFollow: () =>
+                                  controller.toggleFollow(index),
+                              goToClientInformationScreen:
+                                  controller.goToClientInformationScreen,
+                              goToPropertyInformationScreen:
+                                  controller.goToPropertyInformationScreen),
+                        ))),
       ),
     );
   }

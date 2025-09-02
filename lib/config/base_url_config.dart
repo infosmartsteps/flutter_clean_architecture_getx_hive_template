@@ -15,4 +15,6 @@ class ApiEndPoints{
   static final String getClients = '/jo/jo_spreadsheet.json';
   static final String getEnteredClients = '/jo/jo_spreadsheet.json';
   static final String getEnteredOpportunities = '/jo/jo_spreadsheet.json';
+  static final String getMyOpportunities = '/jo/jo_spreadsheet.json';
+  static final String postCompleteOpportunity = '/jo/jo_spreadsheet.json';
 }

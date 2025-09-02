@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
-import '../../features/home/presentation/controllers/add_client_form_controller.dart';
-import '../widgets/app_text_form_field.dart';
 
 //lib/core/utils/form_utils.dart
 class FormFocusManager {
@@ -88,28 +85,21 @@ String? emailValidation(String? value) {
   return null;
 }
 
-Widget buildTextField(FormFieldModel field, String label, IconData icon) {
-  return AppTextFormField(
-      fieldModel: field, label: label, prefixIcon: Icon(icon));
+void scrollToField({required FocusNode focus, BuildContext? context}) {
+  if (context != null) {
+    Scrollable.ensureVisible(Get.context!,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+    focus.requestFocus();
+  }
 }
 
-Widget buildPhoneField(FormFieldModel field, String label, IconData icon,
-    {Function(String)? onChanged}) {
-  return AppTextFormField(
-      onChanged: onChanged,
-      fieldModel: field,
-      keyboardType: TextInputType.phone,
-      label: label,
-      prefixIcon: Icon(icon));
-}
-
-Widget buildLocationFields(
-    AddClientFormController controller, FormFieldModel formFieldModel) {
-  return AppTextFormField(
-      readOnly: true,
-      width: responsiveWidth(180),
-      onTap: controller.openClientLocation,
-      prefixIcon: const Icon(Icons.location_history_outlined),
-      fieldModel: formFieldModel,
-      label: 'client_location'.tr);
+void validateAndScrollToFirstError(
+    List<FormFieldModel> fieldsToValidate, BuildContext context) {
+  for (final field in fieldsToValidate) {
+    final error = field.validator?.call(field.controller?.text);
+    if (error != null) {
+      scrollToField(focus: field.focusNode!, context: context);
+      return;
+    }
+  }
 }

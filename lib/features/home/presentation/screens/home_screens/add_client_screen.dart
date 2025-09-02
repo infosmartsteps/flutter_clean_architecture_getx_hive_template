@@ -6,6 +6,7 @@ import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
 import 'package:ksa_real_estates/features/home/presentation/controllers/add_client_form_controller.dart';
 import 'package:ksa_real_estates/features/home/presentation/widgets/dialogs/exit_dialog.dart';
 import 'package:ksa_real_estates/features/home/presentation/widgets/add_client/form_buttons.dart';
+import '../../../../../core/utils/form_utils.dart';
 import '../../widgets/add_client/build_drop_down.dart';
 import '../../widgets/add_client/build_form_fields.dart';
 import '../../widgets/dialogs/save_dialog.dart';
@@ -54,10 +55,14 @@ class AddClientScreen extends GetView<AddClientFormController> {
                           formButtons(() {
                             if (!controller.state.formKey.currentState!
                                 .validate()) {
-                              controller.validateAndScrollToFirstError();
+                              validateAndScrollToFirstError(
+                                  controller.fieldsToValidate,
+                                  controller.state.formKey.currentContext!);
                               return;
                             }
-                            showSaveDialog();
+                            showSaveDialog(() async =>
+                                await Get.find<AddClientFormController>()
+                                    .saveForm());
                           }),
                           Gap(responsiveHeight(10)),
                         ]),

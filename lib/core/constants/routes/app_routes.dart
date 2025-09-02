@@ -12,6 +12,8 @@ class AppRoutes {
   static const myPreviousOperationsScreen = "/myPreviousOperationsScreen";
   static const enteredClientsScreen = "/enteredClientsScreen";
   static const enteredOpportunitiesScreen = "/enteredOpportunitiesScreen";
+  static const myOpportunitiesScreen = "/myOpportunitiesScreen";
+  static const opportunityInformationScreen = "/opportunityInformationScreen";
 
   static String initialRoute() {
     return splashScreen;

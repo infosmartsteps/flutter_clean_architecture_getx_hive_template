@@ -66,12 +66,30 @@ class AppButton extends StatelessWidget {
       fgColor = fgColor.withOpacity(0.5);
     }
 
-    return SizedBox(
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          Get.isDarkMode
+              ? BoxShadow(
+                  color: Colors.white24,
+                  blurRadius: 10,
+                  spreadRadius: -4,
+                  offset: const Offset(7, 5),
+                )
+              : BoxShadow(
+                  color: Colors.grey[800]!,
+                  blurRadius: 20,
+                  spreadRadius: -4,
+                  offset: const Offset(4, 8),
+                ),
+        ],
+      ),
       width: buttonWidth,
       height: buttonHeight,
       child: ElevatedButton(
         onPressed: disabled || isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
+          // backgroundColor: Get.theme.primaryColor,
           backgroundColor: bgColor,
           foregroundColor: fgColor,
           shape: RoundedRectangleBorder(

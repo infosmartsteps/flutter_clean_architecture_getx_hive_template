@@ -58,7 +58,7 @@ class AppTextFormField extends StatelessWidget {
     this.maxLines = 1,
     this.minLines,
     this.readOnly = false,
-    this.showLabel = true,
+    this.showLabel = false,
     this.contentPadding,
     this.fillColor,
     this.borderColor,
@@ -71,7 +71,7 @@ class AppTextFormField extends StatelessWidget {
     this.height,
     this.width,
   }) : assert(fieldModel != null || controller != null,
-  'Either fieldModel or controller must be provided');
+            'Either fieldModel or controller must be provided');
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,8 @@ class AppTextFormField extends StatelessWidget {
 
   InputDecoration _buildDecoration(BuildContext context) {
     return InputDecoration(
-      hintText: hint ?? label,
+      labelText: showLabel ? label : null,
+      hintText: hint ?? (!showLabel ? label:null),
       hintStyle: Theme.of(context).textTheme.bodySmall,
       prefixIcon: prefixIcon,
       suffixIcon: _buildSuffixIcon(),
@@ -146,7 +147,8 @@ class AppTextFormField extends StatelessWidget {
     }
   }
 
-  OutlineInputBorder _buildBorder({bool isFocused = false, bool isError = false}) {
+  OutlineInputBorder _buildBorder(
+      {bool isFocused = false, bool isError = false}) {
     Color borderColor;
 
     if (isError) {

@@ -7,7 +7,6 @@ import 'package:ksa_real_estates/features/home/presentation/widgets/snackbars/er
 import '../../../../core/utils/form_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 part 'add_client_form_state.dart';
 
 //lib/features/home/presentation/controllers/add_client_form_controller.dart
@@ -19,6 +18,18 @@ class AddClientFormController extends GetxController {
   final AddClientFormState state =
       AddClientFormState(lookUpsUseCases: Get.find<LookUpsUseCases>());
   RxBool acquisition = false.obs;
+
+  late List<FormFieldModel> fieldsToValidate = [
+    state.clientNameField,
+    state.responsiblePersonField,
+    state.phoneNumberField,
+    state.addressField,
+    state.registrationNumberField,
+    state.responsiblePersonPhoneField,
+    state.emailField,
+    state.clientLocationLatField,
+    state.clientLocationLngField
+  ];
 
   @override
   void onInit() {
@@ -59,47 +70,6 @@ class AddClientFormController extends GetxController {
       state.clientLocationLngField.controller?.text =
           value?.longitude.toString() ?? "";
     });
-  }
-
-  void scrollToField(focus) {
-    final context = state.formKey.currentContext;
-    if (context != null) {
-      Scrollable.ensureVisible(Get.context!,
-          duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
-      focus.requestFocus();
-    }
-  }
-
-  void validateAndScrollToFirstError() {
-    final fieldsToValidate = [
-      state.clientNameField,
-      state.responsiblePersonField,
-      state.phoneNumberField,
-      state.addressField,
-      state.registrationNumberField,
-      state.responsiblePersonPhoneField,
-      state.emailField,
-      state.clientLocationLatField,
-      state.clientLocationLngField
-    ];
-    for (final field in fieldsToValidate) {
-      final error = field.validator?.call(field.controller?.text);
-      if (error != null) {
-        scrollToField(field.focusNode);
-        return;
-      }
-    }
-    _validateDropdowns();
-  }
-
-  void _validateDropdowns() {
-    if (state.selectedBusinessSector.value == null) {
-      scrollToField('businessSector');
-    } else if (state.selectedCity.value == null) {
-      scrollToField('city');
-    } else if (state.selectedInformationSource.value == null) {
-      scrollToField('informationSource');
-    }
   }
 
   Future<void> saveForm() async {

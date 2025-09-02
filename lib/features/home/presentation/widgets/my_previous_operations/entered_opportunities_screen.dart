@@ -15,7 +15,8 @@ class EnteredOpportunitiesScreen
         () => controller.isLoading.value
             ? Center(child: CircularProgressIndicator())
             : RefreshIndicator(
-                onRefresh: () async => await controller.getEnteredOpportunities(),
+                onRefresh: () async =>
+                    await controller.getEnteredOpportunities(),
                 child: propertyListView(controller.properties),
               ),
       ),
@@ -27,9 +28,8 @@ class EnteredOpportunitiesScreen
                   controller.from.value,
                   controller.to.value,
                   controller.cancel,
-                  (clientName, from, to) {
-                    controller.apply(clientName, from, to);
-                  },
+                  (clientName, from, to, propertyName, propertyNumber) =>
+                      controller.apply(clientName, from, to),
                 ),
             icon: Icon(Icons.filter_list))
       ]),

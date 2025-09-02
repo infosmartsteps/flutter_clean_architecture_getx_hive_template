@@ -5,7 +5,7 @@ import 'package:ksa_real_estates/core/constants/enums.dart';
 import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
 import 'package:ksa_real_estates/core/widgets/app_button.dart';
 
-showExitDialog() {
+showExitDialog({void Function()? onExit}) {
   Get.defaultDialog(
       title: 'exit'.tr,
       content: Text('are_you_sure_exit'.tr),
@@ -22,6 +22,7 @@ showExitDialog() {
           backgroundColor: Colors.green,
           textColor: AppColors.whiteColor,
           onPressed: () async {
+            onExit == null ? null : onExit();
             Get.back(closeOverlays: true); // This will close dialog AND screen
           },
           text: 'exit'.tr,

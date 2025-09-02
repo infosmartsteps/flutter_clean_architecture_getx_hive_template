@@ -90,20 +90,6 @@ class AvailableOpportunitiesController extends GetxController {
     }
   }
 
-  void goToPropertyInformationScreen(PropertyEntity property) {
-    // CHANGED: Improved readability with proper formatting
-    Get.toNamed(
-      AppRoutes.propertyInformationScreen,
-      arguments: {
-        'property': property,
-        'label': property.propertyName,
-        'point': LatLng(
-          property.propertyLocationLat ?? 0,
-          property.propertyLocationLng ?? 0,
-        ),
-      },
-    );
-  }
 
   void interestedClient() {
     fieldModel.value = createFieldModel('phoneNumber', phoneNumberValidation);

@@ -61,8 +61,10 @@ class OpportunityInformationActionButton
         default:
           showErrorSnackBar('Invalid action type', from);
       }
+      controller.clearControllers(false);
       Get.back(closeOverlays: true);
     } catch (e) {
+      controller.clearControllers(false);
       Get.log(e.toString());
     }
   }

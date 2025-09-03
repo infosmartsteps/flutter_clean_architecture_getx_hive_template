@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-
 import '../constants/images_assets.dart';
 import '../utils/responsive_size_helper.dart';
 import 'image.dart';
 
+// lib/core/widgets/app_logo.dart
 Widget appLogo({double? height, double? width}) {
   return appImage(ImagesAssets.appLogo,
       height: height ?? responsiveHeight(90),

@@ -20,16 +20,6 @@ class OpportunityInformationActionButton
     required this.opportunity,
   });
 
-  Widget opportunityInformationActionButton() {
-    return AppButton(
-      padding: EdgeInsets.all(responsiveFont(14)),
-      backgroundColor: Get.theme.colorScheme.primary,
-      type: AppButtonType.secondary,
-      text: from.tr,
-      onPressed: () => _handleAction(from, opportunity),
-    );
-  }
-
   void _handleAction(String from, OpportunityEntity opportunity) {
     if (!controller.formKey.currentState!.validate()) {
       final fieldsToValidate = (from == 'completion')
@@ -71,6 +61,12 @@ class OpportunityInformationActionButton
 
   @override
   Widget build(BuildContext context) {
-    return opportunityInformationActionButton();
+    return AppButton(
+      padding: EdgeInsets.all(responsiveFont(14)),
+      backgroundColor: Get.theme.colorScheme.primary,
+      type: AppButtonType.secondary,
+      text: from.tr,
+      onPressed: () => _handleAction(from, opportunity),
+    );
   }
 }

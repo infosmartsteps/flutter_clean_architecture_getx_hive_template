@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../../../core/utils/responsive_size_helper.dart';
+import '../../../../../core/constants/app_colors.dart';
 
 Widget? cardDetailRow(
     {required IconData icon,
@@ -12,7 +13,7 @@ Widget? cardDetailRow(
   if (value.isEmpty) return null;
   final textTheme = Get.theme.textTheme;
   return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-    Icon(icon, size: responsiveFont(18), color: Colors.grey[600]),
+    Icon(icon, size: responsiveFont(18), color:AppColors.grey600),
     SizedBox(width: responsiveWidth(12)),
     Expanded(
       child: Column(
@@ -34,7 +35,7 @@ Widget? cardDetailRow(
                         },
                     child: Text(value,
                         style: textTheme.bodyMedium?.copyWith(
-                            color: Colors.blue,
+                            color:AppColors.blueColor,
                             decoration: TextDecoration.underline)))
                 : Text(value, style: textTheme.bodyMedium),
           ]),

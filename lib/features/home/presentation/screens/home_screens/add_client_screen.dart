@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:ksa_real_estates/core/constants/routes/app_routes.dart';
 import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
 import 'package:ksa_real_estates/features/home/presentation/controllers/add_client_form_controller.dart';
 import 'package:ksa_real_estates/features/home/presentation/widgets/dialogs/exit_dialog.dart';
@@ -11,6 +10,7 @@ import '../../widgets/add_client/build_drop_down.dart';
 import '../../widgets/add_client/build_form_fields.dart';
 import '../../widgets/dialogs/save_dialog.dart';
 
+// lib/features/home/presentation/screens/home_screens/add_client_screen.dart
 class AddClientScreen extends GetView<AddClientFormController> {
   const AddClientScreen({super.key});
 
@@ -33,31 +33,15 @@ class AddClientScreen extends GetView<AddClientFormController> {
                         spacing: responsiveHeight(20),
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          if (Get.previousRoute ==
-                              AppRoutes.interestedClientScreen)
-                            Obx(
-                              () => Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text('acquisition'.tr,
-                                        style: Get.theme.textTheme.titleLarge),
-                                    Switch(
-                                        value: controller.acquisition.value,
-                                        onChanged: (bool value) =>
-                                            controller.acquisition.value =
-                                                !controller.acquisition.value),
-                                  ]),
-                            ),
                           buildFormFields(controller),
                           buildDropdowns(controller),
                           Gap(responsiveHeight(10)),
                           formButtons(() {
-                            if (!controller.state.formKey.currentState!
-                                .validate()) {
+                            final formKey = controller.state.formKey;
+                            if (!formKey.currentState!.validate()) {
                               validateAndScrollToFirstError(
                                   controller.fieldsToValidate,
-                                  controller.state.formKey.currentContext!);
+                                  formKey.currentContext!);
                               return;
                             }
                             showSaveDialog(() async =>

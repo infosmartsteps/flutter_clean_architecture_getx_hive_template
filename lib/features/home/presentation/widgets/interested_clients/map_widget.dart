@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ksa_real_estates/features/home/presentation/controllers/interested_clients_controller.dart';
 import 'package:ksa_real_estates/features/home/presentation/controllers/map_get_x_controller.dart';
 import 'package:ksa_real_estates/features/home/presentation/widgets/dialogs/location_info_dialog.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';

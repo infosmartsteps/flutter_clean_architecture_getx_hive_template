@@ -1,5 +1,3 @@
-
-
 import '../../../../config/base_url_config.dart';
 import '../../../../core/network/i_rest.dart';
 import '../../../../core/network/models/response_model.dart';
@@ -13,7 +11,6 @@ class LoginRemoteDataSourceImpl implements ILogInRemoteDataSource {
   LoginRemoteDataSourceImpl({required this.rest});
 
   @override
-  Future<ApiResponse> login(LogInParameters params) async {
-    return await rest.post(ApiEndPoints.loginEndpoint, data: params.toJson());
-  }
+  Future<ApiResponse> login(LogInParameters params) async =>
+      await rest.post(ApiEndPoints.loginEndpoint, data: params.toJson());
 }

@@ -4,24 +4,15 @@ import 'package:ksa_real_estates/features/home/domain/entities/client_entity.dar
 import 'package:ksa_real_estates/features/home/domain/entities/lookups_entity.dart';
 import 'package:ksa_real_estates/features/home/domain/entities/property_entity.dart';
 import 'package:ksa_real_estates/features/home/domain/usecases/clients_use_case.dart';
-import 'package:latlong2/latlong.dart';
 import '../../../../core/constants/routes/app_routes.dart';
 import '../../../../core/utils/form_utils.dart';
 import '../../domain/usecases/property_use_case.dart';
 import '../widgets/snackbars/error_snackbar.dart';
 
-//lib/features/home/presentation/controllers/available_opportunities_controller.dart
-// lib/features/home/presentation/controllers/available_opportunities_controller.dart
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:latlong2/latlong.dart';
-
 // lib/features/home/presentation/controllers/available_opportunities_controller.dart
 class AvailableOpportunitiesController extends GetxController {
   final PropertyUseCase propertyUseCase;
   final ClientsUseCase clientsUseCase;
-
-  // CHANGED: Removed redundant .obs from GlobalKey and simplified Rx declarations
   final formKey = GlobalKey<FormState>().obs;
   final isLoading = false.obs;
   final properties = <PropertyEntity>[].obs;
@@ -29,6 +20,7 @@ class AvailableOpportunitiesController extends GetxController {
   final clientsLookups = <LookupsEntity>[].obs;
   final fieldModel = FormFieldModel().obs;
   final selectedClient = Rx<String?>(null);
+  RxString filterValue = ''.obs;
 
   AvailableOpportunitiesController({
     required this.propertyUseCase,
@@ -57,12 +49,9 @@ class AvailableOpportunitiesController extends GetxController {
       isLoading.value = true;
       final result = await propertyUseCase.getProperty(value: value);
       result.fold(
-        // CHANGED: Fixed typo and improved error message clarity
-            (failure) => showErrorSnackBar('Failed to get properties', failure),
-            (propertiesList) => properties.value = propertiesList,
-      );
+          (failure) => showErrorSnackBar('Failed to get properties', failure),
+          (propertiesList) => properties.value = propertiesList);
     } finally {
-      // CHANGED: Moved isLoading reset to finally block to ensure it always runs
       isLoading.value = false;
     }
   }
@@ -72,16 +61,12 @@ class AvailableOpportunitiesController extends GetxController {
       isLoading.value = true;
       final result = await clientsUseCase.getClients();
       result.fold(
-        // CHANGED: Fixed typo and improved error message
-            (failure) => showErrorSnackBar('Failed to get clients', failure),
-            (clientsList) {
-          // CHANGED: Added null safety checks and filtering
+        (failure) => showErrorSnackBar('Failed to get clients', failure),
+        (clientsList) {
           clientsLookups.value = clientsList
               .where((client) => client.id != null && client.clientName != null)
-              .map((client) => LookupsEntity(
-            id: client.id!,
-            value: client.clientName!,
-          ))
+              .map((client) =>
+                  LookupsEntity(id: client.id!, value: client.clientName!))
               .toList();
         },
       );
@@ -89,7 +74,6 @@ class AvailableOpportunitiesController extends GetxController {
       isLoading.value = false;
     }
   }
-
 
   void interestedClient() {
     fieldModel.value = createFieldModel('phoneNumber', phoneNumberValidation);
@@ -99,25 +83,20 @@ class AvailableOpportunitiesController extends GetxController {
   }
 
   void validate() {
-    // CHANGED: Improved logic clarity with descriptive variable names
-    final hasClientSelected = selectedClient.value != null;
-    final hasPhoneNumber = fieldModel.value.controller?.text.isNotEmpty ?? false;
-
-    if (!hasClientSelected && !hasPhoneNumber) {
-      formKey.value.currentState?.validate();
+    if (formKey.value.currentState!.validate()) {
+      Get.back();
     }
   }
 
   Future<void> goToAddClient() async {
     final result = await Get.toNamed(AppRoutes.addClientForm);
 
-    // CHANGED: Added proper type checking and error handling
     if (result is Map && result.containsKey('acquisition')) {
       // final acquisition = result['acquisition'] as bool;
 
       // if (acquisition) {
-        Get.back(closeOverlays: true);
-        await getProperties();
+      Get.back(closeOverlays: true);
+      await getProperties();
       // } else {
       //   Get.back();
       // }

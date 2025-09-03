@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../../../../core/widgets/app_text_form_field.dart';
@@ -70,7 +71,7 @@ void showFilterBottomSheet(
                         propertyNameController.text,
                         propertyNumberController.text),
                     text: 'apply'.tr,
-                    backgroundColor: Colors.green)),
+                    backgroundColor: AppColors.greenColor)),
           ]),
           Gap(responsiveHeight(10)),
         ]),

@@ -12,32 +12,24 @@ class InterestedClientsScreen extends GetView<InterestedClientsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('interested_clients'.tr),
-      ),
-      body: Obx(
-        () => controller.isLoading.value
-            ? Center(child: CircularProgressIndicator())
-            : RefreshIndicator(
-                onRefresh: () async {
-                  await controller.getOpportunities();
-                },
-                child: ListView.separated(
-                    separatorBuilder: (context, index) =>
-                        Gap(responsiveHeight(15)),
-                    padding: EdgeInsets.all(responsiveFont(16)),
-                    itemCount: controller.opportunities.length,
-                    itemBuilder: (_, index) => Obx(
-                          () => OpportunityCard(
-                              opportunity: controller.opportunities[index],
-                              toggleFollow: () =>
-                                  controller.toggleFollow(index),
-                              goToClientInformationScreen:
-                                  controller.goToClientInformationScreen,
-                              goToPropertyInformationScreen:
-                                  controller.goToPropertyInformationScreen),
-                        ))),
-      ),
-    );
+        appBar: AppBar(title: Text('interested_clients'.tr)),
+        body: Obx(
+          () => controller.isLoading.value
+              ? Center(child: CircularProgressIndicator())
+              : RefreshIndicator(
+                  onRefresh: () async => await controller.getOpportunities(),
+                  child: ListView.separated(
+                      separatorBuilder: (context, index) =>
+                          Gap(responsiveHeight(15)),
+                      padding: EdgeInsets.all(responsiveFont(16)),
+                      itemCount: controller.opportunities.length,
+                      itemBuilder: (_, index) => Obx(() => OpportunityCard(
+                          opportunity: controller.opportunities[index],
+                          toggleFollow: () => controller.toggleFollow(index),
+                          goToClientInformationScreen:
+                              controller.goToClientInformationScreen,
+                          goToPropertyInformationScreen:
+                              controller.goToPropertyInformationScreen)))),
+        ));
   }
 }

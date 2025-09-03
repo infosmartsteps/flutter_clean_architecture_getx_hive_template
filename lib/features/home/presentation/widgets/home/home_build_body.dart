@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/core/constants/routes/app_routes.dart';
+import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
 import 'home_build_option_card.dart';
 
@@ -15,28 +16,28 @@ Widget homeBuildBody(BuildContext context) {
           homeBuildOptionCard(
               icon: Icons.person_add_alt_1_outlined,
               title: 'new_client'.tr,
-              color: Colors.blue,
+              color:AppColors.blueColor,
               onTap: () => Get.toNamed(AppRoutes.addClientForm)),
           homeBuildOptionCard(
               icon: Icons.people_outline,
               title: 'interested_clients'.tr,
-              color: Colors.green,
+              color: AppColors.greenColor,
               onTap: () => Get.toNamed(AppRoutes.interestedClientsScreen)),
           homeBuildOptionCard(
               icon: Icons.business_outlined,
               title: 'available_opportunities'.tr,
-              color: Colors.orange,
+              color:AppColors.orangeColor,
               onTap: () => Get.toNamed(AppRoutes.availableOpportunitiesScreen)),
           homeBuildOptionCard(
             icon: Icons.work_outline,
             title: 'my_opportunities'.tr,
-            color: Colors.purple,
+            color:AppColors.purpleColor,
             onTap: () =>Get.toNamed(AppRoutes.myOpportunitiesScreen)
           ),
           homeBuildOptionCard(
               icon: Icons.history_outlined,
               title: 'my_previous_operations'.tr,
-              color: Colors.red,
+              color:AppColors.redColor,
               onTap: () => Get.toNamed(AppRoutes.myPreviousOperationsScreen)),
         ]),
   );

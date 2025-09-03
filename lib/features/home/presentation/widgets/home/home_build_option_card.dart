@@ -9,30 +9,27 @@ Widget homeBuildOptionCard({
   required VoidCallback onTap,
 }) {
   return Card(
-    elevation: 4,
-    child: InkWell(
-      borderRadius: BorderRadius.circular(12),
-      onTap: onTap,
-      child: Padding(
-        padding: EdgeInsets.all(responsiveWidth(16)),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: responsiveHeight(10),
-            children: [
-              Container(
-                padding: EdgeInsets.all(responsiveWidth(12)),
-                decoration: BoxDecoration(
-                    color: color.withOpacity(0.2), shape: BoxShape.circle),
-                child: Icon(icon, size: responsiveFont(30), color: color),
-              ),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: Get.theme.textTheme.titleMedium
-                    ?.copyWith(fontWeight: FontWeight.bold),
-              ),
-            ]),
-      ),
-    ),
-  );
+      child: InkWell(
+          borderRadius: BorderRadius.circular(12),
+          onTap: onTap,
+          child: Padding(
+            padding: EdgeInsets.all(responsiveWidth(16)),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: responsiveHeight(10),
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(responsiveWidth(12)),
+                    decoration: BoxDecoration(
+                        color: color.withOpacity(0.2), shape: BoxShape.circle),
+                    child: Icon(icon, size: responsiveFont(30), color: color),
+                  ),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: Get.theme.textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ]),
+          )));
 }

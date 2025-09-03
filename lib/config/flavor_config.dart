@@ -7,7 +7,6 @@ class FlavorConfig {
   final String name;
   final FlavorValues values;
 
-
   static late FlavorConfig _instance;
 
   factory FlavorConfig({

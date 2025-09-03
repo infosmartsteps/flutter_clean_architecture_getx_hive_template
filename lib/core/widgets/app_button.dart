@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import '../constants/app_colors.dart';
 import '../constants/enums.dart';
 import '../utils/responsive_size_helper.dart';
 
@@ -52,13 +53,13 @@ class AppButton extends StatelessWidget {
       bgColor = backgroundColor ?? Get.theme.colorScheme.secondary;
       fgColor = textColor ?? Get.theme.colorScheme.onSecondary;
     } else if (type == AppButtonType.outline) {
-      bgColor = Colors.transparent;
+      bgColor = AppColors.transparent;
       fgColor = Get.theme.primaryColor;
       borderColor = Get.theme.primaryColor;
     } else if (type == AppButtonType.text) {
-      bgColor = Colors.transparent;
+      bgColor = AppColors.transparent;
       fgColor = Get.theme.primaryColor;
-      borderColor = Colors.transparent;
+      borderColor = AppColors.transparent;
     }
 
     if (disabled) {
@@ -68,21 +69,31 @@ class AppButton extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        boxShadow: [
-          Get.isDarkMode
-              ? BoxShadow(
-                  color: Colors.white24,
-                  blurRadius: 10,
-                  spreadRadius: -4,
-                  offset: const Offset(7, 5),
-                )
-              : BoxShadow(
-                  color: Colors.grey[800]!,
-                  blurRadius: 20,
-                  spreadRadius: -4,
-                  offset: const Offset(4, 8),
-                ),
-        ],
+        borderRadius: BorderRadius.circular(borderRadius),
+        border: Border.all(
+          color: type == AppButtonType.outline
+              ? borderColor
+              : AppColors.transparent,
+          width: 1.0,
+        ),
+        color: bgColor,
+        boxShadow: bgColor == AppColors.transparent
+            ? null
+            : [
+                Get.isDarkMode
+                    ? BoxShadow(
+                        color: AppColors.white24Color,
+                        blurRadius: 10,
+                        spreadRadius: -4,
+                        offset: const Offset(7, 5),
+                      )
+                    : BoxShadow(
+                        color: AppColors.grey800!,
+                        blurRadius: 20,
+                        spreadRadius: -4,
+                        offset: const Offset(4, 8),
+                      ),
+              ],
       ),
       width: buttonWidth,
       height: buttonHeight,
@@ -97,12 +108,12 @@ class AppButton extends StatelessWidget {
             side: BorderSide(
               color: type == AppButtonType.outline
                   ? borderColor
-                  : Colors.transparent,
+                  : AppColors.transparent,
               width: 1.0,
             ),
           ),
           elevation: 0,
-          shadowColor: Colors.transparent,
+          shadowColor: AppColors.transparent,
           padding: padding ??
               EdgeInsets.symmetric(
                 horizontal: responsiveWidth(12), // Reduced padding
@@ -124,7 +135,6 @@ class AppButton extends StatelessWidget {
               )
             : Row(
                 mainAxisSize: MainAxisSize.min,
-                // This makes the row take minimum space
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (icon != null) icon!,

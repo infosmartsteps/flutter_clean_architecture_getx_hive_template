@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/features/home/presentation/controllers/my_previous_operations_controllers/entered_opportunities_controller.dart';
 import 'package:ksa_real_estates/features/home/presentation/widgets/dialogs/show_filter_bottom_sheet.dart';
+import '../../../../../core/widgets/app_button.dart';
 import '../available_opportunities/property_list_view.dart';
 
 class EnteredOpportunitiesScreen
@@ -21,7 +22,7 @@ class EnteredOpportunitiesScreen
               ),
       ),
       appBar: AppBar(title: Text("entered_opportunities".tr), actions: [
-        IconButton(
+        AppButton(
             onPressed: () => showFilterBottomSheet(
                   'filter_opportunities'.tr,
                   controller.clientName.value,

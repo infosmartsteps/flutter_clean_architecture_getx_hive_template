@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/constants/routes/app_routes.dart';
 import '../../../../core/data/local/storage_helper.dart';
@@ -13,9 +14,7 @@ class AuthController extends GetxController {
 
   AuthController({required this.loginUseCase});
 
-  // Form Key
   final formKey = GlobalKey<FormState>();
-
   Rx<PackageInfo> packageInfo =
       PackageInfo(appName: '', packageName: '', version: '', buildNumber: '')
           .obs;
@@ -31,50 +30,33 @@ class AuthController extends GetxController {
   var isEnglish = true.obs;
 
   @override
-  void onInit() async {
+  void onInit()  {
     super.onInit();
-    final locale = await StorageHelper().getAppLang();
-    isEnglish.value = locale == LanguageLocals.english;
-    await getAppInfo();
+     getAppInfo();
   }
 
-  // Handlers
   Future<void> onLogin() async {
     if (!formKey.currentState!.validate()) return;
-
     isLoading.value = true;
-    update();
     try {
       final params = LogInParameters(
         username: usernameController.text.trim(),
         password: passwordController.text.trim(),
       );
       final result = await loginUseCase.login(params);
-
       result.fold(
-        (failure) {
-          Get.snackbar(
-            'Login Failed',
-            failure,
+        (l) => Get.snackbar('Login Failed', l,
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Get.theme.colorScheme.error,
-            colorText: Colors.white,
-          );
-        },
-        (success) {
-          // Navigate to home on success
-          Get.offNamed(AppRoutes.homeScreen);
-        },
-      );
+            colorText: AppColors.whiteColor),
+        (r) => Get.offNamed(AppRoutes.homeScreen));
     } finally {
       isLoading.value = false;
-      update();
     }
   }
 
   toggleIsObscureText() {
     isObscureText.value = !isObscureText.value;
-    // update();
   }
 
   @override
@@ -86,6 +68,8 @@ class AuthController extends GetxController {
 
   Future<void> getAppInfo() async {
     final PackageInfo packageInfo = await StorageHelper().getAppInfo();
+    final locale = await StorageHelper().getAppLang();
     this.packageInfo.value = packageInfo;
+    isEnglish.value = locale == LanguageLocals.english;
   }
 }

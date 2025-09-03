@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'config/theme/app_theme.dart';
 import 'core/constants/app_colors.dart';
 import 'core/constants/app_constants.dart';
+import 'core/constants/font_family.dart';
 import 'core/constants/routes/app_pages.dart';
 import 'core/constants/routes/app_routes.dart';
 import 'core/controllers/app_controller.dart';
@@ -41,8 +42,8 @@ class AppTheme2 {
   static final ThemeData light = ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      primarySwatch: Colors.blue,
-      scaffoldBackgroundColor: Colors.white,
+      primarySwatch: AppColors.blueColor,
+      scaffoldBackgroundColor: AppColors.whiteColor,
       cardTheme: cardTheme,
       drawerTheme: const DrawerThemeData(
         backgroundColor: AppColors.whiteColor,
@@ -50,10 +51,10 @@ class AppTheme2 {
       appBarTheme: AppBarTheme(
         elevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: AppColors.whiteColor,
+        iconTheme: IconThemeData(color: AppColors.blackColor),
         titleTextStyle: TextStyle(
-          color: Colors.black,
+          color: AppColors.blackColor,
           fontSize: Get.context == null ? 20 : responsiveFont(16),
           fontWeight: FontWeight.bold,
         ),
@@ -63,16 +64,16 @@ class AppTheme2 {
   static final ThemeData dark = ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      primarySwatch: Colors.blueGrey,
-      scaffoldBackgroundColor: Colors.grey[900],
+      primarySwatch: AppColors.blueGreyColor,
+      scaffoldBackgroundColor: AppColors.grey900,
       cardTheme: cardTheme,
       appBarTheme: AppBarTheme(
         elevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.grey[900],
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: AppColors.grey900,
+        iconTheme: const IconThemeData(color: AppColors.whiteColor),
         titleTextStyle: TextStyle(
-          color: Colors.white,
+          color: AppColors.whiteColor,
           fontSize: Get.context == null ? 20 : responsiveFont(16),
           fontWeight: FontWeight.bold,
         ),
@@ -80,11 +81,11 @@ class AppTheme2 {
       textTheme: textTheme);
 
   static final CardThemeData cardTheme = CardThemeData(
-    shadowColor: Colors.grey[300]!,
+    shadowColor: AppColors.grey300,
     elevation: 4,
     shape: RoundedRectangleBorder(
       borderRadius:
-      BorderRadius.circular(Get.context == null ? 12 : responsiveFont(16)),
+          BorderRadius.circular(Get.context == null ? 12 : responsiveFont(16)),
     ),
   );
 
@@ -94,15 +95,16 @@ class AppTheme2 {
       fontWeight: FontWeight.bold,
     ),
     bodyLarge:
-    TextStyle(fontSize: Get.context == null ? 16 : responsiveFont(14)),
+        TextStyle(fontSize: Get.context == null ? 16 : responsiveFont(14)),
     bodyMedium:
-    TextStyle(fontSize: Get.context == null ? 14 : responsiveFont(12)),
+        TextStyle(fontSize: Get.context == null ? 14 : responsiveFont(12)),
   );
 
   static ThemeData getTheme(BuildContext context) {
     final locale = Get.locale;
     final isArabic = locale?.languageCode == LanguageLocals.arabic.languageCode;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark =
+        Get.find<AppController>().currentTheme.value == ThemeMode.dark;
     final theme = isDark ? dark : light;
 
     return theme.copyWith(
@@ -111,7 +113,7 @@ class AppTheme2 {
   }
 
   static TextTheme _getLocalizedTextTheme(TextTheme baseTheme, bool isArabic) {
-    final fontFamily = isArabic ? 'ArabicFont' : 'EnglishFont';
+    final fontFamily = isArabic ? FontFamily.cairo : FontFamily.encodeSans;
 
     return baseTheme.copyWith(
       titleLarge: baseTheme.titleLarge?.copyWith(fontFamily: fontFamily),

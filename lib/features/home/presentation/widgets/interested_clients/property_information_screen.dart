@@ -22,6 +22,7 @@ class PropertyInformationScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 informationScreensHeader(
+                    isForSale: property.realEstateType == 1,
                     title: property.propertyName ?? "",
                     subtitle: property.unitName ?? '',
                     icon: Icons.business),

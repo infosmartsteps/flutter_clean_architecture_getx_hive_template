@@ -13,19 +13,18 @@ showExitDialog({void Function()? onExit}) {
       backgroundColor: Get.theme.colorScheme.onSecondary,
       actions: [
         AppButton(
-          type: AppButtonType.secondary,
-          onPressed: () => Get.back(),
-          text: 'cancel'.tr,
-        ),
+            type: AppButtonType.secondary,
+            onPressed: () => Get.back(),
+            text: 'cancel'.tr),
         AppButton(
-          type: AppButtonType.secondary,
-          backgroundColor: Colors.green,
-          textColor: AppColors.whiteColor,
-          onPressed: () async {
-            onExit == null ? null : onExit();
-            Get.back(closeOverlays: true); // This will close dialog AND screen
-          },
-          text: 'exit'.tr,
-        ),
+            type: AppButtonType.secondary,
+            backgroundColor: AppColors.greenColor,
+            textColor: AppColors.whiteColor,
+            onPressed: () async {
+              onExit == null ? null : onExit();
+              Get.back(
+                  closeOverlays: true); // This will close dialog AND screen
+            },
+            text: 'exit'.tr),
       ]);
 }

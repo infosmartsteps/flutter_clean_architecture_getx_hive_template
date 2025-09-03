@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../core/widgets/app_text_form_field.dart';
 
 Widget buildDatePickerFiled({label, controller, initialDate}) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/features/home/presentation/controllers/add_client_form_controller.dart';
+import '../../../../../core/constants/routes/app_routes.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
 import '../../../../../core/widgets/app_text_form_field.dart';
 import '../../../../../core/widgets/custom_location_fields.dart';
@@ -13,6 +14,14 @@ Widget buildFormFields(AddClientFormController controller) {
     spacing: responsiveHeight(20),
     mainAxisSize: MainAxisSize.min,
     children: [
+      if (Get.previousRoute == AppRoutes.interestedClientScreen)
+        Obx(() =>
+            Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+              Text('acquisition'.tr, style: Get.theme.textTheme.titleLarge),
+              Switch(
+                  value: controller.acquisition.value,
+                  onChanged: (bool val) => controller.acquisition.value = val)
+            ])),
       customTextField(controller.state.clientNameField, 'client_name'.tr,
           icon: Icons.person_outline),
       customTextField(

@@ -17,45 +17,40 @@ class LogInScreen extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-          appBar: AppBar(
-              title: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: responsiveWidth(20)),
-                  child: Row(spacing: responsiveWidth(10), children: [
-                    languageToggleButton(),
-                    themeToggleButton(),
-                  ]))),
-          body: ConstrainedBox(
-            constraints: BoxConstraints(
-                minHeight: displayHeight() - responsiveHeight(40)),
-            child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: responsiveWidth(24)),
-                child: SingleChildScrollView(
-                    child: Obx(() => SizedBox(
-                          height: responsiveHeight(displayHeight()),
-                          child: Column(children: [
-                            Gap(responsiveHeight(40)),
-                            welcomeTextWidget(context),
-                            Gap(responsiveHeight(40)),
-                            logInFormWidget(context, controller),
-                            Gap(responsiveHeight(30)),
-                            // Login Button
-                            AppButton(
-                              text: 'login'.tr,
-                              onPressed: controller.onLogin,
-                              isLoading: controller.isLoading.value,
-                            ),
-                            Spacer(),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: appInfoWidget(
-                                  context, controller.packageInfo.value),
-                            )
-                          ]),
-                        )))),
-          )),
-    );
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+            body: ConstrainedBox(
+                constraints: BoxConstraints(
+                    minHeight: displayHeight() - responsiveHeight(40)),
+                child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: responsiveWidth(24)),
+                    child: SingleChildScrollView(
+                        child: Obx(() => SizedBox(
+                            height: responsiveHeight(displayHeight()),
+                            child: Column(children: [
+                              Gap(responsiveHeight(40)),
+                              Row(spacing: responsiveWidth(30), children: [
+                                languageToggleButton(),
+                                themeToggleButton(),
+                              ]),
+                              Gap(responsiveHeight(40)),
+                              welcomeTextWidget(context),
+                              Gap(responsiveHeight(40)),
+                              logInFormWidget(context, controller),
+                              Gap(responsiveHeight(50)),
+                              // Login Button
+                              AppButton(
+                                text: 'login'.tr,
+                                onPressed: controller.onLogin,
+                                isLoading: controller.isLoading.value,
+                              ),
+                              Spacer(),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: appInfoWidget(
+                                    context, controller.packageInfo.value),
+                              )
+                            ]))))))));
   }
 }

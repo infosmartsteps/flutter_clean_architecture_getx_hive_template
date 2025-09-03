@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/core/constants/enums.dart';
-import 'package:ksa_real_estates/core/utils/form_utils.dart';
 import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
 import 'package:ksa_real_estates/core/widgets/app_button.dart';
 import 'package:ksa_real_estates/features/home/presentation/controllers/available_opportunities_controller.dart';
+import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/widgets/custom_phone_field.dart';
 import 'client_dropdown.dart';
 import 'or_divider_widget.dart';
@@ -43,7 +43,7 @@ class InterestedClientScreen extends GetView<AvailableOpportunitiesController> {
                       AppButton(
                         type: AppButtonType.secondary,
                         icon: Icon(Icons.add),
-                        backgroundColor: Colors.green,
+                        backgroundColor: AppColors.greenColor,
                         onPressed: controller.goToAddClient,
                         text: 'add_client'.tr,
                       ),

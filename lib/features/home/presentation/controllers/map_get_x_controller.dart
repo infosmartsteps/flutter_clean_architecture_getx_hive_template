@@ -4,7 +4,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/utils/functions/launch_url.dart';
@@ -30,7 +29,7 @@ class MapGetXController extends GetxController {
     point: currentLocation.value,
     child: const Icon(
       Icons.location_pin,
-      color: Colors.red,
+      color: AppColors.redColor,
       size: 40.0,
     ),
   ).obs;
@@ -52,31 +51,6 @@ class MapGetXController extends GetxController {
       print(e);
     }
     return null;
-  }
-
-  Future<void> checkLocationPermission() async {
-    try {
-      final status = await Permission.location.status;
-
-      if (status.isGranted) {
-        getCurrentLocation();
-      } else {
-        final result = await Permission.location.request();
-
-        if (result.isGranted) {
-          getCurrentLocation();
-        } else {
-          locationPermissionGranted.value = false;
-          isLoading.value = false;
-          errorMessage.value = 'Location permission denied';
-          update();
-        }
-      }
-    } catch (e) {
-      isLoading.value = false;
-      errorMessage.value = 'Error checking permissions: $e';
-      update();
-    }
   }
 
   void toggleFlag() {
@@ -120,7 +94,7 @@ class MapGetXController extends GetxController {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            color: Colors.black,
+            color: AppColors.blackColor,
             child: Text(
               label,
               overflow: TextOverflow.ellipsis,
@@ -131,7 +105,7 @@ class MapGetXController extends GetxController {
           ),
           Icon(
             Icons.location_history_rounded,
-            color: Colors.red,
+            color: AppColors.redColor,
             size: responsiveFont(30),
           ),
         ],
@@ -139,7 +113,7 @@ class MapGetXController extends GetxController {
     } else {
       markerChild = Icon(
         Icons.location_history_rounded,
-        color: Colors.red,
+        color: AppColors.redColor,
         size: responsiveFont(30),
       );
     }
@@ -165,6 +139,152 @@ class MapGetXController extends GetxController {
   void setCurrentLocation(LatLng point) {
     currentLocation.value = LatLng(point.latitude, point.longitude);
     setLocationMarker();
+    update();
+  }
+
+  void onMapReady() {
+    isMapReady.value = true;
+    update();
+    initialization();
+    update();
+    mapController.value.move(currentLocation.value, zoom.value);
+    update();
+  }
+
+  Future<void> refreshLocation() async {
+    isLoading.value = true;
+    errorMessage.value = '';
+    update();
+    await getCurrentLocation();
+  }
+
+  void saveLocation() {
+    Get.back(result: currentLocation.value);
+  }
+
+  Future<void> shareLocation() async {
+    String mapUrl;
+    if (Theme.of(Get.context!).platform == TargetPlatform.iOS) {
+      mapUrl =
+          'https://maps.apple.com/?q=${currentLocation.value.latitude},${currentLocation.value.longitude}&z=15&t=m';
+    } else {
+      mapUrl =
+          'https://www.google.com/maps/search/?api=1&query=${currentLocation.value.latitude},${currentLocation.value.longitude}&query_place_id=Googleplex';
+    }
+    await share(text: mapUrl);
+  }
+
+  Future<void> openMap() async {
+    final String mapUrl =
+        'https://www.google.com/maps/search/?api=1&query=${currentLocation.value.latitude},${currentLocation.value.longitude}&query_place_id=Googleplex';
+    launchUrlHelper(mapUrl);
+  }
+
+  Future<void> openNativeMap() async {
+    if (Theme.of(Get.context!).platform == TargetPlatform.iOS) {
+      String url =
+          'https://maps.apple.com/?q=${currentLocation.value.latitude},${currentLocation.value.longitude}&z=15&t=m';
+      if (await canLaunchUrl(Uri.parse(url))) {
+        await launchUrl(Uri.parse(url));
+      } else {
+        // Fallback to Google Maps in browser
+        final String fallbackUrl =
+            'https://www.google.com/maps/search/?api=1&query=${currentLocation.value.latitude},${currentLocation.value.longitude}';
+        launchUrlHelper(fallbackUrl);
+      }
+    } else {
+      // url = 'https://www.google.com/maps/dir/?api=1&destination=$lat,$lng&travelmode=driving&dir_action=navigate';
+      openMap();
+    }
+  }
+
+  @override
+  void onClose() {
+    mapController.value.dispose();
+    currentLocation.value = LatLng(0, 0);
+    locationPermissionGranted.value = false;
+    isLoading.value = true;
+    errorMessage.value = '';
+    isMapReady.value = false;
+    super.onClose();
+  }
+
+  @override
+  void dispose() {
+    mapController.value.dispose();
+    currentLocation.value = LatLng(0, 0);
+    locationPermissionGranted.value = false;
+    isLoading.value = true;
+    errorMessage.value = '';
+    isMapReady.value = false;
+    super.dispose();
+  }
+
+  // Future<void> checkLocationPermission() async {
+  //   try {
+  //
+  //     final status = await Permission.location.status;
+  //
+  //     if (status.isGranted) {
+  //       getCurrentLocation();
+  //     } else {
+  //       final result = await Permission.location.request();
+  //
+  //       if (result.isGranted) {
+  //         getCurrentLocation();
+  //       } else {
+  //         locationPermissionGranted.value = false;
+  //         isLoading.value = false;
+  //         errorMessage.value = 'Location permission denied';
+  //         update();
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isLoading.value = false;
+  //     errorMessage.value = 'Error checking permissions: $e';
+  //     update();
+  //   }
+  // }
+
+  Future<void> checkLocationPermission() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (serviceEnabled) {
+      await getCurrentLocation();
+    }
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        await Geolocator.openAppSettings();
+        await getCurrentLocation();
+      } else {
+        await getCurrentLocation();
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      throw "language lbl Location Permission Denied Permanently, please enable it from setting";
+    }
+
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((value) {
+       getCurrentLocation();
+       value;
+    }).catchError((e) async {
+       await Geolocator.getLastKnownPosition().then((value) async {
+        if (value != null) {
+          await getCurrentLocation();
+          // return value;
+        } else {
+          // throw "lbl Enable Location";
+        }
+      }).catchError((e) {
+        Get.log(e.toString());
+      });
+    });
+
+    await getCurrentLocation();
     update();
   }
 
@@ -202,83 +322,5 @@ class MapGetXController extends GetxController {
       update();
     }
     update();
-  }
-
-  void onMapReady() {
-    isMapReady.value = true;
-    update();
-    initialization();
-    update();
-    mapController.value.move(currentLocation.value, zoom.value);
-    update();
-  }
-
-  Future<void> refreshLocation() async {
-    isLoading.value = true;
-    errorMessage.value = '';
-    update();
-    await getCurrentLocation();
-  }
-
-  void saveLocation() {
-    Get.back(result: currentLocation.value);
-  }
-
-  Future<void> shareLocation() async {
-    String mapUrl;
-    if (Theme.of(Get.context!).platform == TargetPlatform.iOS) {
-      mapUrl =
-      'https://maps.apple.com/?q=${currentLocation.value .latitude},${currentLocation.value .longitude}&z=15&t=m';
-    } else {
-      mapUrl =
-      'https://www.google.com/maps/search/?api=1&query=${currentLocation.value .latitude},${currentLocation.value .longitude}&query_place_id=Googleplex';
-    }
-    await share(text: mapUrl);
-  }
-
-  Future<void> openMap() async {
-    final String mapUrl =
-        'https://www.google.com/maps/search/?api=1&query=${currentLocation.value .latitude},${currentLocation.value .longitude}&query_place_id=Googleplex';
-    launchUrlHelper(mapUrl);
-  }
-
-  Future<void> openNativeMap() async {
-    if (Theme.of(Get.context!).platform == TargetPlatform.iOS) {
-      String url =
-          'https://maps.apple.com/?q=${currentLocation.value .latitude},${currentLocation.value .longitude}&z=15&t=m';
-      if (await canLaunchUrl(Uri.parse(url))) {
-        await launchUrl(Uri.parse(url));
-      } else {
-        // Fallback to Google Maps in browser
-        final String fallbackUrl =
-            'https://www.google.com/maps/search/?api=1&query=${currentLocation.value .latitude},${currentLocation.value .longitude}';
-        launchUrlHelper(fallbackUrl);
-      }
-    } else {
-      // url = 'https://www.google.com/maps/dir/?api=1&destination=$lat,$lng&travelmode=driving&dir_action=navigate';
-      openMap();
-    }
-  }
-
-  @override
-  void onClose() {
-    mapController.value.dispose();
-    currentLocation.value = LatLng(0, 0);
-    locationPermissionGranted.value = false;
-    isLoading.value = true;
-    errorMessage.value = '';
-    isMapReady.value = false;
-    super.onClose();
-  }
-
-  @override
-  void dispose() {
-    mapController.value.dispose();
-    currentLocation.value = LatLng(0, 0);
-    locationPermissionGranted.value = false;
-    isLoading.value = true;
-    errorMessage.value = '';
-    isMapReady.value = false;
-    super.dispose();
   }
 }

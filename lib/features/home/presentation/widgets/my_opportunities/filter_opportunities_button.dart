@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/features/home/presentation/controllers/my_opportunities_controller.dart';
-
+import '../../../../../core/widgets/app_button.dart';
 import '../dialogs/show_filter_bottom_sheet.dart';
 
 class FilterOpportunitiesButton extends GetView<MyOpportunitiesController> {
@@ -13,7 +13,7 @@ class FilterOpportunitiesButton extends GetView<MyOpportunitiesController> {
   }
 
   Widget _buildFilterButton() {
-    return IconButton(
+    return AppButton(
       onPressed: _showFilterBottomSheet,
       icon: const Icon(Icons.filter_list),
     );

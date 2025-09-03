@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
 import 'package:ksa_real_estates/features/home/domain/entities/lookups_entity.dart';
 
+import '../constants/app_colors.dart';
 import '../utils/form_utils.dart';
 
 //lib/core/widgets/app_drop_down.dart
@@ -82,7 +83,7 @@ class AppDropDown extends StatelessWidget {
         vertical: responsiveHeight(16),
       ),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
+        border: Border.all(color: AppColors.greyColor),
         borderRadius: BorderRadius.circular(responsiveFont(8)),
       ),
       child: Row(

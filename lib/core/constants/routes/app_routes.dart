@@ -18,11 +18,4 @@ class AppRoutes {
   static String initialRoute() {
     return splashScreen;
   }
-
-// static Map<String, Widget Function(BuildContext)> appRoutes() {
-//   return {
-//     splashScreen: (context) => const SplashScreen(),
-//     // logInScreen: (context) => const LogInScreen(),
-//   };
-// }
 }

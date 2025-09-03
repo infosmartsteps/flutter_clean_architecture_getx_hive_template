@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:ksa_real_estates/core/constants/app_colors.dart';
+import 'package:ksa_real_estates/core/constants/enums.dart';
 import '../../features/auth/presentation/controller/auth_controller.dart';
 import '../utils/form_utils.dart';
 import '../utils/responsive_size_helper.dart';
+import 'app_button.dart';
 
 //lib/core/widgets/app_text_form_field.dart
 class AppTextFormField extends StatelessWidget {
@@ -126,7 +129,9 @@ class AppTextFormField extends StatelessWidget {
 
   Widget? _buildSuffixIcon() {
     if (isPassword) {
-      return IconButton(
+      return AppButton(
+        type: AppButtonType.secondary,
+        backgroundColor: AppColors.transparent,
         icon: Icon(
           obscureText ? Icons.visibility_off : Icons.visibility,
           color: Get.theme.colorScheme.onSurface.withOpacity(0.6),

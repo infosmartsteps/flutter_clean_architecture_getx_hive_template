@@ -2,6 +2,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/core/utils/responsive_size_helper.dart';
 import 'package:flutter/material.dart';
+import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/constants/enums.dart';
 import '../../../../../core/widgets/app_button.dart';
 import '../../controllers/map_get_x_controller.dart';
@@ -17,17 +18,19 @@ class ChooseLocationScreen extends GetView<MapGetXController> {
     return Obx(() => Scaffold(
         appBar: AppBar(
             title: Text('choose_Location'.tr),
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
+            backgroundColor:AppColors.blueColor,
+            foregroundColor:AppColors.whiteColor,
             actions: [
               if (controller.isMapReady.value)
                 AppButton(
                     type: AppButtonType.secondary,
                     onPressed: controller.saveLocation,
-                    icon: Icon(Icons.save, color: Colors.green),
+                    icon: Icon(Icons.save, color: AppColors.greenColor),
                     text: "${'save'.tr}   "),
-              IconButton(
-                  icon: const Icon(Icons.refresh),
+              AppButton(
+                type: AppButtonType.secondary,
+                  backgroundColor: AppColors.transparent,
+                  icon: Icon(Icons.refresh,size: responsiveFont(20)),
                   onPressed: controller.refreshLocation),
             ]),
         body: FlutterMapWidget(
@@ -47,7 +50,7 @@ class ChooseLocationScreen extends GetView<MapGetXController> {
                             controller.currentLocation.value,
                             controller.zoom.value),
                         child:
-                            const Icon(Icons.location_pin, color: Colors.red)),
+                            const Icon(Icons.location_pin, color:AppColors.redColor)),
                     Gap(responsiveHeight(15)),
                     FloatingActionButton(
                         heroTag: 'my_location',

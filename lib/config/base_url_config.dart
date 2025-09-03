@@ -1,10 +1,11 @@
 //lib/config/base_url_config.dart
 class BaseUrlConfig {
-  static  final String baseUrlDevelopment = 'https://dummyjson.com';
-  static final String baseUrlProduction = 'https://simplemaps.com/static/data/country-cities';
+  static final String baseUrlDevelopment = 'https://dummyjson.com';
+  static final String baseUrlProduction =
+      'https://simplemaps.com/static/data/country-cities';
 }
 
-class ApiEndPoints{
+class ApiEndPoints {
   // Add your API endpoints here
   static final String loginEndpoint = '/auth/login';
   static final String getCitiesEndpoint = '/jo/jo_spreadsheet.json';

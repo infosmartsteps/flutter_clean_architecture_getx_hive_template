@@ -7,6 +7,7 @@ import 'package:ksa_real_estates/features/home/domain/entities/client_entity.dar
 import 'package:ksa_real_estates/features/home/domain/entities/property_entity.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../../core/constants/app_colors.dart';
 import '../../domain/entities/opportunity_entity.dart';
 import '../../domain/usecases/opportunities_use_case.dart';
 import '../widgets/snackbars/error_snackbar.dart';
@@ -60,7 +61,7 @@ class InterestedClientsController extends GetxController {
           ? Icon(Icons.check_circle)
           : Icon(Icons.remove_circle),
       backgroundColor: updatedOpportunity.isFollowed
-          ? Colors.green
+          ? AppColors.greenColor
           : Get.theme.colorScheme.onPrimary,
     );
 

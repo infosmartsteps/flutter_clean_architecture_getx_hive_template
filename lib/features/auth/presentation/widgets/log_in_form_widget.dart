@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/core/utils/form_utils.dart';
 
+import '../../../../core/constants/app_colors.dart';
 import '../../../../core/utils/responsive_size_helper.dart';
 import '../../../../core/widgets/app_text_form_field.dart';
 import '../controller/auth_controller.dart';
@@ -12,16 +13,15 @@ Widget logInFormWidget(BuildContext context, AuthController controller) {
   // Login Form with rounded corners
   return Container(
     decoration: BoxDecoration(
-      color: Theme.of(context).colorScheme.surface,
-      borderRadius: BorderRadius.circular(16),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey[700]!,
-          blurRadius: 16,
-          offset: const Offset(0, 8),
-        ),
-      ],
-    ),
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.grey700!,
+            blurRadius: 16,
+            offset: const Offset(0, 8),
+          ),
+        ]),
     padding: EdgeInsets.all(responsiveWidth(20)),
     child: Form(
       key: controller.formKey,

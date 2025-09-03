@@ -4,6 +4,7 @@ import '../../../../../core/utils/responsive_size_helper.dart';
 import '../../../domain/entities/property_entity.dart';
 import '../property_information_widget.dart';
 
+//lib/features/home/presentation/widgets/available_opportunities/property_list_view.dart
 Widget propertyListView(List<PropertyEntity> properties,
     {void Function()? onPressed}) {
   return ListView.separated(
@@ -12,7 +13,9 @@ Widget propertyListView(List<PropertyEntity> properties,
       itemCount: properties.length,
       itemBuilder: (context, index) {
         final property = properties[index];
-        return propertyInformationWidget(property,onPressed);
+        return Column(children: [
+          propertyInformationWidget(property, onPressed),
+          if (index + 1 == properties.length) Gap(responsiveHeight(20))
+        ]);
       });
 }
-

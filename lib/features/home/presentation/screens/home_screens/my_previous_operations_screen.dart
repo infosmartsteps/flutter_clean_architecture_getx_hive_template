@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ksa_real_estates/core/constants/routes/app_routes.dart';
+import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/utils/responsive_size_helper.dart';
 import 'package:get/get.dart';
 import '../../widgets/home/home_build_option_card.dart';
@@ -22,13 +23,13 @@ class MyPreviousOperationsScreen extends StatelessWidget {
                 homeBuildOptionCard(
                   icon: Icons.people_outline,
                   title: 'entered_clients'.tr,
-                  color: Colors.blue,
+                  color: AppColors.blueColor,
                   onTap: () => Get.toNamed(AppRoutes.enteredClientsScreen),
                 ),
                 homeBuildOptionCard(
                   icon: Icons.business_sharp,
                   title: 'entered_opportunities'.tr,
-                  color: Colors.orange,
+                  color:AppColors.orangeColor,
                   onTap: () =>
                       Get.toNamed(AppRoutes.enteredOpportunitiesScreen),
                 )

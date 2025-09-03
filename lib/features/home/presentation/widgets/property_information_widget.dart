@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
-
 import '../../../../core/constants/routes/app_routes.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../domain/entities/property_entity.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ksa_real_estates/features/home/presentation/controllers/my_previous_operations_controllers/entered_clients_controller.dart';
 import 'package:ksa_real_estates/features/home/presentation/widgets/dialogs/show_filter_bottom_sheet.dart';
+import '../../../../../core/widgets/app_button.dart';
 import 'clients_list_view.dart';
 
 class EnteredClientsScreen extends GetView<EnteredClientsController> {
@@ -19,7 +20,7 @@ class EnteredClientsScreen extends GetView<EnteredClientsController> {
               ),
       ),
       appBar: AppBar(title: Text("entered_clients".tr), actions: [
-        IconButton(
+        AppButton(
             onPressed: () => showFilterBottomSheet(
                   'filter_clients'.tr,
                   controller.clientName.value,

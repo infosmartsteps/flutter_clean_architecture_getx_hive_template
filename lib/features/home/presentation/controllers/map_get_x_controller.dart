@@ -220,33 +220,8 @@ class MapGetXController extends GetxController {
     super.dispose();
   }
 
-  // Future<void> checkLocationPermission() async {
-  //   try {
-  //
-  //     final status = await Permission.location.status;
-  //
-  //     if (status.isGranted) {
-  //       getCurrentLocation();
-  //     } else {
-  //       final result = await Permission.location.request();
-  //
-  //       if (result.isGranted) {
-  //         getCurrentLocation();
-  //       } else {
-  //         locationPermissionGranted.value = false;
-  //         isLoading.value = false;
-  //         errorMessage.value = 'Location permission denied';
-  //         update();
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isLoading.value = false;
-  //     errorMessage.value = 'Error checking permissions: $e';
-  //     update();
-  //   }
-  // }
-
   Future<void> checkLocationPermission() async {
+    isLoading.value = true;
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     LocationPermission permission = await Geolocator.checkPermission();
     if (serviceEnabled) {
@@ -264,15 +239,16 @@ class MapGetXController extends GetxController {
     }
 
     if (permission == LocationPermission.deniedForever) {
+      await Geolocator.openAppSettings();
+      errorMessage.value = 'Location services are disabled';
       throw "language lbl Location Permission Denied Permanently, please enable it from setting";
     }
 
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((value) {
-       getCurrentLocation();
-       value;
+        .then((value) async {
+      await getCurrentLocation();
     }).catchError((e) async {
-       await Geolocator.getLastKnownPosition().then((value) async {
+      await Geolocator.getLastKnownPosition().then((value) async {
         if (value != null) {
           await getCurrentLocation();
           // return value;
@@ -284,21 +260,13 @@ class MapGetXController extends GetxController {
       });
     });
 
-    await getCurrentLocation();
+    errorMessage.value = '';
+    isLoading.value = false;
     update();
   }
 
   Future<void> getCurrentLocation() async {
     try {
-      // Check if location services are enabled
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        isLoading.value = false;
-        errorMessage.value = 'Location services are disabled';
-        update();
-        return;
-      }
-
       // Get current position
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,

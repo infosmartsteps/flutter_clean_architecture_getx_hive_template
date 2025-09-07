@@ -19,6 +19,21 @@ class LogInScreen extends GetView<AuthController> {
     return GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
+            appBar: AppBar(
+              toolbarHeight: responsiveHeight(100),
+              actions: [
+                Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: responsiveWidth(24)),
+                    child: Row(
+                        spacing: responsiveWidth(30),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          languageToggleButton(),
+                          themeToggleButton(),
+                        ])),
+              ],
+            ),
             body: ConstrainedBox(
                 constraints: BoxConstraints(
                     minHeight: displayHeight() - responsiveHeight(40)),
@@ -29,12 +44,7 @@ class LogInScreen extends GetView<AuthController> {
                         child: Obx(() => SizedBox(
                             height: responsiveHeight(displayHeight()),
                             child: Column(children: [
-                              Gap(responsiveHeight(40)),
-                              Row(spacing: responsiveWidth(30), children: [
-                                languageToggleButton(),
-                                themeToggleButton(),
-                              ]),
-                              Gap(responsiveHeight(40)),
+                              // Gap(responsiveHeight(40)),
                               welcomeTextWidget(context),
                               Gap(responsiveHeight(40)),
                               logInFormWidget(context, controller),

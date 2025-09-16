@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 import '../../constants/hive_constants.dart';
 import 'i_storage.dart';
 
+//lib/core/data/local/storage_impl.dart
 class StorageImpl implements IStorage {
   late Box _settingsBox;
   late Box _userDataBox;
